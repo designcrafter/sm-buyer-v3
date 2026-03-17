@@ -6,6 +6,7 @@ export interface WageCalculation {
   region: string;
   flag: string;
   year: number;
+  product: string;
   avg_wage_gap_pct: number;
   annual_facility_lwg_usd: number;
   workers_below_lw_pct: number;
@@ -34,7 +35,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '1', facility_name: 'Hanoi Processing Plant', facility_id: 'VI4D08FJ',
     country: 'Vietnam', region: 'Red River Delta', flag: '\u{1F1FB}\u{1F1F3}',
-    year: 2024, avg_wage_gap_pct: 22.4, annual_facility_lwg_usd: 312000,
+    year: 2024, product: 'Coffee', avg_wage_gap_pct: 22.4, annual_facility_lwg_usd: 312000,
     workers_below_lw_pct: 74.2, workers_below_lw_count: 742, total_workers: 1000,
     lw_estimate_usd: 420, status: 'Submitted', gender_gap_pct: 18.3,
     workers_above_lw_women: 98, workers_below_lw_women: 412,
@@ -47,7 +48,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '2', facility_name: 'Hanoi Processing Plant', facility_id: 'VI4D08FJ',
     country: 'Vietnam', region: 'Red River Delta', flag: '\u{1F1FB}\u{1F1F3}',
-    year: 2023, avg_wage_gap_pct: 28.1, annual_facility_lwg_usd: 380000,
+    year: 2023, product: 'Coffee', avg_wage_gap_pct: 28.1, annual_facility_lwg_usd: 380000,
     workers_below_lw_pct: 80.5, workers_below_lw_count: 805, total_workers: 1000,
     lw_estimate_usd: 390, status: 'Completed', gender_gap_pct: 22.1,
     workers_above_lw_women: 72, workers_below_lw_women: 448,
@@ -60,7 +61,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '3', facility_name: 'Accra Cocoa Facility', facility_id: 'GH8D08DI',
     country: 'Ghana', region: 'Greater Accra', flag: '\u{1F1EC}\u{1F1ED}',
-    year: 2024, avg_wage_gap_pct: 35.7, annual_facility_lwg_usd: 198000,
+    year: 2024, product: 'Cocoa', avg_wage_gap_pct: 35.7, annual_facility_lwg_usd: 198000,
     workers_below_lw_pct: 86.4, workers_below_lw_count: 418, total_workers: 484,
     lw_estimate_usd: 310, status: 'Draft', gender_gap_pct: 31.2,
     workers_above_lw_women: 18, workers_below_lw_women: 198,
@@ -73,7 +74,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '4', facility_name: 'Accra Cocoa Facility', facility_id: 'GH8D08DI',
     country: 'Ghana', region: 'Greater Accra', flag: '\u{1F1EC}\u{1F1ED}',
-    year: 2023, avg_wage_gap_pct: 40.2, annual_facility_lwg_usd: 221000,
+    year: 2023, product: 'Cocoa', avg_wage_gap_pct: 40.2, annual_facility_lwg_usd: 221000,
     workers_below_lw_pct: 89.7, workers_below_lw_count: 434, total_workers: 484,
     lw_estimate_usd: 290, status: 'Completed', gender_gap_pct: 35.8,
     workers_above_lw_women: 12, workers_below_lw_women: 210,
@@ -86,7 +87,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '5', facility_name: 'Mumbai Textile Center', facility_id: 'IN1D08KR',
     country: 'India', region: 'Maharashtra', flag: '\u{1F1EE}\u{1F1F3}',
-    year: 2024, avg_wage_gap_pct: 18.9, annual_facility_lwg_usd: 445000,
+    year: 2024, product: 'Textiles', avg_wage_gap_pct: 18.9, annual_facility_lwg_usd: 445000,
     workers_below_lw_pct: 61.5, workers_below_lw_count: 1230, total_workers: 2000,
     lw_estimate_usd: 380, status: 'Submitted', gender_gap_pct: 24.6,
     workers_above_lw_women: 246, workers_below_lw_women: 654,
@@ -99,7 +100,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '6', facility_name: 'Mumbai Textile Center', facility_id: 'IN1D08KR',
     country: 'India', region: 'Maharashtra', flag: '\u{1F1EE}\u{1F1F3}',
-    year: 2023, avg_wage_gap_pct: 21.3, annual_facility_lwg_usd: 498000,
+    year: 2023, product: 'Textiles', avg_wage_gap_pct: 21.3, annual_facility_lwg_usd: 498000,
     workers_below_lw_pct: 69.0, workers_below_lw_count: 1380, total_workers: 2000,
     lw_estimate_usd: 355, status: 'Completed', gender_gap_pct: 27.4,
     workers_above_lw_women: 192, workers_below_lw_women: 708,
@@ -112,7 +113,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '7', facility_name: 'Sao Paulo Manufacturing', facility_id: 'BR8D08UN',
     country: 'Brazil', region: 'Sao Paulo', flag: '\u{1F1E7}\u{1F1F7}',
-    year: 2024, avg_wage_gap_pct: 10.4, annual_facility_lwg_usd: 720000,
+    year: 2024, product: 'Footwear', avg_wage_gap_pct: 10.4, annual_facility_lwg_usd: 720000,
     workers_below_lw_pct: 86.4, workers_below_lw_count: 864, total_workers: 1002,
     lw_estimate_usd: 800, status: 'Draft', gender_gap_pct: 12.8,
     workers_above_lw_women: 52, workers_below_lw_women: 378,
@@ -125,7 +126,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '8', facility_name: 'Sao Paulo Manufacturing', facility_id: 'BR8D08UN',
     country: 'Brazil', region: 'Sao Paulo', flag: '\u{1F1E7}\u{1F1F7}',
-    year: 2023, avg_wage_gap_pct: 13.2, annual_facility_lwg_usd: 860000,
+    year: 2023, product: 'Footwear', avg_wage_gap_pct: 13.2, annual_facility_lwg_usd: 860000,
     workers_below_lw_pct: 89.9, workers_below_lw_count: 901, total_workers: 1002,
     lw_estimate_usd: 760, status: 'Completed', gender_gap_pct: 15.3,
     workers_above_lw_women: 38, workers_below_lw_women: 392,
@@ -138,7 +139,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '9', facility_name: 'Dhaka Garment Factory', facility_id: 'BA0D08NR',
     country: 'Bangladesh', region: 'Dhaka Division', flag: '\u{1F1E7}\u{1F1E9}',
-    year: 2024, avg_wage_gap_pct: 41.5, annual_facility_lwg_usd: 534000,
+    year: 2024, product: 'Apparel', avg_wage_gap_pct: 41.5, annual_facility_lwg_usd: 534000,
     workers_below_lw_pct: 91.8, workers_below_lw_count: 2870, total_workers: 3125,
     lw_estimate_usd: 195, status: 'Submitted', gender_gap_pct: 38.7,
     workers_above_lw_women: 48, workers_below_lw_women: 1752,
@@ -151,7 +152,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '10', facility_name: 'Dhaka Garment Factory', facility_id: 'BA0D08NR',
     country: 'Bangladesh', region: 'Dhaka Division', flag: '\u{1F1E7}\u{1F1E9}',
-    year: 2023, avg_wage_gap_pct: 47.2, annual_facility_lwg_usd: 612000,
+    year: 2023, product: 'Apparel', avg_wage_gap_pct: 47.2, annual_facility_lwg_usd: 612000,
     workers_below_lw_pct: 95.0, workers_below_lw_count: 2969, total_workers: 3125,
     lw_estimate_usd: 180, status: 'Completed', gender_gap_pct: 43.1,
     workers_above_lw_women: 28, workers_below_lw_women: 1802,
@@ -164,7 +165,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '11', facility_name: 'Nairobi Food Processing', facility_id: 'KE6D08KM',
     country: 'Kenya', region: 'Nairobi County', flag: '\u{1F1F0}\u{1F1EA}',
-    year: 2024, avg_wage_gap_pct: 29.6, annual_facility_lwg_usd: 167000,
+    year: 2024, product: 'Tea', avg_wage_gap_pct: 29.6, annual_facility_lwg_usd: 167000,
     workers_below_lw_pct: 76.8, workers_below_lw_count: 384, total_workers: 500,
     lw_estimate_usd: 260, status: 'Draft', gender_gap_pct: 26.4,
     workers_above_lw_women: 34, workers_below_lw_women: 186,
@@ -177,7 +178,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '12', facility_name: 'Nairobi Food Processing', facility_id: 'KE6D08KM',
     country: 'Kenya', region: 'Nairobi County', flag: '\u{1F1F0}\u{1F1EA}',
-    year: 2023, avg_wage_gap_pct: 33.1, annual_facility_lwg_usd: 191000,
+    year: 2023, product: 'Tea', avg_wage_gap_pct: 33.1, annual_facility_lwg_usd: 191000,
     workers_below_lw_pct: 82.0, workers_below_lw_count: 410, total_workers: 500,
     lw_estimate_usd: 245, status: 'Completed', gender_gap_pct: 29.8,
     workers_above_lw_women: 26, workers_below_lw_women: 194,
@@ -190,7 +191,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '13', facility_name: 'Jakarta Apparel Plant', facility_id: 'ID2D08JS',
     country: 'Indonesia', region: 'DKI Jakarta', flag: '\u{1F1EE}\u{1F1E9}',
-    year: 2024, avg_wage_gap_pct: 25.3, annual_facility_lwg_usd: 289000,
+    year: 2024, product: 'Apparel', avg_wage_gap_pct: 25.3, annual_facility_lwg_usd: 289000,
     workers_below_lw_pct: 69.6, workers_below_lw_count: 1044, total_workers: 1500,
     lw_estimate_usd: 290, status: 'Submitted', gender_gap_pct: 21.7,
     workers_above_lw_women: 168, workers_below_lw_women: 582,
@@ -203,7 +204,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '14', facility_name: 'Colombo Rubber Works', facility_id: 'LK5D08CL',
     country: 'Sri Lanka', region: 'Western Province', flag: '\u{1F1F1}\u{1F1F0}',
-    year: 2024, avg_wage_gap_pct: 16.2, annual_facility_lwg_usd: 142000,
+    year: 2024, product: 'Rubber', avg_wage_gap_pct: 16.2, annual_facility_lwg_usd: 142000,
     workers_below_lw_pct: 55.2, workers_below_lw_count: 497, total_workers: 900,
     lw_estimate_usd: 310, status: 'Draft', gender_gap_pct: 13.9,
     workers_above_lw_women: 142, workers_below_lw_women: 208,
@@ -216,7 +217,7 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
   {
     id: '15', facility_name: 'Colombo Rubber Works', facility_id: 'LK5D08CL',
     country: 'Sri Lanka', region: 'Western Province', flag: '\u{1F1F1}\u{1F1F0}',
-    year: 2023, avg_wage_gap_pct: 19.4, annual_facility_lwg_usd: 168000,
+    year: 2023, product: 'Rubber', avg_wage_gap_pct: 19.4, annual_facility_lwg_usd: 168000,
     workers_below_lw_pct: 59.3, workers_below_lw_count: 534, total_workers: 900,
     lw_estimate_usd: 290, status: 'Completed', gender_gap_pct: 16.5,
     workers_above_lw_women: 124, workers_below_lw_women: 226,

@@ -5,8 +5,7 @@ export function useReportsFilters() {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
   const [selectedYears, setSelectedYears] = useState<number[]>([]);
-  const [selectedFacilityNames, setSelectedFacilityNames] = useState<string[]>([]);
-  const [selectedFacilityIds, setSelectedFacilityIds] = useState<string[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
 
   const allCountries = useMemo(() => {
     const set = new Set(DEMO_CALCULATIONS.map(c => c.country));
@@ -26,13 +25,8 @@ export function useReportsFilters() {
     return Array.from(set).sort((a, b) => b - a);
   }, []);
 
-  const allFacilityNames = useMemo(() => {
-    const set = new Set(DEMO_CALCULATIONS.map(c => c.facility_name));
-    return Array.from(set).sort();
-  }, []);
-
-  const allFacilityIds = useMemo(() => {
-    const set = new Set(DEMO_CALCULATIONS.map(c => c.facility_id));
+  const allProducts = useMemo(() => {
+    const set = new Set(DEMO_CALCULATIONS.map(c => c.product));
     return Array.from(set).sort();
   }, []);
 
@@ -41,11 +35,10 @@ export function useReportsFilters() {
       if (selectedCountries.length > 0 && !selectedCountries.includes(c.country)) return false;
       if (selectedRegions.length > 0 && !selectedRegions.includes(c.region)) return false;
       if (selectedYears.length > 0 && !selectedYears.includes(c.year)) return false;
-      if (selectedFacilityNames.length > 0 && !selectedFacilityNames.includes(c.facility_name)) return false;
-      if (selectedFacilityIds.length > 0 && !selectedFacilityIds.includes(c.facility_id)) return false;
+      if (selectedProducts.length > 0 && !selectedProducts.includes(c.product)) return false;
       return true;
     });
-  }, [selectedCountries, selectedRegions, selectedYears, selectedFacilityNames, selectedFacilityIds]);
+  }, [selectedCountries, selectedRegions, selectedYears, selectedProducts]);
 
   function toggleCountry(c: string) {
     setSelectedCountries(prev =>
@@ -66,15 +59,9 @@ export function useReportsFilters() {
     );
   }
 
-  function toggleFacilityName(n: string) {
-    setSelectedFacilityNames(prev =>
-      prev.includes(n) ? prev.filter(x => x !== n) : [...prev, n]
-    );
-  }
-
-  function toggleFacilityId(id: string) {
-    setSelectedFacilityIds(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+  function toggleProduct(p: string) {
+    setSelectedProducts(prev =>
+      prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p]
     );
   }
 
@@ -82,34 +69,29 @@ export function useReportsFilters() {
     setSelectedCountries([]);
     setSelectedRegions([]);
     setSelectedYears([]);
-    setSelectedFacilityNames([]);
-    setSelectedFacilityIds([]);
+    setSelectedProducts([]);
   }
 
   const hasFilters =
     selectedCountries.length > 0 ||
     selectedRegions.length > 0 ||
     selectedYears.length > 0 ||
-    selectedFacilityNames.length > 0 ||
-    selectedFacilityIds.length > 0;
+    selectedProducts.length > 0;
 
   return {
     filtered,
     allCountries,
     allRegions,
     allYears,
-    allFacilityNames,
-    allFacilityIds,
+    allProducts,
     selectedCountries,
     selectedRegions,
     selectedYears,
-    selectedFacilityNames,
-    selectedFacilityIds,
+    selectedProducts,
     toggleCountry,
     toggleRegion,
     toggleYear,
-    toggleFacilityName,
-    toggleFacilityId,
+    toggleProduct,
     clearFilters,
     hasFilters,
   };

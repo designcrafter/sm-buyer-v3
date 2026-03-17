@@ -72,18 +72,15 @@ interface Props {
   allCountries: string[];
   allRegions: string[];
   allYears: number[];
-  allFacilityNames: string[];
-  allFacilityIds: string[];
+  allProducts: string[];
   selectedCountries: string[];
   selectedRegions: string[];
   selectedYears: number[];
-  selectedFacilityNames: string[];
-  selectedFacilityIds: string[];
+  selectedProducts: string[];
   onToggleCountry: (c: string) => void;
   onToggleRegion: (r: string) => void;
   onToggleYear: (y: number) => void;
-  onToggleFacilityName: (n: string) => void;
-  onToggleFacilityId: (id: string) => void;
+  onToggleProduct: (p: string) => void;
   onExportPdf: () => void;
   hasFilters: boolean;
   onClear: () => void;
@@ -93,18 +90,15 @@ export function FilterBar({
   allCountries,
   allRegions,
   allYears,
-  allFacilityNames,
-  allFacilityIds,
+  allProducts,
   selectedCountries,
   selectedRegions,
   selectedYears,
-  selectedFacilityNames,
-  selectedFacilityIds,
+  selectedProducts,
   onToggleCountry,
   onToggleRegion,
   onToggleYear,
-  onToggleFacilityName,
-  onToggleFacilityId,
+  onToggleProduct,
   onExportPdf,
   hasFilters,
   onClear,
@@ -131,16 +125,10 @@ export function FilterBar({
           onToggle={v => onToggleYear(Number(v))}
         />
         <FilterDropdown
-          label="Facility name"
-          options={allFacilityNames}
-          selected={selectedFacilityNames}
-          onToggle={onToggleFacilityName}
-        />
-        <FilterDropdown
-          label="Facility ID"
-          options={allFacilityIds}
-          selected={selectedFacilityIds}
-          onToggle={onToggleFacilityId}
+          label="Product"
+          options={allProducts}
+          selected={selectedProducts}
+          onToggle={onToggleProduct}
         />
         {hasFilters && (
           <button
