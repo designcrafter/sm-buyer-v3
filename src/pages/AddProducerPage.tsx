@@ -80,7 +80,7 @@ export default function AddProducerPage() {
   const navigate = useNavigate();
   const { activeRole, activeBuyer } = useDemoStore();
   const isIntermediary = activeRole === 'intermediary';
-  const [tab, setTab] = useState<Tab>('manual');
+  const [tab, setTab] = useState<Tab>('bulk');
   const [rows, setRows] = useState<ProducerRow[]>([newRow()]);
   const [bulkRows, setBulkRows] = useState<ProducerRow[]>([]);
   const [bulkFileName, setBulkFileName] = useState('');
@@ -350,20 +350,20 @@ export default function AddProducerPage() {
             <>
               <div className="flex gap-1 bg-gray-100 rounded-xl p-1 w-fit">
                 <button
+                  onClick={() => setTab('bulk')}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
+                    tab === 'bulk' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Excel Upload
+                </button>
+                <button
                   onClick={() => setTab('manual')}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
                     tab === 'manual' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
                   Manual entry
-                </button>
-                <button
-                  onClick={() => setTab('bulk')}
-                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
-                    tab === 'bulk' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                  }`}
-                >
-                  Bulk upload
                 </button>
               </div>
 
