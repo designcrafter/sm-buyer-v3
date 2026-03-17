@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Lock, BarChart3 } from 'lucide-react';
+import { Lock, BarChart3, Sparkles, X } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import { useDemoStore } from '../lib/demoStore';
 import { useReportsFilters } from './reports/useReportsFilters';
@@ -9,6 +9,26 @@ import { KeyFindingsTab } from './reports/KeyFindingsTab';
 import { GenderTab } from './reports/GenderTab';
 import { RemunerationTab } from './reports/RemunerationTab';
 import { OvertimeTab } from './reports/OvertimeTab';
+
+function OnboardingBanner({ onDismiss }: { onDismiss: () => void }) {
+  return (
+    <div className="bg-primary-50 border border-primary-200 rounded-2xl p-5 flex items-start gap-4 relative">
+      <div className="bg-primary-500 rounded-xl p-2.5 shrink-0 mt-0.5">
+        <Sparkles className="w-4 h-4 text-white" strokeWidth={1.75} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <h3 className="text-primary-900 font-semibold text-sm">Welcome to the Salary Matrix</h3>
+        <p className="text-primary-700 text-xs mt-1 leading-relaxed max-w-xl">
+          You're all set up. To get started, add the producers in your supply chain — or invite a teammate
+          from the settings to help you identify and match the right facilities.
+        </p>
+      </div>
+      <button onClick={onDismiss} className="text-primary-400 hover:text-primary-600 transition shrink-0">
+        <X className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
 
 const TABS = [
   { id: 'key-findings', label: 'Key Findings' },
@@ -51,6 +71,7 @@ function IntermediaryReportsRestricted() {
 export default function ReportsPage() {
   const { activeRole } = useDemoStore();
   const [activeTab, setActiveTab] = useState<TabId>('key-findings');
+  const [bannerVisible, setBannerVisible] = useState(true);
 
   if (activeRole === 'intermediary') {
     return <IntermediaryReportsRestricted />;
@@ -74,7 +95,7 @@ export default function ReportsPage() {
             <div>
               <h1 className="text-gray-900 text-xl font-bold">Buyer's Dashboard</h1>
               <p className="text-gray-400 text-xs mt-0.5">
-                Full data Living Wage Gap report across your supply chain
+                Welcome back, Morgan
               </p>
             </div>
             <div className="hidden print:block text-right">
@@ -83,6 +104,8 @@ export default function ReportsPage() {
               </p>
             </div>
           </div>
+
+          {bannerVisible && <OnboardingBanner onDismiss={() => setBannerVisible(false)} />}
 
           <FilterBar
             allCountries={filters.allCountries}

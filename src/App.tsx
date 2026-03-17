@@ -7,7 +7,6 @@ import DemoBar, { DEMO_BAR_HEIGHT } from './components/DemoBar';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import IntermediaryRegisterPage from './pages/IntermediaryRegisterPage';
-import DashboardPage from './pages/DashboardPage';
 import IntermediaryDashboardPage from './pages/IntermediaryDashboardPage';
 import AddProducerPage from './pages/AddProducerPage';
 import ProducersPage from './pages/ProducersPage';
@@ -40,7 +39,7 @@ export default function App() {
               <Route path="/" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/intermediary/register" element={<IntermediaryRegisterPage />} />
-              <Route path="/dashboard" element={<AppLayout><DashboardPage /></AppLayout>} />
+              <Route path="/dashboard" element={<AppLayout><ReportsPage /></AppLayout>} />
               <Route path="/intermediary/dashboard" element={<AppLayout><IntermediaryDashboardPage /></AppLayout>} />
               <Route path="/intermediary/collaboration" element={<AppLayout><IntermediaryCollaborationPage /></AppLayout>} />
               <Route path="/supply-chain" element={<AppLayout><SupplyChainPage /></AppLayout>} />
@@ -49,7 +48,7 @@ export default function App() {
               <Route path="/producers" element={<AppLayout><ProducersPage /></AppLayout>} />
               <Route path="/producers/:id" element={<AppLayout><ProducersPage /></AppLayout>} />
               <Route path="/settings" element={<AppLayout><SettingsPage /></AppLayout>} />
-              <Route path="/reports" element={<AppLayout><ReportsPage /></AppLayout>} />
+              <Route path="/reports" element={<Navigate to="/dashboard" replace />} />
               <Route path="/supplier/dashboard" element={<AppLayout><SupplierDashboardPage /></AppLayout>} />
               <Route path="/supplier/collaboration" element={<AppLayout><SupplierCollaborationPage /></AppLayout>} />
               <Route path="/supplier/facilities" element={<AppLayout><SupplierPlaceholderPage title="Facilities" /></AppLayout>} />

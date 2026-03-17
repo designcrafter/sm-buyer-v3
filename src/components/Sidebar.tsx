@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import {
   BarChartBig,
-  LayoutDashboard,
   Factory,
   Building2,
   BarChart3,
@@ -14,6 +13,7 @@ import {
   Handshake,
   Link,
   Settings,
+  LayoutDashboard,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useDemoStore, DEMO_BUYERS, INTERMEDIARY_SUPPLIER_ACCOUNT } from '../lib/demoStore';
@@ -22,10 +22,9 @@ import { useIntermediaryCollaboration } from '../lib/intermediaryCollaborationSt
 import { DEMO_BAR_HEIGHT } from './DemoBar';
 
 const NAV_BUYER = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Overview' },
+  { to: '/dashboard', icon: BarChart3, label: "Buyer's Dashboard" },
   { to: '/supply-chain', icon: Link, label: 'Supply Chain' },
   { to: '/producers', icon: Building2, label: 'Producers' },
-  { to: '/reports', icon: BarChart3, label: "Buyer's Dashboard" },
   { to: '/settings', icon: Settings, label: 'Settings' },
 ];
 
