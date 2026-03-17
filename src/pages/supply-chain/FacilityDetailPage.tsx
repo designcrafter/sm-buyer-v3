@@ -1,6 +1,7 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import { useProducerStore, FacilityPhase } from '../../lib/producerStore';
+import LivingWageGapTable from './LivingWageGapTable';
 import {
   ArrowLeft,
   Building2,
@@ -215,6 +216,8 @@ export default function FacilityDetailPage() {
               </div>
             </div>
           </div>
+
+          <LivingWageGapTable facilityId={facility.id} facilityName={facility.name} />
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100">
