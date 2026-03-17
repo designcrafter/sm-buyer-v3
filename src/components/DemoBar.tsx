@@ -57,7 +57,7 @@ export default function DemoBar() {
               : 'text-gray-400 hover:text-gray-200'
           }`}
         >
-          Supplier
+          Producer
         </button>
       </div>
 

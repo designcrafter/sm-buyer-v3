@@ -158,13 +158,13 @@ export default function RequestReviewPanel({ request, mode, onClose, onApprove, 
                 <span className="text-xs font-semibold text-gray-700">{request.requested.duration === 'ongoing' ? 'Ongoing access' : 'Single reporting period'}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-500 font-medium">Audit Data</span>
+                <span className="text-xs text-gray-500 font-medium">Share data with auditors</span>
                 <span className={`text-xs font-semibold ${request.requested.requestAuditData ? 'text-emerald-600' : 'text-gray-400'}`}>
                   {request.requested.requestAuditData ? 'Yes' : 'No'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-500 font-medium">Voluntary Contribution</span>
+                <span className="text-xs text-gray-500 font-medium">Living Wage Contribution</span>
                 <span className={`text-xs font-semibold ${request.requested.requestVoluntaryContribution ? 'text-emerald-600' : 'text-gray-400'}`}>
                   {request.requested.requestVoluntaryContribution ? 'Yes' : 'No'}
                 </span>
@@ -277,7 +277,7 @@ export default function RequestReviewPanel({ request, mode, onClose, onApprove, 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <ClipboardCheck className="w-4 h-4 text-emerald-600" strokeWidth={1.75} />
-                    <p className="text-sm font-semibold text-gray-700">Audit Data</p>
+                    <p className="text-sm font-semibold text-gray-700">Share with auditors</p>
                     {hasAuditChange && (
                       <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">Modified</span>
                     )}
@@ -299,7 +299,7 @@ export default function RequestReviewPanel({ request, mode, onClose, onApprove, 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Heart className="w-4 h-4 text-emerald-600" strokeWidth={1.75} />
-                    <p className="text-sm font-semibold text-gray-700">Voluntary Contribution</p>
+                    <p className="text-sm font-semibold text-gray-700">Living Wage Contribution</p>
                     {hasVoluntaryChange && (
                       <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">Modified</span>
                     )}

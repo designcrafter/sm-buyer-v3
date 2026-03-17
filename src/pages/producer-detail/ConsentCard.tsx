@@ -107,12 +107,12 @@ export default function ConsentCard({ consent, producerAccepted }: Props) {
           }
         />
         <ConsentCell
-          label="Audit Data"
+          label="Share with auditors"
           icon={ClipboardCheck}
           value={<BooleanIndicator value={consent.auditData} />}
         />
         <ConsentCell
-          label="Voluntary Contribution"
+          label="Living Wage Contribution"
           icon={Heart}
           value={<BooleanIndicator value={consent.voluntaryContribution} />}
         />

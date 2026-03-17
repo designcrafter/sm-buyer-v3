@@ -93,15 +93,15 @@ export default function RegisterPage() {
             Set up your<br />buyer account<br />with IDH.
           </h1>
           <p className="text-white text-opacity-80 text-base leading-relaxed opacity-80 max-w-sm">
-            You have been granted access to the IDH Salary Matrix platform on behalf of <span className="font-semibold opacity-100">{INVITED_ORG}</span>. Complete your profile to get started.
+            You have been granted access to IDH Salary Matrix Buyer Dashboard on behalf of <span className="font-semibold opacity-100">{INVITED_ORG}</span>. Complete your profile to get started.
           </p>
         </div>
 
         <div className="relative z-10 space-y-3">
           {[
             'Monitor living wage gaps across your supply chain',
-            'Access verified producer salary data',
-            'Track improvement over time with benchmarks',
+            'View real-time Salary Matrix data in your value chain',
+            'Track improvements over time in a single space',
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-3">
               <div className="w-5 h-5 rounded-full bg-white bg-opacity-20 flex items-center justify-center flex-shrink-0">

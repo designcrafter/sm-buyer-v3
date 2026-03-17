@@ -2,8 +2,6 @@ import { useState } from 'react';
 import {
   BarChart3,
   Calendar,
-  RefreshCw,
-  Zap,
   Info,
   ShieldCheck,
   ClipboardCheck,
@@ -11,11 +9,11 @@ import {
   AlertTriangle,
   ChevronDown,
   Check,
+  Package,
 } from 'lucide-react';
 
-type DataDuration = 'single' | 'ongoing';
-
 const CURRENT_YEAR = new Date().getFullYear();
+const CURRENT_MONTH = new Date().getMonth();
 const AVAILABLE_PAYROLL_YEARS = [
   CURRENT_YEAR,
   CURRENT_YEAR - 1,
@@ -25,16 +23,38 @@ const AVAILABLE_PAYROLL_YEARS = [
 ];
 const DEMO_UNAVAILABLE_YEARS = new Set([CURRENT_YEAR - 4]);
 
+const AVAILABLE_PRODUCTS = [
+  'Tea',
+  'Coffee',
+  'Textiles',
+  'Garments',
+  'Cocoa',
+  'Horticulture',
+];
+
+const MONTHS = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
 export interface DataPreferences {
-  duration: DataDuration;
   selectedPayrollYears: number[];
+  selectedProducts: string[];
+  startMonth: number;
+  startYear: number;
+  endMonth: number;
+  endYear: number;
   requestAuditData: boolean;
   requestVoluntaryContribution: boolean;
 }
 
 export const DEFAULT_PREFERENCES: DataPreferences = {
-  duration: 'ongoing',
   selectedPayrollYears: [CURRENT_YEAR],
+  selectedProducts: [],
+  startMonth: 0,
+  startYear: CURRENT_YEAR,
+  endMonth: CURRENT_MONTH,
+  endYear: CURRENT_YEAR,
   requestAuditData: false,
   requestVoluntaryContribution: false,
 };
@@ -55,6 +75,11 @@ export default function ReportPreferencesStep({
   buyerName,
 }: Props) {
   const [yearDropdownOpen, setYearDropdownOpen] = useState(false);
+  const [productDropdownOpen, setProductDropdownOpen] = useState(false);
+  const [startMonthOpen, setStartMonthOpen] = useState(false);
+  const [startYearOpen, setStartYearOpen] = useState(false);
+  const [endMonthOpen, setEndMonthOpen] = useState(false);
+  const [endYearOpen, setEndYearOpen] = useState(false);
 
   const update = (partial: Partial<DataPreferences>) =>
     onChange({ ...preferences, ...partial });
@@ -65,6 +90,14 @@ export default function ReportPreferencesStep({
       ? current.filter(y => y !== year)
       : [...current, year].sort((a, b) => b - a);
     update({ selectedPayrollYears: next });
+  };
+
+  const toggleProduct = (product: string) => {
+    const current = preferences.selectedProducts;
+    const next = current.includes(product)
+      ? current.filter(p => p !== product)
+      : [...current, product];
+    update({ selectedProducts: next });
   };
 
   const hasUnavailableSelected = preferences.selectedPayrollYears.some(y =>
@@ -78,8 +111,9 @@ export default function ReportPreferencesStep({
   const accentIconText = isIntermediary ? 'text-teal-600' : 'text-primary-600';
   const accentTextStrong = isIntermediary ? 'text-teal-900' : 'text-primary-900';
   const accentTextMid = isIntermediary ? 'text-teal-700' : 'text-primary-700';
-  const accentPill = isIntermediary ? 'bg-teal-600' : 'bg-primary-500';
   const accentToggle = isIntermediary ? 'bg-teal-600' : 'bg-primary-500';
+
+  const dateYears = [CURRENT_YEAR, CURRENT_YEAR - 1, CURRENT_YEAR - 2, CURRENT_YEAR - 3, CURRENT_YEAR - 4];
 
   return (
     <div className="space-y-5">
@@ -100,34 +134,69 @@ export default function ReportPreferencesStep({
         </div>
 
         <div className="p-5 space-y-5">
-          <div className={`flex items-start gap-4 rounded-2xl border p-5 ${accentBorder} ${accentBg} ring-1 ${accentRing}`}>
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${accentIconBg}`}>
-              <BarChart3 className={`w-5 h-5 ${accentIconText}`} strokeWidth={1.75} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className={`text-sm font-semibold ${accentTextStrong}`}>Aggregated data</p>
-              <div className={`text-xs mt-2 leading-relaxed space-y-2 ${accentTextMid}`}>
-                <div className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-500" strokeWidth={2.5} />
-                  <span>You will see an aggregate overview of all producers' data across countries, years, and regions.</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-500" strokeWidth={2.5} />
-                  <span>View access to each Salary Matrix submission record from matched producers.</span>
-                </div>
-                <div className="flex items-start gap-2 text-gray-400">
-                  <span className="w-3.5 h-3.5 shrink-0 mt-0.5 flex items-center justify-center text-[10px] font-bold">&times;</span>
-                  <span>You will not be able to see individual worker data or individual Salary Matrix submission records at a worker level.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className="flex items-start gap-3 bg-amber-50 border border-amber-100 rounded-xl px-4 py-3">
             <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" strokeWidth={1.75} />
             <p className="text-amber-700 text-xs leading-relaxed">
               This selection of data granularity requires consent from producers. Producers will be asked to approve sharing their data before it becomes available.
             </p>
+          </div>
+        </div>
+
+        <div className="px-5 pb-0 pt-0">
+          <div className="border-t border-gray-50 pt-5 pb-5 space-y-4">
+            <div>
+              <p className="text-gray-700 text-sm font-semibold">Product</p>
+              <p className="text-gray-400 text-xs mt-1">
+                Select which products/sectors to include in the report.
+              </p>
+            </div>
+
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setProductDropdownOpen(o => !o)}
+                className="w-full flex items-center justify-between gap-2 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-left hover:border-gray-300 transition"
+              >
+                <div className="flex items-center gap-2">
+                  <Package className="w-4 h-4 text-gray-400" strokeWidth={1.75} />
+                  <span className={preferences.selectedProducts.length > 0 ? 'text-gray-800' : 'text-gray-400'}>
+                    {preferences.selectedProducts.length > 0
+                      ? preferences.selectedProducts.join(', ')
+                      : 'Select products'}
+                  </span>
+                </div>
+                <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${productDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {productDropdownOpen && (
+                <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                  {AVAILABLE_PRODUCTS.map(product => {
+                    const selected = preferences.selectedProducts.includes(product);
+                    return (
+                      <button
+                        key={product}
+                        type="button"
+                        onClick={() => toggleProduct(product)}
+                        className={`w-full flex items-center justify-between px-4 py-3 text-sm text-left transition hover:bg-gray-50 ${
+                          selected ? 'bg-gray-50' : ''
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-5 h-5 rounded flex items-center justify-center border transition ${
+                            selected
+                              ? `${accentToggle} border-transparent`
+                              : 'border-gray-300 bg-white'
+                          }`}>
+                            {selected && <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />}
+                          </div>
+                          <span className="text-gray-800 font-medium">{product}</span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -146,11 +215,14 @@ export default function ReportPreferencesStep({
                 onClick={() => setYearDropdownOpen(o => !o)}
                 className="w-full flex items-center justify-between gap-2 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-left hover:border-gray-300 transition"
               >
-                <span className={preferences.selectedPayrollYears.length > 0 ? 'text-gray-800' : 'text-gray-400'}>
-                  {preferences.selectedPayrollYears.length > 0
-                    ? preferences.selectedPayrollYears.join(', ')
-                    : 'Select payroll years'}
-                </span>
+                <div className="flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-gray-400" strokeWidth={1.75} />
+                  <span className={preferences.selectedPayrollYears.length > 0 ? 'text-gray-800' : 'text-gray-400'}>
+                    {preferences.selectedPayrollYears.length > 0
+                      ? preferences.selectedPayrollYears.join(', ')
+                      : 'Select payroll years'}
+                  </span>
+                </div>
                 <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${yearDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -216,61 +288,126 @@ export default function ReportPreferencesStep({
             <div>
               <p className="text-gray-700 text-sm font-semibold">Request duration</p>
               <p className="text-gray-400 text-xs mt-1">
-                The reporting cycle runs annually from 1 January to 31 December. Duration is subject to producer consent.
+                Select the start and end date for the data request period.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => update({ duration: 'single' })}
-                className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition-all duration-150 ${
-                  preferences.duration === 'single'
-                    ? `${accentBorder} ${accentBg} ring-1 ${accentRing}`
-                    : 'border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50'
-                }`}
-              >
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
-                  preferences.duration === 'single' ? accentIconBg : 'bg-gray-100'
-                }`}>
-                  <Zap className={`w-4 h-4 ${preferences.duration === 'single' ? accentIconText : 'text-gray-400'}`} strokeWidth={1.75} />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className={`text-sm font-semibold ${preferences.duration === 'single' ? accentTextStrong : 'text-gray-800'}`}>Single reporting period</p>
-                    {preferences.duration === 'single' && (
-                      <span className={`text-xs ${accentPill} text-white font-semibold px-2 py-0.5 rounded-full`}>Selected</span>
-                    )}
-                  </div>
-                  <p className={`text-xs mt-1 leading-relaxed ${preferences.duration === 'single' ? accentTextMid : 'text-gray-400'}`}>
-                    Access data for the selected payroll year(s) only. Access ends at the close of the current annual reporting period (31 December).
-                  </p>
-                </div>
-              </button>
 
-              <button
-                onClick={() => update({ duration: 'ongoing' })}
-                className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition-all duration-150 ${
-                  preferences.duration === 'ongoing'
-                    ? `${accentBorder} ${accentBg} ring-1 ${accentRing}`
-                    : 'border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50'
-                }`}
-              >
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
-                  preferences.duration === 'ongoing' ? accentIconBg : 'bg-gray-100'
-                }`}>
-                  <RefreshCw className={`w-4 h-4 ${preferences.duration === 'ongoing' ? accentIconText : 'text-gray-400'}`} strokeWidth={1.75} />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className={`text-sm font-semibold ${preferences.duration === 'ongoing' ? accentTextStrong : 'text-gray-800'}`}>Ongoing access</p>
-                    {preferences.duration === 'ongoing' && (
-                      <span className={`text-xs ${accentPill} text-white font-semibold px-2 py-0.5 rounded-full`}>Selected</span>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-gray-500">Start date</p>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <button
+                      type="button"
+                      onClick={() => { setStartMonthOpen(o => !o); setStartYearOpen(false); }}
+                      className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-left hover:border-gray-300 transition"
+                    >
+                      <span className="text-gray-800">{MONTHS[preferences.startMonth]}</span>
+                      <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform ${startMonthOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {startMonthOpen && (
+                      <div className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden max-h-48 overflow-y-auto">
+                        {MONTHS.map((month, idx) => (
+                          <button
+                            key={month}
+                            type="button"
+                            onClick={() => { update({ startMonth: idx }); setStartMonthOpen(false); }}
+                            className={`w-full px-3 py-2 text-sm text-left transition hover:bg-gray-50 ${
+                              preferences.startMonth === idx ? 'bg-gray-50 font-medium' : ''
+                            }`}
+                          >
+                            {month}
+                          </button>
+                        ))}
+                      </div>
                     )}
                   </div>
-                  <p className={`text-xs mt-1 leading-relaxed ${preferences.duration === 'ongoing' ? accentTextMid : 'text-gray-400'}`}>
-                    Continuous access, automatically renewed each annual reporting period (ending 31 December). Either party may revoke access at any time.
-                  </p>
+                  <div className="relative w-24">
+                    <button
+                      type="button"
+                      onClick={() => { setStartYearOpen(o => !o); setStartMonthOpen(false); }}
+                      className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-left hover:border-gray-300 transition"
+                    >
+                      <span className="text-gray-800">{preferences.startYear}</span>
+                      <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform ${startYearOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {startYearOpen && (
+                      <div className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                        {dateYears.map(year => (
+                          <button
+                            key={year}
+                            type="button"
+                            onClick={() => { update({ startYear: year }); setStartYearOpen(false); }}
+                            className={`w-full px-3 py-2 text-sm text-left transition hover:bg-gray-50 ${
+                              preferences.startYear === year ? 'bg-gray-50 font-medium' : ''
+                            }`}
+                          >
+                            {year}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </button>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-gray-500">End date</p>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <button
+                      type="button"
+                      onClick={() => { setEndMonthOpen(o => !o); setEndYearOpen(false); }}
+                      className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-left hover:border-gray-300 transition"
+                    >
+                      <span className="text-gray-800">{MONTHS[preferences.endMonth]}</span>
+                      <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform ${endMonthOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {endMonthOpen && (
+                      <div className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden max-h-48 overflow-y-auto">
+                        {MONTHS.map((month, idx) => (
+                          <button
+                            key={month}
+                            type="button"
+                            onClick={() => { update({ endMonth: idx }); setEndMonthOpen(false); }}
+                            className={`w-full px-3 py-2 text-sm text-left transition hover:bg-gray-50 ${
+                              preferences.endMonth === idx ? 'bg-gray-50 font-medium' : ''
+                            }`}
+                          >
+                            {month}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="relative w-24">
+                    <button
+                      type="button"
+                      onClick={() => { setEndYearOpen(o => !o); setEndMonthOpen(false); }}
+                      className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-left hover:border-gray-300 transition"
+                    >
+                      <span className="text-gray-800">{preferences.endYear}</span>
+                      <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform ${endYearOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {endYearOpen && (
+                      <div className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                        {dateYears.map(year => (
+                          <button
+                            key={year}
+                            type="button"
+                            onClick={() => { update({ endYear: year }); setEndYearOpen(false); }}
+                            className={`w-full px-3 py-2 text-sm text-left transition hover:bg-gray-50 ${
+                              preferences.endYear === year ? 'bg-gray-50 font-medium' : ''
+                            }`}
+                          >
+                            {year}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="flex items-start gap-3 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3">
@@ -306,10 +443,10 @@ export default function ReportPreferencesStep({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm font-semibold ${preferences.requestAuditData ? accentTextStrong : 'text-gray-800'}`}>
-                    Request audit data
+                    Request consent to share data with auditors
                   </p>
                   <p className={`text-xs mt-0.5 leading-relaxed ${preferences.requestAuditData ? accentTextMid : 'text-gray-400'}`}>
-                    Request access to audit records and compliance data from matched producers.
+                    Request permission to share wage data with third-party auditors for verification purposes.
                   </p>
                   <p className={`text-xs mt-1.5 font-medium flex items-center gap-1 ${preferences.requestAuditData ? 'text-amber-600' : 'text-gray-400'}`}>
                     <ShieldCheck className="w-3 h-3" strokeWidth={2} />
@@ -343,10 +480,10 @@ export default function ReportPreferencesStep({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm font-semibold ${preferences.requestVoluntaryContribution ? accentTextStrong : 'text-gray-800'}`}>
-                    Request voluntary contribution data
+                    Request voluntary Living Wage Contribution
                   </p>
                   <p className={`text-xs mt-0.5 leading-relaxed ${preferences.requestVoluntaryContribution ? accentTextMid : 'text-gray-400'}`}>
-                    Request access to voluntary wage contribution records from matched producers.
+                    Request access to voluntary living wage contribution records from matched producers.
                   </p>
                   <p className={`text-xs mt-1.5 font-medium flex items-center gap-1 ${preferences.requestVoluntaryContribution ? 'text-amber-600' : 'text-gray-400'}`}>
                     <ShieldCheck className="w-3 h-3" strokeWidth={2} />
@@ -373,6 +510,8 @@ export default function ReportPreferencesStep({
   );
 }
 
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 export function PreferencesSummary({
   preferences,
   matchedCount,
@@ -383,11 +522,13 @@ export function PreferencesSummary({
   isIntermediary: boolean;
 }) {
   const extras: string[] = [];
-  if (preferences.requestAuditData) extras.push('Audit data');
-  if (preferences.requestVoluntaryContribution) extras.push('Voluntary contribution');
+  if (preferences.requestAuditData) extras.push('Share with auditors');
+  if (preferences.requestVoluntaryContribution) extras.push('Living Wage Contribution');
 
   const iconBg = isIntermediary ? 'bg-teal-50' : 'bg-white';
   const iconBorder = isIntermediary ? 'border-teal-100' : 'border-gray-100';
+
+  const dateRange = `${MONTHS_SHORT[preferences.startMonth]} ${preferences.startYear} - ${MONTHS_SHORT[preferences.endMonth]} ${preferences.endYear}`;
 
   return (
     <div className="bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 flex items-start gap-3">
@@ -398,11 +539,13 @@ export function PreferencesSummary({
         <p className="text-sm font-semibold text-gray-700">Summary</p>
         <p className="text-xs text-gray-500 mt-1 leading-relaxed">
           {matchedCount} producer{matchedCount !== 1 ? 's' : ''} &bull;{' '}
-          Aggregated data &bull;{' '}
+          {preferences.selectedProducts.length > 0
+            ? preferences.selectedProducts.join(', ')
+            : 'All products'} &bull;{' '}
           {preferences.selectedPayrollYears.length > 0
             ? `Payroll ${preferences.selectedPayrollYears.join(', ')}`
             : 'No years selected'} &bull;{' '}
-          {preferences.duration === 'single' ? 'Single reporting period' : 'Ongoing access'}
+          {dateRange}
           {extras.length > 0 && (
             <> &bull; {extras.join(', ')}</>
           )}

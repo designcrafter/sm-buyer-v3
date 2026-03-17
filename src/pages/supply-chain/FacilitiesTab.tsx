@@ -70,7 +70,7 @@ export default function FacilitiesTab() {
           <div>
             <p className="text-gray-700 text-sm font-medium">No facilities yet</p>
             <p className="text-gray-400 text-xs mt-1 max-w-xs leading-relaxed">
-              Add producers to your supply chain to start tracking facility submissions.
+              Invite producers to your supply chain to start tracking facility submissions.
             </p>
           </div>
           <button
@@ -78,7 +78,7 @@ export default function FacilitiesTab() {
             className="mt-1 flex items-center gap-1.5 bg-primary-500 hover:bg-primary-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm"
           >
             <Factory className="w-3.5 h-3.5" strokeWidth={1.75} />
-            Add Producers
+            Invite Producers
           </button>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function FacilitiesTab() {
             className="flex items-center gap-1.5 border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 text-gray-600 text-xs font-semibold px-3 py-2 rounded-xl transition"
           >
             <Factory className="w-3.5 h-3.5" strokeWidth={1.75} />
-            Add more
+            Invite more
           </button>
         </div>
 

@@ -331,13 +331,13 @@ export default function AddProducerPage() {
             </div>
             <div>
               <h1 className="text-gray-900 text-xl font-bold">
-                {step === 'entry' && (isIntermediary ? 'Match Producers' : 'Add Producers')}
-                {step === 'checking' && 'Verifying Producers'}
+                {step === 'entry' && (isIntermediary ? 'Match Producers' : 'Invite Producers')}
+                {step === 'checking' && 'Checking Producer Details'}
                 {step === 'preferences' && 'Report Preferences'}
               </h1>
               <p className="text-gray-400 text-sm mt-0.5">
                 {step === 'entry' && 'Enter facilities manually or upload a spreadsheet.'}
-                {step === 'checking' && 'Checking each facility against the IDH database.'}
+                {step === 'checking' && 'Checking each facility against the Salary Matrix database.'}
                 {step === 'preferences' && (isIntermediary
                   ? `Configure data preferences on behalf of ${activeBuyer.name}.`
                   : 'Choose what data you want for the Living Wage Gap report.'
@@ -527,7 +527,7 @@ export default function AddProducerPage() {
                   className={`flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none ${isIntermediary ? 'bg-teal-600 hover:bg-teal-700 active:bg-teal-800' : 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700'}`}
                 >
                   <Database className="w-4 h-4" strokeWidth={1.75} />
-                  Verify producers
+                  Check Details
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -663,13 +663,13 @@ export default function AddProducerPage() {
 
 function StepIndicator({ step, isIntermediary }: { step: FlowStep; isIntermediary: boolean }) {
   const buyerSteps: { key: FlowStep; label: string }[] = [
-    { key: 'entry', label: 'Add producers' },
-    { key: 'checking', label: 'Verify' },
+    { key: 'entry', label: 'Invite producers' },
+    { key: 'checking', label: 'Check Details' },
     { key: 'preferences', label: 'Report preferences' },
   ];
   const intermediarySteps: { key: FlowStep; label: string }[] = [
-    { key: 'entry', label: 'Add producers' },
-    { key: 'checking', label: 'Verify' },
+    { key: 'entry', label: 'Invite producers' },
+    { key: 'checking', label: 'Check Details' },
     { key: 'preferences', label: 'Data preferences' },
   ];
   const steps = isIntermediary ? intermediarySteps : buyerSteps;
@@ -762,7 +762,7 @@ function CheckedRowItem({
           <p className="text-sm font-semibold text-gray-800 truncate">{row.facilityId}</p>
           <p className="text-xs text-gray-400 truncate mt-0.5">{row.email}</p>
           {row.status === 'unmatched' && (
-            <p className="text-xs text-amber-600 mt-1 font-medium">No match found in IDH database — edit the details or remove this entry.</p>
+            <p className="text-xs text-amber-600 mt-1 font-medium">No match found in Salary Matrix Database — edit the details or remove this entry.</p>
           )}
         </div>
       )}
