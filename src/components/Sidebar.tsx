@@ -30,8 +30,9 @@ const NAV_BUYER = [
 
 const NAV_INTERMEDIARY = [
   { to: '/intermediary/dashboard', icon: LayoutDashboard, label: 'Overview' },
-  { to: '/producers', icon: Factory, label: 'Producers' },
-  { to: '/intermediary/collaboration', icon: Handshake, label: 'Collaboration', hasBadge: 'intermediary' as const },
+  { to: '/intermediary/producers', icon: Factory, label: 'Producers' },
+  { to: '/intermediary/supply-chain', icon: Link, label: 'Supply Chain', hasBadge: 'intermediary' as const },
+  { to: '/intermediary/settings', icon: Settings, label: 'Settings' },
 ];
 
 const NAV_SUPPLIER = [

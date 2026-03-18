@@ -17,7 +17,10 @@ import ReportsPage from './pages/ReportsPage';
 import SupplierDashboardPage from './pages/supplier/SupplierDashboardPage';
 import SupplierCollaborationPage from './pages/supplier/SupplierCollaborationPage';
 import SupplierPlaceholderPage from './pages/supplier/SupplierPlaceholderPage';
-import IntermediaryCollaborationPage from './pages/intermediary/IntermediaryCollaborationPage';
+import IntermediaryProducersPage from './pages/intermediary/IntermediaryProducersPage';
+import IntermediarySupplyChainPage from './pages/intermediary/IntermediarySupplyChainPage';
+import IntermediaryFacilityDetailPage from './pages/intermediary/IntermediaryFacilityDetailPage';
+import IntermediarySettingsPage from './pages/intermediary/IntermediarySettingsPage';
 import ProducerFacilityDetailPage from './pages/producer-detail/FacilityDetailPage';
 
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -42,7 +45,11 @@ export default function App() {
               <Route path="/intermediary/register" element={<IntermediaryRegisterPage />} />
               <Route path="/dashboard" element={<AppLayout><ReportsPage /></AppLayout>} />
               <Route path="/intermediary/dashboard" element={<AppLayout><IntermediaryDashboardPage /></AppLayout>} />
-              <Route path="/intermediary/collaboration" element={<AppLayout><IntermediaryCollaborationPage /></AppLayout>} />
+              <Route path="/intermediary/producers" element={<AppLayout><IntermediaryProducersPage /></AppLayout>} />
+              <Route path="/intermediary/producers/:id" element={<AppLayout><IntermediaryProducersPage /></AppLayout>} />
+              <Route path="/intermediary/supply-chain" element={<AppLayout><IntermediarySupplyChainPage /></AppLayout>} />
+              <Route path="/intermediary/supply-chain/facilities/:id" element={<AppLayout><IntermediaryFacilityDetailPage /></AppLayout>} />
+              <Route path="/intermediary/settings" element={<AppLayout><IntermediarySettingsPage /></AppLayout>} />
               <Route path="/supply-chain" element={<AppLayout><SupplyChainPage /></AppLayout>} />
               <Route path="/supply-chain/facilities/:id" element={<AppLayout><FacilityDetailPage /></AppLayout>} />
               <Route path="/add-producer" element={<AppLayout><AddProducerPage /></AppLayout>} />
