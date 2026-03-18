@@ -145,7 +145,6 @@ function ProducerDetailView({ producer }: { producer: Producer }) {
 
   const facilityData = producer.facilities.map(f => ({
     salaryMatrixStatus: f.salaryMatrixStatus,
-    audited: f.audited,
   }));
 
   return (
@@ -199,7 +198,7 @@ function ProducerDetailView({ producer }: { producer: Producer }) {
         </div>
       </div>
 
-      <ProducerDetailKpiCards totalFacilities={producer.facilitiesCount} facilities={facilityData} />
+      <ProducerDetailKpiCards facilities={facilityData} />
 
       {producer.status === 'declined' && (
         <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-2xl px-5 py-4">

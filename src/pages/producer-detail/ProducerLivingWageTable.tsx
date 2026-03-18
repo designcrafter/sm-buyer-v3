@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -36,12 +37,44 @@ function ConsentBadge({ type }: { type: DataConsentLevel }) {
   );
 }
 
+interface FacilityGroup {
+  name: string;
+  facilities: FacilityDetail[];
+}
+
 interface Props {
   facilities: FacilityDetail[];
 }
 
 export default function ProducerLivingWageTable({ facilities }: Props) {
   const navigate = useNavigate();
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+
+  const groupFacilitiesByName = (): FacilityGroup[] => {
+    const grouped = new Map<string, FacilityDetail[]>();
+
+    facilities.forEach(facility => {
+      const existing = grouped.get(facility.name) || [];
+      grouped.set(facility.name, [...existing, facility]);
+    });
+
+    return Array.from(grouped.entries()).map(([name, facilities]) => ({
+      name,
+      facilities: facilities.sort((a, b) => b.year - a.year),
+    }));
+  };
+
+  const toggleGroup = (groupName: string) => {
+    setExpandedGroups(prev => {
+      const next = new Set(prev);
+      if (next.has(groupName)) {
+        next.delete(groupName);
+      } else {
+        next.add(groupName);
+      }
+      return next;
+    });
+  };
 
   if (facilities.length === 0) {
     return (
@@ -56,6 +89,8 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
     );
   }
 
+  const groupedFacilities = groupFacilitiesByName();
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
       <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4 flex-wrap">
@@ -65,7 +100,7 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-300" strokeWidth={1.75} />
             <input
               type="text"
-              placeholder="Search by facility ID"
+              placeholder="Search by facility name"
               readOnly
               className="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-xl bg-gray-50 text-gray-700 placeholder-gray-300 focus:outline-none w-52"
             />
@@ -94,69 +129,187 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
-            {facilities.map(f => (
-              <tr
-                key={f.id}
-                onClick={() => navigate(`/supply-chain/facilities/${f.id}`)}
-                className="hover:bg-gray-50 transition-colors cursor-pointer group"
-              >
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-2">
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">{f.name}</p>
-                      <p className="text-xs text-gray-400 font-medium mt-0.5">{f.facilityId}</p>
-                    </div>
-                    {f.salaryMatrixStatus === 'submitted' && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-600 shrink-0" title="Salary Matrix updated">
-                        <RefreshCw className="w-2.5 h-2.5" strokeWidth={2.5} />
-                        SM Updated
+            {groupedFacilities.map(group => {
+              const isExpanded = expandedGroups.has(group.name);
+              const mainFacility = group.facilities[0];
+              const olderFacilities = group.facilities.slice(1);
+              const hasMultipleYears = olderFacilities.length > 0;
+
+              return (
+                <>
+                  <tr
+                    key={mainFacility.id}
+                    className="hover:bg-gray-50 transition-colors group"
+                  >
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        {hasMultipleYears && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleGroup(group.name);
+                            }}
+                            className="w-5 h-5 rounded flex items-center justify-center hover:bg-gray-100 transition-colors shrink-0"
+                          >
+                            <ChevronRight
+                              className={`w-3.5 h-3.5 text-gray-400 transition-transform ${
+                                isExpanded ? 'rotate-90' : ''
+                              }`}
+                              strokeWidth={2}
+                            />
+                          </button>
+                        )}
+                        <div
+                          onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                          className="cursor-pointer"
+                        >
+                          <p className="text-sm font-semibold text-gray-900">{mainFacility.name}</p>
+                          <p className="text-xs text-gray-400 font-medium mt-0.5">{mainFacility.facilityId}</p>
+                        </div>
+                        {mainFacility.salaryMatrixStatus === 'submitted' && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-600 shrink-0" title="Salary Matrix updated">
+                            <RefreshCw className="w-2.5 h-2.5" strokeWidth={2.5} />
+                            SM Updated
+                          </span>
+                        )}
+                        {hasMultipleYears && (
+                          <span className="inline-flex items-center text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-gray-100 text-gray-600 shrink-0">
+                            {group.facilities.length} years
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <span className="text-sm text-gray-500 font-mono">{mainFacility.facilityId}</span>
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <span className="text-sm text-gray-700 flex items-center gap-1.5">
+                        <span>{mainFacility.flag}</span>
+                        {mainFacility.country}
                       </span>
-                    )}
-                  </div>
-                </td>
-                <td className="px-4 py-4">
-                  <span className="text-sm text-gray-500 font-mono">{f.facilityId}</span>
-                </td>
-                <td className="px-4 py-4">
-                  <span className="text-sm text-gray-700 flex items-center gap-1.5">
-                    <span>{f.flag}</span>
-                    {f.country}
-                  </span>
-                </td>
-                <td className="px-4 py-4">
-                  <span className="text-sm text-gray-500">{f.region}</span>
-                </td>
-                <td className="px-4 py-4">
-                  <span className="text-sm text-gray-700">{f.year}</span>
-                </td>
-                <td className="px-4 py-4">
-                  <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-emerald-400"
-                      style={{ width: `${Math.min(f.progress, 100)}%` }}
-                    />
-                  </div>
-                </td>
-                <td className="px-4 py-4">
-                  <StatusBadge status={f.phase} />
-                </td>
-                <td className="px-4 py-4">
-                  <ConsentBadge type={f.consentType} />
-                </td>
-                <td className="px-4 py-4">
-                  <span className="text-sm text-gray-400">{f.lastUpdated}</span>
-                </td>
-                <td className="px-4 py-4">
-                  <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition" />
-                </td>
-              </tr>
-            ))}
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <span className="text-sm text-gray-500">{mainFacility.region}</span>
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <span className="text-sm text-gray-700 font-semibold">{mainFacility.year}</span>
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-emerald-400"
+                          style={{ width: `${Math.min(mainFacility.progress, 100)}%` }}
+                        />
+                      </div>
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <StatusBadge status={mainFacility.phase} />
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <ConsentBadge type={mainFacility.consentType} />
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <span className="text-sm text-gray-400">{mainFacility.lastUpdated}</span>
+                    </td>
+                    <td
+                      className="px-4 py-4 cursor-pointer"
+                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                    >
+                      <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition" />
+                    </td>
+                  </tr>
+                  {isExpanded && olderFacilities.map(facility => (
+                    <tr
+                      key={facility.id}
+                      onClick={() => navigate(`/supply-chain/facilities/${facility.id}`)}
+                      className="hover:bg-gray-50 transition-colors cursor-pointer group bg-gray-25"
+                    >
+                      <td className="px-6 py-4 pl-14">
+                        <div className="flex items-center gap-2">
+                          <div>
+                            <p className="text-sm font-medium text-gray-700">{facility.name}</p>
+                            <p className="text-xs text-gray-400 font-medium mt-0.5">{facility.facilityId}</p>
+                          </div>
+                          {facility.salaryMatrixStatus === 'submitted' && (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-600 shrink-0" title="Salary Matrix updated">
+                              <RefreshCw className="w-2.5 h-2.5" strokeWidth={2.5} />
+                              SM Updated
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="text-sm text-gray-500 font-mono">{facility.facilityId}</span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="text-sm text-gray-700 flex items-center gap-1.5">
+                          <span>{facility.flag}</span>
+                          {facility.country}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="text-sm text-gray-500">{facility.region}</span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="text-sm text-gray-600">{facility.year}</span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-emerald-400"
+                            style={{ width: `${Math.min(facility.progress, 100)}%` }}
+                          />
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <StatusBadge status={facility.phase} />
+                      </td>
+                      <td className="px-4 py-4">
+                        <ConsentBadge type={facility.consentType} />
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="text-sm text-gray-400">{facility.lastUpdated}</span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition" />
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
       <div className="px-6 py-3 border-t border-gray-50">
-        <p className="text-xs text-gray-400">Page 1 of 1</p>
+        <p className="text-xs text-gray-400">
+          Showing {groupedFacilities.length} {groupedFacilities.length === 1 ? 'facility' : 'facilities'} ({facilities.length} total calculations)
+        </p>
       </div>
     </div>
   );

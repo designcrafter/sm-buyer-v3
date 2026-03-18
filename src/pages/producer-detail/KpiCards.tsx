@@ -3,25 +3,22 @@ import {
   CheckCircle2,
   Loader2,
   AlertTriangle,
-  ShieldCheck,
 } from 'lucide-react';
 import type { SalaryMatrixStatus } from '../../lib/producerStore';
 
 interface FacilityRow {
   salaryMatrixStatus: SalaryMatrixStatus;
-  audited: boolean;
 }
 
 interface Props {
-  totalFacilities: number;
   facilities: FacilityRow[];
 }
 
-export default function ProducerDetailKpiCards({ totalFacilities, facilities }: Props) {
+export default function ProducerDetailKpiCards({ facilities }: Props) {
+  const totalFacilities = facilities.length;
   const submitted = facilities.filter(f => f.salaryMatrixStatus === 'submitted').length;
   const inProgress = facilities.filter(f => f.salaryMatrixStatus === 'in_progress').length;
   const missing = facilities.filter(f => f.salaryMatrixStatus === 'missing').length;
-  const audited = facilities.filter(f => f.audited).length;
 
   const cards = [
     {
@@ -52,17 +49,10 @@ export default function ProducerDetailKpiCards({ totalFacilities, facilities }: 
       iconBg: 'bg-red-50',
       iconColor: 'text-red-500',
     },
-    {
-      label: 'Facilities Audited',
-      value: audited,
-      icon: ShieldCheck,
-      iconBg: 'bg-teal-50',
-      iconColor: 'text-teal-600',
-    },
   ];
 
   return (
-    <div className="grid grid-cols-5 gap-3">
+    <div className="grid grid-cols-4 gap-3">
       {cards.map(card => (
         <div
           key={card.label}
