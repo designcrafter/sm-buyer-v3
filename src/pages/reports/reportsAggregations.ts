@@ -4,6 +4,7 @@ export interface ReportsSummary {
   totalFacilities: number;
   facilitiesWithGap: number;
   avgLivingWageGapPct: number;
+  avgGenderGapPct: number;
   workersBelowLwPct: number;
   workersBelowLwCount: number;
   totalWorkers: number;
@@ -15,7 +16,7 @@ export interface ReportsSummary {
 
 export function computeSummary(data: WageCalculation[]): ReportsSummary {
   const empty: ReportsSummary = {
-    totalFacilities: 0, facilitiesWithGap: 0, avgLivingWageGapPct: 0,
+    totalFacilities: 0, facilitiesWithGap: 0, avgLivingWageGapPct: 0, avgGenderGapPct: 0,
     workersBelowLwPct: 0, workersBelowLwCount: 0, totalWorkers: 0,
     workersAboveLwWomen: 0, workersBelowLwWomen: 0,
     workersAboveLwMen: 0, workersBelowLwMen: 0,
@@ -31,6 +32,7 @@ export function computeSummary(data: WageCalculation[]): ReportsSummary {
     totalFacilities: facilityIds.size,
     facilitiesWithGap: facilitiesWithGap.size,
     avgLivingWageGapPct: data.reduce((s, c) => s + c.avg_wage_gap_pct, 0) / data.length,
+    avgGenderGapPct: data.reduce((s, c) => s + c.gender_gap_pct, 0) / data.length,
     workersBelowLwPct: totalWorkers > 0 ? (workersBelowLwCount / totalWorkers) * 100 : 0,
     workersBelowLwCount,
     totalWorkers,

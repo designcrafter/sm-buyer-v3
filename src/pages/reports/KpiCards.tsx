@@ -49,10 +49,11 @@ export function KpiCards({ summary }: { summary: ReportsSummary }) {
   const PERCENT_BELOW_LW_THRESHOLD = 70;
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3 print:grid-cols-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-7 gap-3 print:grid-cols-7">
       <KpiCard label="Total Facilities" value={String(summary.totalFacilities)} />
       <KpiCard label="Facilities with a Gap" value={String(summary.facilitiesWithGap)} />
       <KpiCard label="Average Living Wage Gap" value={formatPct(summary.avgLivingWageGapPct)} />
+      <KpiCard label="Average Gender Gap" value={formatPct(summary.avgGenderGapPct)} />
       <KpiCard
         label="% Workers Below a Living Wage"
         value={formatPct(summary.workersBelowLwPct)}
