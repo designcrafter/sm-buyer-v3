@@ -36,7 +36,7 @@ function DonutChart({ summary }: { summary: ReportsSummary }) {
           <span className="text-xs text-gray-500">Workers Above a Living Wage</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+          <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
           <span className="text-xs text-gray-500">Workers Below a Living Wage</span>
         </div>
       </div>
@@ -61,7 +61,7 @@ function DonutChart({ summary }: { summary: ReportsSummary }) {
           <circle
             cx="100" cy="100" r={radius}
             fill="none"
-            stroke="#f59e0b"
+            stroke="#dc2626"
             strokeWidth={stroke}
             strokeDasharray={`${belowArc} ${circumference}`}
             strokeDashoffset={-aboveArc}
@@ -79,7 +79,7 @@ function DonutChart({ summary }: { summary: ReportsSummary }) {
       </div>
 
       <div className="text-center mb-5">
-        <span className="text-xs text-amber-600 font-semibold">{belowPct.toFixed(1)}%</span>
+        <span className="text-xs text-red-600 font-semibold">{belowPct.toFixed(1)}%</span>
         <span className="text-xs text-gray-400 ml-1">below a Living Wage</span>
       </div>
 
@@ -88,7 +88,7 @@ function DonutChart({ summary }: { summary: ReportsSummary }) {
           <tr className="border-b border-gray-100">
             <th className="text-left py-2 font-semibold text-gray-500">Gender</th>
             <th className="text-right py-2 font-semibold text-primary-600">Above a Living Wage</th>
-            <th className="text-right py-2 font-semibold text-amber-600">Below a Living Wage</th>
+            <th className="text-right py-2 font-semibold text-red-600">Below a Living Wage</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-50">

@@ -7,21 +7,30 @@ interface KpiCardProps {
     value: number;
     currentValue: number;
     formatter: (val: number) => string;
+    isHigherBetter?: boolean;
   };
 }
 
 function KpiCard({ value, label, threshold }: KpiCardProps) {
-  const isAboveThreshold = threshold && threshold.currentValue > threshold.value;
+  let isThresholdBreach = false;
+
+  if (threshold) {
+    if (threshold.isHigherBetter === false) {
+      isThresholdBreach = threshold.currentValue > threshold.value;
+    } else {
+      isThresholdBreach = threshold.currentValue < threshold.value;
+    }
+  }
 
   return (
     <div className="bg-white rounded-xl border border-gray-100 px-5 py-4 text-center">
       <p className={`text-xs font-medium mb-1 tracking-wide ${
-        isAboveThreshold ? 'text-red-600' : 'text-primary-600'
+        isThresholdBreach ? 'text-red-600' : 'text-primary-600'
       }`}>
         {label}
       </p>
       <p className={`text-2xl font-bold ${
-        isAboveThreshold ? 'text-red-600' : 'text-gray-900'
+        isThresholdBreach ? 'text-red-600' : 'text-gray-900'
       }`}>
         {value}
       </p>
@@ -51,6 +60,7 @@ export function KpiCards({ summary }: { summary: ReportsSummary }) {
           value: PERCENT_BELOW_LW_THRESHOLD,
           currentValue: summary.workersBelowLwPct,
           formatter: (val) => `${val}%`,
+          isHigherBetter: false,
         }}
       />
       <KpiCard
@@ -60,6 +70,7 @@ export function KpiCards({ summary }: { summary: ReportsSummary }) {
           value: WORKERS_BELOW_LW_THRESHOLD,
           currentValue: summary.workersBelowLwCount,
           formatter: formatNum,
+          isHigherBetter: false,
         }}
       />
       <KpiCard label="Total Number of Workers" value={formatNum(summary.totalWorkers)} />
