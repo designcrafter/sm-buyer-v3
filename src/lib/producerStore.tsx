@@ -133,44 +133,56 @@ function generateFacilities(
   facilityRows: { facilityId: string; email: string }[],
   seedOffset: number,
 ): FacilityDetail[] {
-  return facilityRows.map((row, i) => {
+  const facilities: FacilityDetail[] = [];
+
+  facilityRows.forEach((row, i) => {
     const seed = seedOffset + i;
     const r = (n: number) => seededRandom(seed * 13 + n);
     const country = COUNTRIES[Math.floor(r(1) * COUNTRIES.length)];
     const region = country.regions[Math.floor(r(2) * country.regions.length)];
     const sector = SECTORS[Math.floor(r(3) * SECTORS.length)];
-    const year = r(4) > 0.3 ? CURRENT_YEAR : CURRENT_YEAR - 1;
-    const phase = PHASES[Math.floor(r(5) * PHASES.length)];
-    const gapBase = 5 + r(6) * 25;
-    const gapFemale = gapBase + (r(7) - 0.5) * 6;
-    const gapMale = gapBase + (r(8) - 0.5) * 6;
     const cityName = country.regions[Math.floor(r(9) * country.regions.length)].split(' ')[0];
     const facilityType = FACILITY_NAMES[Math.floor(r(10) * FACILITY_NAMES.length)];
+    const facilityName = `${cityName} ${facilityType}`;
 
-    return {
-      id: crypto.randomUUID(),
-      facilityId: row.facilityId,
-      name: `${cityName} ${facilityType}`,
-      email: row.email,
-      producerId,
-      producerName,
-      country: country.name,
-      flag: country.flag,
-      region,
-      sector,
-      year,
-      phase,
-      progress: PHASE_PROGRESS[phase] + Math.floor(r(11) * 15),
-      gapOverall: Math.round(gapBase * 10) / 10,
-      gapFemale: Math.round(gapFemale * 10) / 10,
-      gapMale: Math.round(gapMale * 10) / 10,
-      salaryMatrixStatus: phase === 'Final Report' ? 'submitted' : phase === 'Training' ? 'missing' : 'in_progress',
-      consentType: r(12) > 0.5 ? 'full' : 'aggregate',
-      audited: phase === 'Final Report' || phase === 'Audit Verification',
-      lastUpdated: LAST_UPDATED_OPTIONS[Math.floor(r(13) * LAST_UPDATED_OPTIONS.length)],
-      status: r(14) > 0.15 ? 'active' : r(14) > 0.05 ? 'under_review' : 'closed',
-    };
+    const shouldHaveHistoricalData = r(15) > 0.4;
+    const years = shouldHaveHistoricalData ? [CURRENT_YEAR, CURRENT_YEAR - 1] : [CURRENT_YEAR];
+
+    years.forEach((year, yearIndex) => {
+      const yearSeed = seed + yearIndex * 1000;
+      const ry = (n: number) => seededRandom(yearSeed * 17 + n);
+      const phase = PHASES[Math.floor(ry(5) * PHASES.length)];
+      const gapBase = 5 + ry(6) * 25;
+      const gapFemale = gapBase + (ry(7) - 0.5) * 6;
+      const gapMale = gapBase + (ry(8) - 0.5) * 6;
+
+      facilities.push({
+        id: crypto.randomUUID(),
+        facilityId: row.facilityId,
+        name: facilityName,
+        email: row.email,
+        producerId,
+        producerName,
+        country: country.name,
+        flag: country.flag,
+        region,
+        sector,
+        year,
+        phase,
+        progress: PHASE_PROGRESS[phase] + Math.floor(ry(11) * 15),
+        gapOverall: Math.round(gapBase * 10) / 10,
+        gapFemale: Math.round(gapFemale * 10) / 10,
+        gapMale: Math.round(gapMale * 10) / 10,
+        salaryMatrixStatus: phase === 'Final Report' ? 'submitted' : phase === 'Training' ? 'missing' : 'in_progress',
+        consentType: ry(12) > 0.5 ? 'full' : 'aggregate',
+        audited: phase === 'Final Report' || phase === 'Audit Verification',
+        lastUpdated: LAST_UPDATED_OPTIONS[Math.floor(ry(13) * LAST_UPDATED_OPTIONS.length)],
+        status: ry(14) > 0.15 ? 'active' : ry(14) > 0.05 ? 'under_review' : 'closed',
+      });
+    });
   });
+
+  return facilities;
 }
 
 export function ProducerStoreProvider({ children }: { children: ReactNode }) {
