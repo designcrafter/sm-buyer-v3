@@ -18,6 +18,7 @@ import SupplierDashboardPage from './pages/supplier/SupplierDashboardPage';
 import SupplierCollaborationPage from './pages/supplier/SupplierCollaborationPage';
 import SupplierPlaceholderPage from './pages/supplier/SupplierPlaceholderPage';
 import IntermediaryCollaborationPage from './pages/intermediary/IntermediaryCollaborationPage';
+import ProducerFacilityDetailPage from './pages/producer-detail/FacilityDetailPage';
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -47,6 +48,7 @@ export default function App() {
               <Route path="/add-producer" element={<AppLayout><AddProducerPage /></AppLayout>} />
               <Route path="/producers" element={<AppLayout><ProducersPage /></AppLayout>} />
               <Route path="/producers/:id" element={<AppLayout><ProducersPage /></AppLayout>} />
+              <Route path="/producers/facilities/:facilityId" element={<AppLayout><ProducerFacilityDetailPage /></AppLayout>} />
               <Route path="/settings" element={<AppLayout><SettingsPage /></AppLayout>} />
               <Route path="/reports" element={<Navigate to="/dashboard" replace />} />
               <Route path="/supplier/dashboard" element={<AppLayout><SupplierDashboardPage /></AppLayout>} />

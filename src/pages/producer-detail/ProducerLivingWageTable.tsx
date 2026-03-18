@@ -121,7 +121,6 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400">Location</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400">Region</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400">Year</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-400">Progress</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400">Phase</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400">Data Consent</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-400">Updated</th>
@@ -160,7 +159,7 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                           </button>
                         )}
                         <div
-                          onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                          onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                           className="cursor-pointer"
                         >
                           <p className="text-sm font-semibold text-gray-900">{mainFacility.name}</p>
@@ -181,13 +180,13 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
                       <span className="text-sm text-gray-500 font-mono">{mainFacility.facilityId}</span>
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
                       <span className="text-sm text-gray-700 flex items-center gap-1.5">
                         <span>{mainFacility.flag}</span>
@@ -196,48 +195,37 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
                       <span className="text-sm text-gray-500">{mainFacility.region}</span>
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
                       <span className="text-sm text-gray-700 font-semibold">{mainFacility.year}</span>
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
-                    >
-                      <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-emerald-400"
-                          style={{ width: `${Math.min(mainFacility.progress, 100)}%` }}
-                        />
-                      </div>
-                    </td>
-                    <td
-                      className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
                       <StatusBadge status={mainFacility.phase} />
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
                       <ConsentBadge type={mainFacility.consentType} />
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
                       <span className="text-sm text-gray-400">{mainFacility.lastUpdated}</span>
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
-                      onClick={() => navigate(`/supply-chain/facilities/${mainFacility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
                       <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition" />
                     </td>
@@ -245,7 +233,7 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                   {isExpanded && olderFacilities.map(facility => (
                     <tr
                       key={facility.id}
-                      onClick={() => navigate(`/supply-chain/facilities/${facility.id}`)}
+                      onClick={() => navigate(`/producers/facilities/${facility.facilityId}`)}
                       className="hover:bg-gray-50 transition-colors cursor-pointer group bg-gray-25"
                     >
                       <td className="px-6 py-4 pl-14">
@@ -276,14 +264,6 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                       </td>
                       <td className="px-4 py-4">
                         <span className="text-sm text-gray-600">{facility.year}</span>
-                      </td>
-                      <td className="px-4 py-4">
-                        <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full rounded-full bg-emerald-400"
-                            style={{ width: `${Math.min(facility.progress, 100)}%` }}
-                          />
-                        </div>
                       </td>
                       <td className="px-4 py-4">
                         <StatusBadge status={facility.phase} />
