@@ -12,6 +12,7 @@ import {
   Link,
   Settings,
   LayoutDashboard,
+  ChevronsUpDown,
 } from 'lucide-react';
 import { useDemoStore, INTERMEDIARY_SUPPLIER_ACCOUNT } from '../lib/demoStore';
 import { useSupplierCollaboration } from '../lib/supplierCollaborationStore';
