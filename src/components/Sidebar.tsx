@@ -89,7 +89,7 @@ export default function Sidebar() {
               <span className="text-[9px] font-bold text-white">{INTERMEDIARY_SUPPLIER_ACCOUNT.initials}</span>
             </div>
             <div className="flex-1 text-left min-w-0">
-              <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Supplier account</p>
+              <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Intermediary</p>
               <p className="text-white text-xs font-semibold truncate">{INTERMEDIARY_SUPPLIER_ACCOUNT.name}</p>
             </div>
             <ChevronDown
@@ -105,27 +105,21 @@ export default function Sidebar() {
                   <span className="text-[9px] font-bold text-white">{INTERMEDIARY_SUPPLIER_ACCOUNT.initials}</span>
                 </div>
                 <div className="flex-1 text-left min-w-0">
-                  <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Supplier account</p>
+                  <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Intermediary</p>
                   <p className="text-white text-xs font-semibold truncate">{INTERMEDIARY_SUPPLIER_ACCOUNT.name}</p>
                 </div>
                 <Check className="w-4 h-4 text-white shrink-0" strokeWidth={2} />
               </button>
-              <button className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-white hover:bg-opacity-10 transition border-t border-teal-600 border-opacity-40">
-                <div className="w-7 h-7 rounded-lg bg-white bg-opacity-15 flex items-center justify-center shrink-0">
-                  <span className="text-[9px] font-bold text-white">LI</span>
-                </div>
-                <div className="flex-1 text-left min-w-0">
-                  <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Buyer account</p>
-                  <p className="text-white text-xs font-semibold truncate">Lidl International</p>
-                </div>
-              </button>
-              <button className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left border-t border-teal-600 border-opacity-40 opacity-50 cursor-not-allowed">
+              <button
+                onClick={() => {}}
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-white hover:bg-opacity-10 transition border-t border-teal-600 border-opacity-40"
+              >
                 <div className="w-7 h-7 rounded-lg bg-white bg-opacity-15 flex items-center justify-center shrink-0">
                   <Factory className="w-3.5 h-3.5 text-white" strokeWidth={1.75} />
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 text-left min-w-0">
                   <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Producer account</p>
-                  <p className="text-white text-xs font-semibold truncate">Not available</p>
+                  <p className="text-white text-xs font-semibold truncate">Bangladesh Textiles Ltd.</p>
                 </div>
               </button>
             </div>
