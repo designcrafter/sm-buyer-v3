@@ -7,7 +7,6 @@ import {
   Clock,
   ClipboardCheck,
   Heart,
-  Settings2,
   ShieldOff,
   Handshake,
   Factory,
@@ -17,7 +16,6 @@ import {
 import {
   useSupplierCollaboration,
   CollaborationRequest,
-  DataAccessPreferences,
 } from '../../lib/supplierCollaborationStore';
 import RequestReviewPanel from './RequestReviewPanel';
 import DeclineModal from './DeclineModal';
@@ -152,11 +150,9 @@ function IncomingRequestCard({
 
 function ActiveAccessCard({
   request,
-  onManage,
   onRevoke,
 }: {
   request: CollaborationRequest;
-  onManage: () => void;
   onRevoke: () => void;
 }) {
   return (
@@ -216,18 +212,11 @@ function ActiveAccessCard({
 
       <div className="flex items-center gap-3 mt-4">
         <button
-          onClick={onManage}
-          className="flex items-center justify-center gap-1.5 flex-1 border border-gray-200 hover:border-gray-300 text-gray-700 text-xs font-semibold py-2.5 rounded-xl hover:bg-gray-50 transition"
-        >
-          <Settings2 className="w-3.5 h-3.5" strokeWidth={1.75} />
-          Manage
-        </button>
-        <button
           onClick={onRevoke}
-          className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-red-200 text-red-600 text-xs font-semibold hover:bg-red-50 transition"
+          className="flex items-center justify-center gap-1.5 flex-1 border border-red-200 text-red-600 text-xs font-semibold py-2.5 rounded-xl hover:bg-red-50 transition"
         >
           <ShieldOff className="w-3.5 h-3.5" strokeWidth={1.75} />
-          Revoke
+          Revoke Access
         </button>
       </div>
     </div>
@@ -242,34 +231,20 @@ export default function SupplierCollaborationPage() {
     approveRequest,
     declineRequest,
     revokeAccess,
-    updateAccess,
   } = useSupplierCollaboration();
 
   const [activeTab, setActiveTab] = useState<Tab>('incoming');
   const [reviewTarget, setReviewTarget] = useState<CollaborationRequest | null>(null);
-  const [reviewMode, setReviewMode] = useState<'view' | 'manage'>('view');
   const [declineTarget, setDeclineTarget] = useState<CollaborationRequest | null>(null);
   const [revokeTarget, setRevokeTarget] = useState<CollaborationRequest | null>(null);
 
   function handleOpenReview(request: CollaborationRequest) {
     setReviewTarget(request);
-    setReviewMode('view');
-  }
-
-  function handleOpenManage(request: CollaborationRequest) {
-    setReviewTarget(request);
-    setReviewMode('manage');
   }
 
   function handleAccept() {
     if (!reviewTarget) return;
     approveRequest(reviewTarget.id, reviewTarget.requested);
-    setReviewTarget(null);
-  }
-
-  function handleUpdate(prefs: DataAccessPreferences) {
-    if (!reviewTarget) return;
-    updateAccess(reviewTarget.id, prefs);
     setReviewTarget(null);
   }
 
@@ -287,7 +262,7 @@ export default function SupplierCollaborationPage() {
     }
   }
 
-  function handleConfirmRevoke() {
+  function handleConfirmRevoke(reason?: string) {
     if (revokeTarget) {
       revokeAccess(revokeTarget.id);
       setRevokeTarget(null);
@@ -382,7 +357,6 @@ export default function SupplierCollaborationPage() {
                   <ActiveAccessCard
                     key={request.id}
                     request={request}
-                    onManage={() => handleOpenManage(request)}
                     onRevoke={() => setRevokeTarget(request)}
                   />
                 ))
@@ -395,11 +369,10 @@ export default function SupplierCollaborationPage() {
       {reviewTarget && (
         <RequestReviewPanel
           request={reviewTarget}
-          mode={reviewMode}
+          mode="view"
           onClose={() => setReviewTarget(null)}
-          onAccept={reviewMode === 'view' ? handleAccept : undefined}
-          onDecline={reviewMode === 'view' ? handleDeclineFromPanel : undefined}
-          onUpdate={reviewMode === 'manage' ? handleUpdate : undefined}
+          onAccept={handleAccept}
+          onDecline={handleDeclineFromPanel}
         />
       )}
 
