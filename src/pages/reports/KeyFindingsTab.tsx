@@ -163,16 +163,13 @@ function GapDistributionChart({ data }: { data: WageCalculation[] }) {
       <div className="flex items-end gap-2 h-56">
         {buckets.map((bucket, i) => {
           const heightPct = maxCount > 0 ? (bucket.count / maxCount) * 100 : 0;
-          const isLargest = bucket.count === maxCount && bucket.count > 0;
           return (
             <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
               <span className={`text-[10px] font-bold ${bucket.count > 0 ? 'text-gray-700' : 'text-gray-300'}`}>
                 {formatNum(bucket.count)}
               </span>
               <div
-                className={`w-full rounded-t transition-all duration-500 ${
-                  isLargest ? 'bg-amber-500' : 'bg-primary-400'
-                }`}
+                className="w-full rounded-t transition-all duration-500 bg-primary-400"
                 style={{ height: `${Math.max(heightPct, bucket.count > 0 ? 2 : 0)}%` }}
               />
             </div>
