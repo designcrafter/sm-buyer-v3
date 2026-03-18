@@ -30,15 +30,18 @@ export default function DeclineModal({ requesterName, onConfirm, onCancel }: Pro
             You are declining the data access request from <span className="font-semibold text-gray-900">{requesterName}</span>. They will be notified of your decision.
           </p>
           <label className="block mb-1.5">
-            <span className="text-xs font-semibold text-gray-700">Reason for declining (optional)</span>
+            <span className="text-xs font-semibold text-gray-700">Reason for declining</span>
           </label>
           <textarea
             value={reason}
             onChange={e => setReason(e.target.value)}
-            placeholder="Provide a brief reason so the requester understands your decision..."
-            rows={3}
+            placeholder="e.g., Not ready to share 2021 data, need to discuss facilities FAC-003 and FAC-005 first"
+            rows={4}
             className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-300 transition resize-none"
           />
+          <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">
+            Help the requester understand your concerns so they can submit a more suitable request.
+          </p>
         </div>
         <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
           <button onClick={onCancel} className="px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-semibold hover:bg-gray-50 transition">

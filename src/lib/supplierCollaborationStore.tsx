@@ -5,7 +5,6 @@ export type CollaborationStatus = 'pending' | 'approved' | 'declined' | 'revoked
 
 export interface DataAccessPreferences {
   selectedPayrollYears: number[];
-  duration: 'single' | 'ongoing';
   requestAuditData: boolean;
   requestVoluntaryContribution: boolean;
 }
@@ -18,6 +17,10 @@ export interface CollaborationRequest {
   requesterType: RequesterType;
   actingOnBehalfOf?: string;
   actingOnBehalfOfInitials?: string;
+  facilityIds: string[];
+  products: string[];
+  startDate: string;
+  endDate: string;
   requested: DataAccessPreferences;
   approved?: DataAccessPreferences;
   status: CollaborationStatus;
@@ -36,9 +39,12 @@ const DEMO_INCOMING_REQUESTS: CollaborationRequest[] = [
     requesterOrg: 'Lidl International',
     requesterInitials: 'MG',
     requesterType: 'buyer',
+    facilityIds: ['FAC-001', 'FAC-002', 'FAC-003'],
+    products: ['Textiles', 'Garments'],
+    startDate: 'Jan 1, 2024',
+    endDate: 'Dec 31, 2026',
     requested: {
       selectedPayrollYears: [CURRENT_YEAR, CURRENT_YEAR - 1, CURRENT_YEAR - 2],
-      duration: 'ongoing',
       requestAuditData: true,
       requestVoluntaryContribution: false,
     },
@@ -53,9 +59,12 @@ const DEMO_INCOMING_REQUESTS: CollaborationRequest[] = [
     requesterType: 'intermediary',
     actingOnBehalfOf: 'Zalando SE',
     actingOnBehalfOfInitials: 'ZA',
+    facilityIds: ['FAC-001', 'FAC-004'],
+    products: ['Garments', 'Accessories'],
+    startDate: 'Mar 1, 2025',
+    endDate: 'Feb 28, 2026',
     requested: {
       selectedPayrollYears: [CURRENT_YEAR, CURRENT_YEAR - 1],
-      duration: 'single',
       requestAuditData: false,
       requestVoluntaryContribution: true,
     },
@@ -68,9 +77,12 @@ const DEMO_INCOMING_REQUESTS: CollaborationRequest[] = [
     requesterOrg: 'Carrefour Group',
     requesterInitials: 'SL',
     requesterType: 'buyer',
+    facilityIds: ['FAC-002', 'FAC-005', 'FAC-006', 'FAC-007'],
+    products: ['Coffee', 'Tea', 'Agricultural Products'],
+    startDate: 'Jan 1, 2023',
+    endDate: 'Dec 31, 2025',
     requested: {
       selectedPayrollYears: [CURRENT_YEAR - 1, CURRENT_YEAR - 2, CURRENT_YEAR - 3],
-      duration: 'ongoing',
       requestAuditData: true,
       requestVoluntaryContribution: true,
     },
@@ -86,15 +98,17 @@ const DEMO_ACTIVE_ACCESS: CollaborationRequest[] = [
     requesterOrg: 'ALDI Sud',
     requesterInitials: 'TB',
     requesterType: 'buyer',
+    facilityIds: ['FAC-001', 'FAC-002'],
+    products: ['Textiles', 'Garments'],
+    startDate: 'Jan 1, 2025',
+    endDate: 'Dec 31, 2027',
     requested: {
       selectedPayrollYears: [CURRENT_YEAR, CURRENT_YEAR - 1],
-      duration: 'ongoing',
       requestAuditData: true,
       requestVoluntaryContribution: false,
     },
     approved: {
       selectedPayrollYears: [CURRENT_YEAR, CURRENT_YEAR - 1],
-      duration: 'ongoing',
       requestAuditData: true,
       requestVoluntaryContribution: false,
     },
@@ -110,15 +124,17 @@ const DEMO_ACTIVE_ACCESS: CollaborationRequest[] = [
     requesterType: 'intermediary',
     actingOnBehalfOf: 'H&M Group',
     actingOnBehalfOfInitials: 'HM',
+    facilityIds: ['FAC-003', 'FAC-004', 'FAC-008'],
+    products: ['Garments', 'Footwear'],
+    startDate: 'Jul 1, 2024',
+    endDate: 'Jun 30, 2026',
     requested: {
       selectedPayrollYears: [CURRENT_YEAR, CURRENT_YEAR - 1, CURRENT_YEAR - 2],
-      duration: 'ongoing',
       requestAuditData: false,
       requestVoluntaryContribution: true,
     },
     approved: {
       selectedPayrollYears: [CURRENT_YEAR, CURRENT_YEAR - 1],
-      duration: 'ongoing',
       requestAuditData: false,
       requestVoluntaryContribution: true,
     },

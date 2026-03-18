@@ -5,12 +5,14 @@ import {
   ShieldCheck,
   Calendar,
   Clock,
-  RefreshCw,
   ClipboardCheck,
   Heart,
   Settings2,
   ShieldOff,
   Handshake,
+  Factory,
+  Package,
+  CalendarRange,
 } from 'lucide-react';
 import {
   useSupplierCollaboration,
@@ -50,18 +52,13 @@ function PreferencesSummary({ prefs, label }: { prefs: DataAccessPreferences; la
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <RefreshCw className="w-3 h-3 text-gray-400" strokeWidth={1.75} />
-          <span className="text-xs text-gray-500">Duration:</span>
-          <span className="text-xs font-semibold text-gray-700">{prefs.duration === 'ongoing' ? 'Ongoing' : 'Single period'}</span>
-        </div>
-        <div className="flex items-center gap-2">
           <ClipboardCheck className="w-3 h-3 text-gray-400" strokeWidth={1.75} />
           <span className="text-xs text-gray-500">Audit:</span>
           <span className={`text-xs font-semibold ${prefs.requestAuditData ? 'text-emerald-600' : 'text-gray-400'}`}>
             {prefs.requestAuditData ? 'Yes' : 'No'}
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 col-span-2">
           <Heart className="w-3 h-3 text-gray-400" strokeWidth={1.75} />
           <span className="text-xs text-gray-500">Voluntary:</span>
           <span className={`text-xs font-semibold ${prefs.requestVoluntaryContribution ? 'text-emerald-600' : 'text-gray-400'}`}>
@@ -91,10 +88,10 @@ function IncomingRequestCard({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <p className="text-sm font-bold text-gray-900">{request.requesterName}</p>
+              <p className="text-base font-bold text-gray-900">{request.requesterOrg}</p>
               <RequesterTypeBadge type={request.requesterType} />
             </div>
-            <p className="text-xs text-gray-500">{request.requesterOrg}</p>
+            <p className="text-xs text-gray-500">{request.requesterName}</p>
             {request.actingOnBehalfOf && (
               <div className="flex items-center gap-1.5 mt-1">
                 <div className="w-4 h-4 rounded bg-blue-50 flex items-center justify-center">
@@ -108,6 +105,28 @@ function IncomingRequestCard({
         <div className="flex items-center gap-1.5">
           <Clock className="w-3 h-3 text-gray-300" strokeWidth={1.75} />
           <span className="text-[11px] text-gray-400">{request.requestedAt}</span>
+        </div>
+      </div>
+
+      <div className="space-y-2 mb-3">
+        <div className="flex items-center gap-2">
+          <Factory className="w-3.5 h-3.5 text-gray-400" strokeWidth={1.75} />
+          <span className="text-xs text-gray-500">Facilities:</span>
+          <span className="text-xs font-semibold text-gray-700">{request.facilityIds.join(', ')}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Package className="w-3.5 h-3.5 text-gray-400" strokeWidth={1.75} />
+          <span className="text-xs text-gray-500">Products:</span>
+          <div className="flex gap-1.5 flex-wrap">
+            {request.products.map(product => (
+              <span key={product} className="text-[11px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-100">{product}</span>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <CalendarRange className="w-3.5 h-3.5 text-gray-400" strokeWidth={1.75} />
+          <span className="text-xs text-gray-500">Date Range:</span>
+          <span className="text-xs font-semibold text-gray-700">{request.startDate} - {request.endDate}</span>
         </div>
       </div>
 
@@ -149,10 +168,10 @@ function ActiveAccessCard({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <p className="text-sm font-bold text-gray-900">{request.requesterName}</p>
+              <p className="text-base font-bold text-gray-900">{request.requesterOrg}</p>
               <RequesterTypeBadge type={request.requesterType} />
             </div>
-            <p className="text-xs text-gray-500">{request.requesterOrg}</p>
+            <p className="text-xs text-gray-500">{request.requesterName}</p>
             {request.actingOnBehalfOf && (
               <div className="flex items-center gap-1.5 mt-1">
                 <div className="w-4 h-4 rounded bg-blue-50 flex items-center justify-center">
@@ -166,6 +185,28 @@ function ActiveAccessCard({
         <div className="text-right">
           <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Granted</p>
           <p className="text-xs font-semibold text-gray-600">{request.respondedAt}</p>
+        </div>
+      </div>
+
+      <div className="space-y-2 mb-3">
+        <div className="flex items-center gap-2">
+          <Factory className="w-3.5 h-3.5 text-gray-400" strokeWidth={1.75} />
+          <span className="text-xs text-gray-500">Facilities:</span>
+          <span className="text-xs font-semibold text-gray-700">{request.facilityIds.join(', ')}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Package className="w-3.5 h-3.5 text-gray-400" strokeWidth={1.75} />
+          <span className="text-xs text-gray-500">Products:</span>
+          <div className="flex gap-1.5 flex-wrap">
+            {request.products.map(product => (
+              <span key={product} className="text-[11px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-100">{product}</span>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <CalendarRange className="w-3.5 h-3.5 text-gray-400" strokeWidth={1.75} />
+          <span className="text-xs text-gray-500">Date Range:</span>
+          <span className="text-xs font-semibold text-gray-700">{request.startDate} - {request.endDate}</span>
         </div>
       </div>
 
@@ -206,13 +247,13 @@ export default function SupplierCollaborationPage() {
 
   const [activeTab, setActiveTab] = useState<Tab>('incoming');
   const [reviewTarget, setReviewTarget] = useState<CollaborationRequest | null>(null);
-  const [reviewMode, setReviewMode] = useState<'review' | 'manage'>('review');
+  const [reviewMode, setReviewMode] = useState<'view' | 'manage'>('view');
   const [declineTarget, setDeclineTarget] = useState<CollaborationRequest | null>(null);
   const [revokeTarget, setRevokeTarget] = useState<CollaborationRequest | null>(null);
 
   function handleOpenReview(request: CollaborationRequest) {
     setReviewTarget(request);
-    setReviewMode('review');
+    setReviewMode('view');
   }
 
   function handleOpenManage(request: CollaborationRequest) {
@@ -220,13 +261,15 @@ export default function SupplierCollaborationPage() {
     setReviewMode('manage');
   }
 
-  function handleApprove(prefs: DataAccessPreferences) {
+  function handleAccept() {
     if (!reviewTarget) return;
-    if (reviewMode === 'review') {
-      approveRequest(reviewTarget.id, prefs);
-    } else {
-      updateAccess(reviewTarget.id, prefs);
-    }
+    approveRequest(reviewTarget.id, reviewTarget.requested);
+    setReviewTarget(null);
+  }
+
+  function handleUpdate(prefs: DataAccessPreferences) {
+    if (!reviewTarget) return;
+    updateAccess(reviewTarget.id, prefs);
     setReviewTarget(null);
   }
 
@@ -354,8 +397,9 @@ export default function SupplierCollaborationPage() {
           request={reviewTarget}
           mode={reviewMode}
           onClose={() => setReviewTarget(null)}
-          onApprove={handleApprove}
-          onDecline={reviewMode === 'review' ? handleDeclineFromPanel : undefined}
+          onAccept={reviewMode === 'view' ? handleAccept : undefined}
+          onDecline={reviewMode === 'view' ? handleDeclineFromPanel : undefined}
+          onUpdate={reviewMode === 'manage' ? handleUpdate : undefined}
         />
       )}
 
