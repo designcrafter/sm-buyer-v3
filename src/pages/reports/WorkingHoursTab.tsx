@@ -5,25 +5,39 @@ interface Props {
   data: WageCalculation[];
 }
 
-function OvertimeKpis({ data }: Props) {
+function WorkingHoursKpis({ data }: Props) {
   const avgRegW = data.length > 0 ? data.reduce((s, c) => s + c.regular_hours_women, 0) / data.length : 0;
   const avgOtW = data.length > 0 ? data.reduce((s, c) => s + c.overtime_hours_women, 0) / data.length : 0;
   const avgRegM = data.length > 0 ? data.reduce((s, c) => s + c.regular_hours_men, 0) / data.length : 0;
   const avgOtM = data.length > 0 ? data.reduce((s, c) => s + c.overtime_hours_men, 0) / data.length : 0;
 
+  const minHoursThreshold = 120;
+  const insufficientHoursW = data.filter(c => c.regular_hours_women < minHoursThreshold).length;
+  const insufficientHoursM = data.filter(c => c.regular_hours_men < minHoursThreshold).length;
+  const pctInsufficientW = data.length > 0 ? (insufficientHoursW / data.length) * 100 : 0;
+  const pctInsufficientM = data.length > 0 ? (insufficientHoursM / data.length) * 100 : 0;
+
   const cards = [
-    { label: 'Avg Regular Hours (Women)', value: avgRegW.toFixed(0) },
-    { label: 'Avg Overtime Hours (Women)', value: avgOtW.toFixed(0) },
-    { label: 'Avg Regular Hours (Men)', value: avgRegM.toFixed(0) },
-    { label: 'Avg Overtime Hours (Men)', value: avgOtM.toFixed(0) },
+    { label: 'Avg Regular Hours (Women)', value: avgRegW.toFixed(0), unit: 'h', type: 'primary' },
+    { label: 'Below 120h/month (Women)', value: pctInsufficientW.toFixed(0), unit: '%', type: 'warning' },
+    { label: 'Avg Overtime Hours (Women)', value: avgOtW.toFixed(0), unit: 'h', type: 'primary' },
+    { label: 'Avg Regular Hours (Men)', value: avgRegM.toFixed(0), unit: 'h', type: 'neutral' },
+    { label: 'Below 120h/month (Men)', value: pctInsufficientM.toFixed(0), unit: '%', type: 'warning' },
+    { label: 'Avg Overtime Hours (Men)', value: avgOtM.toFixed(0), unit: 'h', type: 'neutral' },
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       {cards.map(c => (
         <div key={c.label} className="bg-white rounded-xl border border-gray-100 px-5 py-4 text-center">
-          <p className="text-xs text-primary-600 font-medium mb-1">{c.label}</p>
-          <p className="text-2xl font-bold text-gray-900">{c.value}h</p>
+          <p className={`text-xs font-medium mb-1 ${
+            c.type === 'warning' ? 'text-amber-600' :
+            c.type === 'neutral' ? 'text-gray-600' :
+            'text-primary-600'
+          }`}>
+            {c.label}
+          </p>
+          <p className="text-2xl font-bold text-gray-900">{c.value}{c.unit}</p>
         </div>
       ))}
     </div>
@@ -193,7 +207,88 @@ function OvertimeByGapChart({ data }: Props) {
   );
 }
 
-function OvertimeTable({ data }: Props) {
+function InsufficientHoursChart({ data }: Props) {
+  const minHoursThreshold = 120;
+
+  const byCountry = new Map<string, { flag: string; totalW: number; insufficientW: number; totalM: number; insufficientM: number }>();
+  for (const c of data) {
+    if (!byCountry.has(c.country)) {
+      byCountry.set(c.country, { flag: c.flag, totalW: 0, insufficientW: 0, totalM: 0, insufficientM: 0 });
+    }
+    const e = byCountry.get(c.country)!;
+    e.totalW += 1;
+    e.totalM += 1;
+    if (c.regular_hours_women < minHoursThreshold) e.insufficientW += 1;
+    if (c.regular_hours_men < minHoursThreshold) e.insufficientM += 1;
+  }
+
+  const rows = Array.from(byCountry.entries()).map(([country, v]) => ({
+    country,
+    flag: v.flag,
+    pctInsufficientW: v.totalW > 0 ? (v.insufficientW / v.totalW) * 100 : 0,
+    pctInsufficientM: v.totalM > 0 ? (v.insufficientM / v.totalM) * 100 : 0,
+    countInsufficientW: v.insufficientW,
+    countInsufficientM: v.insufficientM,
+  })).sort((a, b) => (b.pctInsufficientW + b.pctInsufficientM) - (a.pctInsufficientW + a.pctInsufficientM));
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-100 p-6">
+      <h3 className="text-sm font-bold text-gray-900 mb-1">Workers with Insufficient Working Hours</h3>
+      <p className="text-xs text-gray-400 mb-4">Percentage of facilities where regular hours fall below 120h/month</p>
+
+      <div className="flex items-center gap-4 mb-5">
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+          <span className="text-xs text-gray-500">Women</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-300" />
+          <span className="text-xs text-gray-500">Men</span>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {rows.map(row => (
+          <div key={row.country}>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-sm leading-none">{row.flag}</span>
+              <span className="text-xs font-medium text-gray-700">{row.country}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] text-gray-400 w-10 shrink-0">Women</span>
+                <div className="flex-1 h-4 bg-gray-50 rounded overflow-hidden">
+                  <div
+                    className="bg-amber-500 h-full transition-all duration-500"
+                    style={{ width: `${row.pctInsufficientW}%` }}
+                  />
+                </div>
+                <span className="text-[10px] text-gray-500 w-10 shrink-0 text-right">
+                  {row.pctInsufficientW.toFixed(0)}%
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] text-gray-400 w-10 shrink-0">Men</span>
+                <div className="flex-1 h-4 bg-gray-50 rounded overflow-hidden">
+                  <div
+                    className="bg-amber-300 h-full transition-all duration-500"
+                    style={{ width: `${row.pctInsufficientM}%` }}
+                  />
+                </div>
+                <span className="text-[10px] text-gray-500 w-10 shrink-0 text-right">
+                  {row.pctInsufficientM.toFixed(0)}%
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function WorkingHoursTable({ data }: Props) {
+  const minHoursThreshold = 120;
   const rows = data
     .map(c => ({
       facilityName: c.facility_name,
@@ -206,13 +301,15 @@ function OvertimeTable({ data }: Props) {
       regM: c.regular_hours_men,
       otM: c.overtime_hours_men,
       gap: c.avg_wage_gap_pct,
+      insufficientW: c.regular_hours_women < minHoursThreshold,
+      insufficientM: c.regular_hours_men < minHoursThreshold,
     }))
     .sort((a, b) => (b.otW + b.otM) - (a.otW + a.otM));
 
   return (
     <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
       <div className="px-6 py-4 border-b border-gray-50">
-        <h3 className="text-sm font-bold text-gray-900">Overtime Detail by Facility</h3>
+        <h3 className="text-sm font-bold text-gray-900">Working Hours Detail by Facility</h3>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[700px]">
@@ -241,9 +338,13 @@ function OvertimeTable({ data }: Props) {
                   </span>
                 </td>
                 <td className="px-3 py-3 text-xs text-gray-600">{r.year}</td>
-                <td className="px-3 py-3 text-xs text-right text-gray-700">{r.regW}h</td>
+                <td className={`px-3 py-3 text-xs text-right ${r.insufficientW ? 'text-amber-600 font-semibold' : 'text-gray-700'}`}>
+                  {r.regW}h
+                </td>
                 <td className="px-3 py-3 text-xs text-right text-gray-700">{r.otW}h</td>
-                <td className="px-3 py-3 text-xs text-right text-gray-700">{r.regM}h</td>
+                <td className={`px-3 py-3 text-xs text-right ${r.insufficientM ? 'text-amber-600 font-semibold' : 'text-gray-700'}`}>
+                  {r.regM}h
+                </td>
                 <td className="px-3 py-3 text-xs text-right text-gray-700">{r.otM}h</td>
                 <td className="px-3 py-3 text-xs text-right font-semibold text-gray-800">{formatPct(r.gap)}</td>
               </tr>
@@ -255,7 +356,7 @@ function OvertimeTable({ data }: Props) {
   );
 }
 
-export function OvertimeTab({ data }: Props) {
+export function WorkingHoursTab({ data }: Props) {
   if (data.length === 0) {
     return (
       <div className="bg-white rounded-xl border border-gray-100 px-6 py-16 text-center">
@@ -266,10 +367,13 @@ export function OvertimeTab({ data }: Props) {
 
   return (
     <div className="space-y-5">
-      <OvertimeKpis data={data} />
-      <OvertimeByGenderChart data={data} />
+      <WorkingHoursKpis data={data} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <OvertimeByGenderChart data={data} />
+        <InsufficientHoursChart data={data} />
+      </div>
       <OvertimeByGapChart data={data} />
-      <OvertimeTable data={data} />
+      <WorkingHoursTable data={data} />
     </div>
   );
 }

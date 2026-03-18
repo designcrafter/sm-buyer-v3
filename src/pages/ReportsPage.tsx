@@ -8,7 +8,7 @@ import { FilterBar } from './reports/FilterBar';
 import { KeyFindingsTab } from './reports/KeyFindingsTab';
 import { GenderTab } from './reports/GenderTab';
 import { RemunerationTab } from './reports/RemunerationTab';
-import { OvertimeTab } from './reports/OvertimeTab';
+import { WorkingHoursTab } from './reports/WorkingHoursTab';
 
 function OnboardingBanner({ onDismiss }: { onDismiss: () => void }) {
   return (
@@ -34,7 +34,7 @@ const TABS = [
   { id: 'key-findings', label: 'Key Findings' },
   { id: 'gender', label: 'Gender' },
   { id: 'remuneration', label: 'Remuneration' },
-  { id: 'overtime', label: 'Overtime by Gap' },
+  { id: 'working-hours', label: 'Working Hours' },
 ] as const;
 
 type TabId = (typeof TABS)[number]['id'];
@@ -153,8 +153,8 @@ export default function ReportsPage() {
           {activeTab === 'remuneration' && (
             <RemunerationTab data={filters.filtered} />
           )}
-          {activeTab === 'overtime' && (
-            <OvertimeTab data={filters.filtered} />
+          {activeTab === 'working-hours' && (
+            <WorkingHoursTab data={filters.filtered} />
           )}
 
           <div className="text-xs text-gray-300 pb-4 leading-relaxed hidden print:block">
