@@ -182,17 +182,18 @@ export default function IntermediaryProducersPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
-                    <h1 className="text-gray-900 text-xl font-bold">Producers</h1>
+                    <h1 className="text-gray-900 text-xl font-bold">All Producers</h1>
                     <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">Intermediary</span>
                   </div>
                   <p className="text-gray-400 text-xs">
-                    Producers matched for <span className="font-semibold text-gray-600">{activeBuyer.name}</span>
+                    All producers you've matched across buyers
                   </p>
                 </div>
               </div>
               <ProducerTable
                 producers={producers}
                 onAddProducer={() => navigate('/add-producer')}
+                showBuyerColumn={true}
               />
             </>
           )}

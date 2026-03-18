@@ -45,7 +45,7 @@ interface CheckedRow extends ProducerRow {
 }
 
 type Tab = 'manual' | 'bulk';
-type FlowStep = 'entry' | 'checking' | 'preferences' | 'done';
+type FlowStep = 'buyer-select' | 'entry' | 'checking' | 'preferences' | 'done';
 
 function newRow(): ProducerRow {
   return { id: crypto.randomUUID(), facilityId: '', email: '' };
@@ -78,7 +78,7 @@ const UNMATCHED_INDICES = [4, 11];
 
 export default function AddProducerPage() {
   const navigate = useNavigate();
-  const { activeRole, activeBuyer } = useDemoStore();
+  const { activeRole, allBuyers } = useDemoStore();
   const isIntermediary = activeRole === 'intermediary';
   const [tab, setTab] = useState<Tab>('bulk');
   const [rows, setRows] = useState<ProducerRow[]>([newRow()]);
@@ -87,7 +87,8 @@ export default function AddProducerPage() {
   const [bulkParseError, setBulkParseError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [step, setStep] = useState<FlowStep>('entry');
+  const [selectedBuyerId, setSelectedBuyerId] = useState<string>('');
+  const [step, setStep] = useState<FlowStep>(isIntermediary ? 'buyer-select' : 'entry');
   const [checkedRows, setCheckedRows] = useState<CheckedRow[]>([]);
   const checkingListRef = useRef<HTMLDivElement>(null);
   const rowRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -95,6 +96,8 @@ export default function AddProducerPage() {
   const [submitted, setSubmitted] = useState(false);
   const { addProducers } = useProducerStore();
   const dashboardPath = isIntermediary ? '/intermediary/dashboard' : '/dashboard';
+
+  const selectedBuyer = allBuyers.find(b => b.id === selectedBuyerId);
 
   function addRow() {
     setRows(r => [...r, newRow()]);
@@ -258,7 +261,11 @@ export default function AddProducerPage() {
       facilityId: r.facilityId.trim(),
       email: r.email.trim(),
     }));
-    addProducers(matchedRows);
+    if (isIntermediary && selectedBuyerId && selectedBuyer) {
+      addProducers(matchedRows, selectedBuyerId, selectedBuyer.name);
+    } else {
+      addProducers(matchedRows, 'buyer-default', 'Default Buyer');
+    }
     setStep('done');
   }
 
@@ -279,8 +286,10 @@ export default function AddProducerPage() {
                 {isIntermediary ? 'Producers matched successfully' : 'Report requested successfully'}
               </p>
               <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">
-                {isIntermediary
-                  ? `${matchedCount} producer${matchedCount !== 1 ? 's have' : ' has'} been matched for ${activeBuyer.name} with your data preferences. They have been notified.`
+                {isIntermediary && selectedBuyer
+                  ? `${matchedCount} producer${matchedCount !== 1 ? 's have' : ' has'} been matched for ${selectedBuyer.name} with your data preferences. They have been notified.`
+                  : isIntermediary
+                  ? `${matchedCount} producer${matchedCount !== 1 ? 's have' : ' has'} been matched with your data preferences. They have been notified.`
                   : 'Your Living Wage Gap Calculation Report has been submitted. IDH will process this and get back to you.'
                 }
               </p>
@@ -306,21 +315,29 @@ export default function AddProducerPage() {
         <div className="px-8 py-7 max-w-3xl mx-auto space-y-6">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => step === 'entry' ? navigate(dashboardPath) : setStep('entry')}
+              onClick={() => {
+                if (step === 'buyer-select' || step === 'entry') {
+                  navigate(dashboardPath);
+                } else if (step === 'checking') {
+                  setStep('entry');
+                } else if (step === 'preferences') {
+                  setStep('checking');
+                }
+              }}
               className="flex items-center gap-1.5 text-gray-400 hover:text-gray-600 text-sm transition"
             >
               <ArrowLeft className="w-4 h-4" />
-              {step === 'entry' ? 'Back' : 'Back to entry'}
+              {step === 'buyer-select' || step === 'entry' ? 'Back' : step === 'checking' ? 'Back to entry' : 'Back'}
             </button>
           </div>
 
           <StepIndicator step={step} isIntermediary={isIntermediary} />
 
-          {isIntermediary && (
+          {isIntermediary && selectedBuyer && step !== 'buyer-select' && (
             <div className="flex items-center gap-2.5 bg-teal-50 border border-teal-100 rounded-xl px-4 py-3">
               <Link2 className="w-4 h-4 text-teal-500 shrink-0" strokeWidth={1.75} />
               <p className="text-teal-700 text-xs font-medium">
-                Matching producers for <span className="font-bold">{activeBuyer.name}</span>
+                Matching producers for <span className="font-bold">{selectedBuyer.name}</span>
               </p>
             </div>
           )}
@@ -331,20 +348,83 @@ export default function AddProducerPage() {
             </div>
             <div>
               <h1 className="text-gray-900 text-xl font-bold">
+                {step === 'buyer-select' && 'Select Buyer'}
                 {step === 'entry' && (isIntermediary ? 'Match Producers' : 'Invite Producers')}
                 {step === 'checking' && 'Checking Producer Details'}
                 {step === 'preferences' && 'Report Preferences'}
               </h1>
               <p className="text-gray-400 text-sm mt-0.5">
+                {step === 'buyer-select' && 'Choose which buyer you are matching producers for.'}
                 {step === 'entry' && 'Enter facilities manually or upload a spreadsheet.'}
                 {step === 'checking' && 'Checking each facility against the Salary Matrix database.'}
-                {step === 'preferences' && (isIntermediary
-                  ? `Configure data preferences on behalf of ${activeBuyer.name}.`
+                {step === 'preferences' && (isIntermediary && selectedBuyer
+                  ? `Configure data preferences on behalf of ${selectedBuyer.name}.`
+                  : isIntermediary
+                  ? 'Configure data preferences for your matched producers.'
                   : 'Choose what data you want for the Living Wage Gap report.'
                 )}
               </p>
             </div>
           </div>
+
+          {step === 'buyer-select' && (
+            <>
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-50">
+                  <p className="text-gray-700 text-sm font-semibold">Select a buyer</p>
+                  <p className="text-gray-400 text-xs mt-0.5">Choose which buyer you are matching producers for.</p>
+                </div>
+                <div className="p-6 space-y-3">
+                  {allBuyers.map(buyer => (
+                    <button
+                      key={buyer.id}
+                      onClick={() => setSelectedBuyerId(buyer.id)}
+                      className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all ${
+                        selectedBuyerId === buyer.id
+                          ? 'border-teal-500 bg-teal-50'
+                          : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-base font-bold shrink-0 ${
+                        selectedBuyerId === buyer.id
+                          ? 'bg-teal-600 text-white'
+                          : 'bg-gray-100 text-gray-600'
+                      }`}>
+                        {buyer.initials}
+                      </div>
+                      <div className="flex-1 text-left">
+                        <p className={`text-sm font-semibold ${
+                          selectedBuyerId === buyer.id ? 'text-teal-900' : 'text-gray-900'
+                        }`}>
+                          {buyer.name}
+                        </p>
+                      </div>
+                      {selectedBuyerId === buyer.id && (
+                        <CheckCircle2 className="w-5 h-5 text-teal-600" strokeWidth={2} />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-2 pb-8">
+                <button
+                  onClick={() => navigate(dashboardPath)}
+                  className="text-sm text-gray-400 hover:text-gray-600 font-medium transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => setStep('entry')}
+                  disabled={!selectedBuyerId}
+                  className="flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none"
+                >
+                  Continue
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </>
+          )}
 
           {step === 'entry' && (
             <>
@@ -612,7 +692,7 @@ export default function AddProducerPage() {
                 onChange={setPreferences}
                 matchedCount={matchedCount}
                 isIntermediary={isIntermediary}
-                buyerName={activeBuyer.name}
+                buyerName={selectedBuyer?.name || 'the selected buyer'}
               />
 
               <PreferencesSummary
@@ -668,12 +748,13 @@ function StepIndicator({ step, isIntermediary }: { step: FlowStep; isIntermediar
     { key: 'preferences', label: 'Report preferences' },
   ];
   const intermediarySteps: { key: FlowStep; label: string }[] = [
+    { key: 'buyer-select', label: 'Select buyer' },
     { key: 'entry', label: 'Invite producers' },
     { key: 'checking', label: 'Check Details' },
     { key: 'preferences', label: 'Data preferences' },
   ];
   const steps = isIntermediary ? intermediarySteps : buyerSteps;
-  const order: FlowStep[] = ['entry', 'checking', 'preferences', 'done'];
+  const order: FlowStep[] = isIntermediary ? ['buyer-select', 'entry', 'checking', 'preferences', 'done'] : ['entry', 'checking', 'preferences', 'done'];
   const current = order.indexOf(step);
   const activeBg = isIntermediary ? 'bg-teal-600 text-white' : 'bg-primary-500 text-white';
 

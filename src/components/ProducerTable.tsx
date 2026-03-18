@@ -85,9 +85,10 @@ interface ProducerTableProps {
   producers: Producer[];
   onAddProducer?: () => void;
   compact?: boolean;
+  showBuyerColumn?: boolean;
 }
 
-export default function ProducerTable({ producers, onAddProducer, compact = false }: ProducerTableProps) {
+export default function ProducerTable({ producers, onAddProducer, compact = false, showBuyerColumn = false }: ProducerTableProps) {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabKey>('all');
   const [declineReasonProducer, setDeclineReasonProducer] = useState<Producer | null>(null);
@@ -191,6 +192,9 @@ export default function ProducerTable({ producers, onAddProducer, compact = fals
             <thead>
               <tr className="border-b border-gray-50">
                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Producer</th>
+                {showBuyerColumn && (
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Buyers</th>
+                )}
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Facilities</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Status</th>
                 {!compact && (
@@ -219,6 +223,21 @@ export default function ProducerTable({ producers, onAddProducer, compact = fals
                       </div>
                     </div>
                   </td>
+                  {showBuyerColumn && (
+                    <td className="px-4 py-4">
+                      <div className="flex flex-wrap gap-1">
+                        {p.buyerNames && p.buyerNames.length > 0 ? (
+                          p.buyerNames.map((buyerName, idx) => (
+                            <span key={idx} className="text-xs font-medium bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">
+                              {buyerName}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400">No buyers</span>
+                        )}
+                      </div>
+                    </td>
+                  )}
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-1.5">
                       <Building2 className="w-3.5 h-3.5 text-gray-300" strokeWidth={1.75} />

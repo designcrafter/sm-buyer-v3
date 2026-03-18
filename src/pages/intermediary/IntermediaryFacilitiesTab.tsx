@@ -132,6 +132,7 @@ export default function IntermediaryFacilitiesTab() {
                 <tr className="border-b border-gray-50">
                   <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Facility</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Producer</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Buyer</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">ID</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Location</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Year</th>
@@ -162,6 +163,11 @@ export default function IntermediaryFacilitiesTab() {
                       >
                         {f.producerName}
                       </button>
+                    </td>
+                    <td className="px-4 py-4">
+                      <span className="text-xs font-medium bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">
+                        {f.buyerName}
+                      </span>
                     </td>
                     <td className="px-4 py-4">
                       <span className="text-sm text-gray-500 font-mono">{f.facilityId}</span>

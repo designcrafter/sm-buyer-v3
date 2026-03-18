@@ -36,6 +36,7 @@ interface DemoStoreContext {
   activeRole: DemoRole;
   activeBuyerId: string;
   activeBuyer: DemoBuyer;
+  allBuyers: DemoBuyer[];
   pendingInvitations: BuyerInvitation[];
   setActiveRole: (role: DemoRole) => void;
   setActiveBuyerId: (id: string) => void;
@@ -70,7 +71,7 @@ export function DemoStoreProvider({ children }: { children: ReactNode }) {
 
   return (
     <Ctx.Provider value={{
-      activeRole, activeBuyerId, activeBuyer, pendingInvitations,
+      activeRole, activeBuyerId, activeBuyer, allBuyers: DEMO_BUYERS, pendingInvitations,
       setActiveRole, setActiveBuyerId, dismissInvitation, acceptInvitation,
     }}>
       {children}

@@ -12,6 +12,8 @@ export interface FacilityDetail {
   email: string;
   producerId: string;
   producerName: string;
+  buyerId: string;
+  buyerName: string;
   country: string;
   flag: string;
   region: string;
@@ -43,6 +45,8 @@ export interface Producer {
   email: string;
   facilitiesCount: number;
   facilities: FacilityDetail[];
+  buyerIds: string[];
+  buyerNames: string[];
   status: ProducerStatus;
   invitedAt: string;
   invitedBy: string;
@@ -54,7 +58,7 @@ export interface Producer {
 interface ProducerStoreContext {
   producers: Producer[];
   allFacilities: FacilityDetail[];
-  addProducers: (rows: { facilityId: string; email: string }[]) => void;
+  addProducers: (rows: { facilityId: string; email: string }[], buyerId: string, buyerName: string) => void;
   clearProducers: () => void;
   updateProducerName: (id: string, name: string) => void;
 }
@@ -130,6 +134,8 @@ function generateDemoConsent(status: ProducerStatus): ConsentDetails | undefined
 function generateFacilities(
   producerId: string,
   producerName: string,
+  buyerId: string,
+  buyerName: string,
   facilityRows: { facilityId: string; email: string }[],
   seedOffset: number,
 ): FacilityDetail[] {
@@ -163,6 +169,8 @@ function generateFacilities(
         email: row.email,
         producerId,
         producerName,
+        buyerId,
+        buyerName,
         country: country.name,
         flag: country.flag,
         region,
@@ -188,7 +196,7 @@ function generateFacilities(
 export function ProducerStoreProvider({ children }: { children: ReactNode }) {
   const [producers, setProducers] = useState<Producer[]>([]);
 
-  const addProducers = useCallback((rows: { facilityId: string; email: string }[]) => {
+  const addProducers = useCallback((rows: { facilityId: string; email: string }[], buyerId: string, buyerName: string) => {
     const grouped = new Map<string, { facilityId: string; email: string }[]>();
     rows.forEach(r => {
       const domain = r.email.split('@')[1] ?? r.email;
@@ -196,33 +204,58 @@ export function ProducerStoreProvider({ children }: { children: ReactNode }) {
       grouped.get(domain)!.push(r);
     });
 
-    const newProducers: Producer[] = Array.from(grouped.entries()).map(([, facilityRows], idx) => {
-      const rep = facilityRows[0];
-      const status = DEMO_STATUSES[idx % DEMO_STATUSES.length];
-      const hasResponded = status === 'accepted' || status === 'declined';
-      const declineReasons = [
-        'We are unable to share salary data for the requested period due to ongoing internal restructuring.',
-        'The requested payroll years include data that is currently under audit review.',
-        'We only share data with direct buyers, not through intermediaries.',
-      ];
-      const producerId = crypto.randomUUID();
-      const producerName = deriveProducerName(rep.email);
-      return {
-        id: producerId,
-        name: producerName,
-        email: rep.email,
-        facilitiesCount: facilityRows.length,
-        facilities: generateFacilities(producerId, producerName, facilityRows, idx * 100),
-        status,
-        invitedAt: new Date().toISOString(),
-        invitedBy: 'Morgan',
-        respondedAt: hasResponded ? new Date(Date.now() - Math.random() * 86400000 * 3).toISOString() : undefined,
-        consent: generateDemoConsent(status),
-        declineReason: status === 'declined' ? declineReasons[idx % declineReasons.length] : undefined,
-      };
-    });
+    setProducers(prev => {
+      const updatedProducers = [...prev];
 
-    setProducers(prev => [...prev, ...newProducers]);
+      Array.from(grouped.entries()).forEach(([, facilityRows], idx) => {
+        const rep = facilityRows[0];
+        const producerName = deriveProducerName(rep.email);
+        const existingProducer = updatedProducers.find(p => p.email === rep.email);
+
+        if (existingProducer) {
+          if (!existingProducer.buyerIds.includes(buyerId)) {
+            existingProducer.buyerIds.push(buyerId);
+            existingProducer.buyerNames.push(buyerName);
+            const newFacilities = generateFacilities(
+              existingProducer.id,
+              existingProducer.name,
+              buyerId,
+              buyerName,
+              facilityRows,
+              (updatedProducers.length + idx) * 100
+            );
+            existingProducer.facilities.push(...newFacilities);
+            existingProducer.facilitiesCount = existingProducer.facilities.length;
+          }
+        } else {
+          const status = DEMO_STATUSES[idx % DEMO_STATUSES.length];
+          const hasResponded = status === 'accepted' || status === 'declined';
+          const declineReasons = [
+            'We are unable to share salary data for the requested period due to ongoing internal restructuring.',
+            'The requested payroll years include data that is currently under audit review.',
+            'We only share data with direct buyers, not through intermediaries.',
+          ];
+          const producerId = crypto.randomUUID();
+          updatedProducers.push({
+            id: producerId,
+            name: producerName,
+            email: rep.email,
+            facilitiesCount: facilityRows.length,
+            facilities: generateFacilities(producerId, producerName, buyerId, buyerName, facilityRows, (updatedProducers.length + idx) * 100),
+            buyerIds: [buyerId],
+            buyerNames: [buyerName],
+            status,
+            invitedAt: new Date().toISOString(),
+            invitedBy: 'Morgan',
+            respondedAt: hasResponded ? new Date(Date.now() - Math.random() * 86400000 * 3).toISOString() : undefined,
+            consent: generateDemoConsent(status),
+            declineReason: status === 'declined' ? declineReasons[idx % declineReasons.length] : undefined,
+          });
+        }
+      });
+
+      return updatedProducers;
+    });
   }, []);
 
   const clearProducers = useCallback(() => setProducers([]), []);

@@ -24,7 +24,7 @@ function OnboardingBanner({ onDismiss }: { onDismiss: () => void }) {
       <div className="flex-1 min-w-0">
         <h3 className="text-teal-900 font-semibold text-sm">Welcome to your intermediary workspace</h3>
         <p className="text-teal-700 text-xs mt-1 leading-relaxed max-w-xl">
-          You are currently acting on behalf of the selected buyer. Use the sidebar to switch between buyer accounts. New buyer invitations will appear here as notifications.
+          Below you'll see a breakdown of your work by buyer. When matching new producers, you'll select which buyer they're being matched for.
         </p>
       </div>
       <button onClick={onDismiss} className="text-teal-400 hover:text-teal-600 transition shrink-0">
@@ -124,10 +124,20 @@ function NotificationsCard() {
 export default function IntermediaryDashboardPage() {
   const navigate = useNavigate();
   const [bannerVisible, setBannerVisible] = useState(true);
-  const { producers } = useProducerStore();
-  const { activeBuyer } = useDemoStore();
+  const { producers, allFacilities } = useProducerStore();
+  const { allBuyers } = useDemoStore();
 
   const totalFacilities = producers.reduce((sum, p) => sum + p.facilitiesCount, 0);
+
+  const buyerStats = allBuyers.map(buyer => {
+    const buyerFacilities = allFacilities.filter(f => f.buyerId === buyer.id);
+    const buyerProducers = producers.filter(p => p.buyerIds.includes(buyer.id));
+    return {
+      buyer,
+      facilitiesCount: buyerFacilities.length,
+      producersCount: buyerProducers.length,
+    };
+  });
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans overflow-hidden">
@@ -141,7 +151,7 @@ export default function IntermediaryDashboardPage() {
               <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">Intermediary</span>
             </div>
             <p className="text-gray-400 text-xs">
-              Acting on behalf of <span className="font-semibold text-gray-600">{activeBuyer.name}</span>
+              Managing {producers.length} producers across {allBuyers.length} buyer{allBuyers.length !== 1 ? 's' : ''}
             </p>
           </div>
 
@@ -156,7 +166,7 @@ export default function IntermediaryDashboardPage() {
             >
               <div>
                 <p className="text-gray-500 text-xs font-medium flex items-center gap-1">
-                  Producers Matched
+                  Total Producers
                   <Info className="w-3 h-3 text-gray-300" />
                 </p>
                 <p className="text-gray-900 text-2xl font-bold mt-1">{producers.length}</p>
@@ -189,29 +199,32 @@ export default function IntermediaryDashboardPage() {
             </button>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center">
-            <div className="w-14 h-14 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mx-auto mb-4">
-              <Building2 className="w-6 h-6 text-teal-500" strokeWidth={1.75} />
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-50">
+              <h2 className="text-gray-900 font-semibold text-sm">Breakdown by Buyer</h2>
+              <p className="text-gray-400 text-xs mt-0.5">Your work segmented by buyer client</p>
             </div>
-            <h3 className="text-gray-900 text-sm font-semibold mb-2">Quick Actions</h3>
-            <p className="text-gray-400 text-xs mb-4 max-w-md mx-auto">
-              Navigate to the Producers or Supply Chain pages to manage your intermediary work for {activeBuyer.name}
-            </p>
-            <div className="flex items-center justify-center gap-3">
-              <button
-                onClick={() => navigate('/intermediary/producers')}
-                className="flex items-center gap-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm"
-              >
-                <Building2 className="w-3.5 h-3.5" strokeWidth={1.75} />
-                View Producers
-              </button>
-              <button
-                onClick={() => navigate('/intermediary/supply-chain')}
-                className="flex items-center gap-1.5 border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 text-gray-600 text-xs font-semibold px-4 py-2.5 rounded-xl transition"
-              >
-                <Factory className="w-3.5 h-3.5" strokeWidth={1.75} />
-                View Supply Chain
-              </button>
+            <div className="divide-y divide-gray-50">
+              {buyerStats.map(({ buyer, producersCount, facilitiesCount }) => (
+                <div key={buyer.id} className="px-6 py-4 flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center shrink-0">
+                    <span className="text-xs font-bold text-teal-700">{buyer.initials}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900">{buyer.name}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      {producersCount} producer{producersCount !== 1 ? 's' : ''}, {facilitiesCount} facilit{facilitiesCount !== 1 ? 'ies' : 'y'}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => navigate('/add-producer')}
+                    className="flex items-center gap-1.5 border border-gray-200 hover:border-teal-300 bg-white hover:bg-teal-50 text-gray-600 hover:text-teal-700 text-xs font-semibold px-3 py-2 rounded-xl transition"
+                  >
+                    <Building2 className="w-3.5 h-3.5" strokeWidth={1.75} />
+                    Match Producers
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </div>
