@@ -203,7 +203,7 @@ export default function IntermediarySupplyChainPage() {
               <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">Intermediary</span>
             </div>
             <p className="text-gray-400 text-xs">
-              Track facility submissions and manage buyer relationships for <span className="font-semibold text-gray-600">{activeBuyer.name}</span>
+              Track facility submissions and manage buyer relationships across all buyers
             </p>
           </div>
 

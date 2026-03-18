@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   BarChartBig,
@@ -13,6 +14,8 @@ import {
   Settings,
   LayoutDashboard,
   ChevronsUpDown,
+  ChevronDown,
+  Check,
 } from 'lucide-react';
 import { useDemoStore, INTERMEDIARY_SUPPLIER_ACCOUNT } from '../lib/demoStore';
 import { useSupplierCollaboration } from '../lib/supplierCollaborationStore';
@@ -51,6 +54,7 @@ export default function Sidebar() {
   const { activeRole, activeBuyer } = useDemoStore();
   const { pendingCount } = useSupplierCollaboration();
   const { inviteCount } = useIntermediaryCollaboration();
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const isIntermediary = activeRole === 'intermediary';
   const isSupplier = activeRole === 'supplier';
   const navItems = isSupplier ? NAV_SUPPLIER : isIntermediary ? NAV_INTERMEDIARY : NAV_BUYER;
@@ -76,8 +80,11 @@ export default function Sidebar() {
       </div>
 
       {isIntermediary && (
-        <div className={`px-3 py-3 border-b ${borderClass} border-opacity-40`}>
-          <div className="flex items-center gap-2.5 px-3 py-2.5">
+        <div className={`px-3 py-3 border-b ${borderClass} border-opacity-40 relative`}>
+          <button
+            onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+            className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg ${hoverBgClass} transition group`}
+          >
             <div className="w-7 h-7 rounded-lg bg-white bg-opacity-15 flex items-center justify-center shrink-0">
               <span className="text-[9px] font-bold text-white">{INTERMEDIARY_SUPPLIER_ACCOUNT.initials}</span>
             </div>
@@ -85,7 +92,44 @@ export default function Sidebar() {
               <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Supplier account</p>
               <p className="text-white text-xs font-semibold truncate">{INTERMEDIARY_SUPPLIER_ACCOUNT.name}</p>
             </div>
-          </div>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-white opacity-50 group-hover:opacity-100 transition shrink-0 ${accountMenuOpen ? 'rotate-180' : ''}`}
+              strokeWidth={1.75}
+            />
+          </button>
+
+          {accountMenuOpen && (
+            <div className="absolute left-3 right-3 mt-1 bg-teal-800 rounded-lg shadow-xl border border-teal-600 border-opacity-40 overflow-hidden z-50">
+              <button className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-white hover:bg-opacity-10 transition">
+                <div className="w-7 h-7 rounded-lg bg-white bg-opacity-15 flex items-center justify-center shrink-0">
+                  <span className="text-[9px] font-bold text-white">{INTERMEDIARY_SUPPLIER_ACCOUNT.initials}</span>
+                </div>
+                <div className="flex-1 text-left min-w-0">
+                  <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Supplier account</p>
+                  <p className="text-white text-xs font-semibold truncate">{INTERMEDIARY_SUPPLIER_ACCOUNT.name}</p>
+                </div>
+                <Check className="w-4 h-4 text-white shrink-0" strokeWidth={2} />
+              </button>
+              <button className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-white hover:bg-opacity-10 transition border-t border-teal-600 border-opacity-40">
+                <div className="w-7 h-7 rounded-lg bg-white bg-opacity-15 flex items-center justify-center shrink-0">
+                  <span className="text-[9px] font-bold text-white">LI</span>
+                </div>
+                <div className="flex-1 text-left min-w-0">
+                  <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Buyer account</p>
+                  <p className="text-white text-xs font-semibold truncate">Lidl International</p>
+                </div>
+              </button>
+              <button className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left border-t border-teal-600 border-opacity-40 opacity-50 cursor-not-allowed">
+                <div className="w-7 h-7 rounded-lg bg-white bg-opacity-15 flex items-center justify-center shrink-0">
+                  <Factory className="w-3.5 h-3.5 text-white" strokeWidth={1.75} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-white text-[10px] font-medium uppercase tracking-wider opacity-60">Producer account</p>
+                  <p className="text-white text-xs font-semibold truncate">Not available</p>
+                </div>
+              </button>
+            </div>
+          )}
         </div>
       )}
 
