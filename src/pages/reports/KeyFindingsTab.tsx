@@ -83,36 +83,68 @@ function DonutChart({ summary }: { summary: ReportsSummary }) {
         <span className="text-xs text-gray-400 ml-1">below a Living Wage</span>
       </div>
 
-      <table className="w-full text-xs">
-        <thead>
-          <tr className="border-b border-gray-100">
-            <th className="text-left py-2 font-semibold text-gray-500">Gender</th>
-            <th className="text-right py-2 font-semibold text-primary-600">Above a Living Wage</th>
-            <th className="text-right py-2 font-semibold text-red-600">Below a Living Wage</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-50">
-          <tr>
-            <td className="py-2 text-gray-700 font-medium">Women</td>
-            <td className="py-2 text-right text-gray-700">{formatNum(summary.workersAboveLwWomen)}</td>
-            <td className="py-2 text-right text-gray-700">{formatNum(summary.workersBelowLwWomen)}</td>
-          </tr>
-          <tr>
-            <td className="py-2 text-gray-700 font-medium">Men</td>
-            <td className="py-2 text-right text-gray-700">{formatNum(summary.workersAboveLwMen)}</td>
-            <td className="py-2 text-right text-gray-700">{formatNum(summary.workersBelowLwMen)}</td>
-          </tr>
-          <tr className="border-t border-gray-200">
-            <td className="py-2 text-gray-900 font-bold">Total</td>
-            <td className="py-2 text-right text-gray-900 font-bold">
-              {formatNum(totalWomen + totalMen - summary.workersBelowLwWomen - summary.workersBelowLwMen)}
-            </td>
-            <td className="py-2 text-right text-gray-900 font-bold">
-              {formatNum(summary.workersBelowLwWomen + summary.workersBelowLwMen)}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="space-y-4">
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="border-b border-gray-100">
+              <th className="text-left py-2 font-semibold text-gray-500">Gender</th>
+              <th className="text-right py-2 font-semibold text-primary-600">Above a Living Wage</th>
+              <th className="text-right py-2 font-semibold text-red-600">Below a Living Wage</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-50">
+            <tr>
+              <td className="py-2 text-gray-700 font-medium">Women</td>
+              <td className="py-2 text-right text-gray-700">{formatNum(summary.workersAboveLwWomen)}</td>
+              <td className="py-2 text-right text-gray-700">{formatNum(summary.workersBelowLwWomen)}</td>
+            </tr>
+            <tr>
+              <td className="py-2 text-gray-700 font-medium">Men</td>
+              <td className="py-2 text-right text-gray-700">{formatNum(summary.workersAboveLwMen)}</td>
+              <td className="py-2 text-right text-gray-700">{formatNum(summary.workersBelowLwMen)}</td>
+            </tr>
+            <tr className="border-t border-gray-200">
+              <td className="py-2 text-gray-900 font-bold">Total</td>
+              <td className="py-2 text-right text-gray-900 font-bold">
+                {formatNum(totalWomen + totalMen - summary.workersBelowLwWomen - summary.workersBelowLwMen)}
+              </td>
+              <td className="py-2 text-right text-gray-900 font-bold">
+                {formatNum(summary.workersBelowLwWomen + summary.workersBelowLwMen)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div className="pt-3 border-t border-gray-100">
+          <h4 className="text-xs font-semibold text-gray-700 mb-3">Gender Gap Breakdown</h4>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-primary-50 rounded-lg p-3">
+              <div className="text-[10px] text-gray-500 mb-1">Women Above LW</div>
+              <div className="text-sm font-bold text-primary-700">
+                {totalWomen > 0 ? ((summary.workersAboveLwWomen / totalWomen) * 100).toFixed(1) : '0.0'}%
+              </div>
+            </div>
+            <div className="bg-primary-50 rounded-lg p-3">
+              <div className="text-[10px] text-gray-500 mb-1">Men Above LW</div>
+              <div className="text-sm font-bold text-primary-700">
+                {totalMen > 0 ? ((summary.workersAboveLwMen / totalMen) * 100).toFixed(1) : '0.0'}%
+              </div>
+            </div>
+            <div className="bg-red-50 rounded-lg p-3">
+              <div className="text-[10px] text-gray-500 mb-1">Women Below LW</div>
+              <div className="text-sm font-bold text-red-700">
+                {totalWomen > 0 ? ((summary.workersBelowLwWomen / totalWomen) * 100).toFixed(1) : '0.0'}%
+              </div>
+            </div>
+            <div className="bg-red-50 rounded-lg p-3">
+              <div className="text-[10px] text-gray-500 mb-1">Men Below LW</div>
+              <div className="text-sm font-bold text-red-700">
+                {totalMen > 0 ? ((summary.workersBelowLwMen / totalMen) * 100).toFixed(1) : '0.0'}%
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
