@@ -144,6 +144,7 @@ function ProducerDetailView({ producer }: { producer: Producer }) {
   const isIntermediary = activeRole === 'intermediary';
 
   const facilityData = producer.facilities.map(f => ({
+    facilityId: f.facilityId,
     salaryMatrixStatus: f.salaryMatrixStatus,
   }));
 

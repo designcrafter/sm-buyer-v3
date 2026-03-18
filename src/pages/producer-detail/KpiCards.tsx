@@ -7,6 +7,7 @@ import {
 import type { SalaryMatrixStatus } from '../../lib/producerStore';
 
 interface FacilityRow {
+  facilityId: string;
   salaryMatrixStatus: SalaryMatrixStatus;
 }
 
@@ -15,7 +16,8 @@ interface Props {
 }
 
 export default function ProducerDetailKpiCards({ facilities }: Props) {
-  const totalFacilities = facilities.length;
+  const uniqueFacilityIds = new Set(facilities.map(f => f.facilityId));
+  const totalFacilities = uniqueFacilityIds.size;
   const submitted = facilities.filter(f => f.salaryMatrixStatus === 'submitted').length;
   const inProgress = facilities.filter(f => f.salaryMatrixStatus === 'in_progress').length;
   const missing = facilities.filter(f => f.salaryMatrixStatus === 'missing').length;
