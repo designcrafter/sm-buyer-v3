@@ -1,5 +1,4 @@
 import { ReportsSummary, formatPct, formatNum } from './reportsAggregations';
-import { AlertTriangle } from 'lucide-react';
 
 interface KpiCardProps {
   value: string;
@@ -15,31 +14,21 @@ function KpiCard({ value, label, threshold }: KpiCardProps) {
   const isAboveThreshold = threshold && threshold.currentValue > threshold.value;
 
   return (
-    <div className={`bg-white rounded-xl border px-5 py-4 text-center transition-colors ${
-      isAboveThreshold
-        ? 'border-l-4 border-l-red-500 border-t-red-100 border-r-red-100 border-b-red-100 bg-red-50'
-        : 'border-gray-100'
-    }`}>
+    <div className="bg-white rounded-xl border border-gray-100 px-5 py-4 text-center">
       <p className={`text-xs font-medium mb-1 tracking-wide ${
         isAboveThreshold ? 'text-red-600' : 'text-primary-600'
       }`}>
         {label}
       </p>
-      <p className="text-2xl font-bold text-gray-900">{value}</p>
+      <p className={`text-2xl font-bold ${
+        isAboveThreshold ? 'text-red-600' : 'text-gray-900'
+      }`}>
+        {value}
+      </p>
       {threshold && (
-        <div className="mt-2 pt-2 border-t border-gray-100">
-          <p className={`text-xs font-medium ${
-            isAboveThreshold ? 'text-red-600' : 'text-gray-400'
-          }`}>
-            Threshold: {threshold.formatter(threshold.value)}
-          </p>
-          {isAboveThreshold && (
-            <div className="flex items-center justify-center gap-1 mt-1">
-              <AlertTriangle className="w-3 h-3 text-red-500" strokeWidth={2} />
-              <span className="text-xs font-semibold text-red-600">Above threshold</span>
-            </div>
-          )}
-        </div>
+        <p className="text-xs text-gray-400 mt-2">
+          Threshold: {threshold.formatter(threshold.value)}
+        </p>
       )}
     </div>
   );
