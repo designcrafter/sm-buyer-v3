@@ -57,7 +57,7 @@ function InviteCard({
           <div className="flex items-center gap-3">
             <button
               onClick={onAccept}
-              className="flex items-center gap-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm"
+              className="flex items-center gap-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm"
             >
               <Check className="w-3.5 h-3.5" strokeWidth={2} />
               Accept Invitation
@@ -86,7 +86,7 @@ function RelationshipCard({
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow">
       <div className="flex items-start gap-4">
-        <div className="w-12 h-12 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-sm font-bold text-teal-700 shrink-0">
+        <div className="w-12 h-12 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center text-sm font-bold text-primary-700 shrink-0">
           {relationship.buyerInitials}
         </div>
         <div className="flex-1 min-w-0">
@@ -114,8 +114,8 @@ function RelationshipCard({
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-teal-50 flex items-center justify-center">
-                <Calendar className="w-3.5 h-3.5 text-teal-500" strokeWidth={1.75} />
+              <div className="w-7 h-7 rounded-lg bg-primary-50 flex items-center justify-center">
+                <Calendar className="w-3.5 h-3.5 text-primary-500" strokeWidth={1.75} />
               </div>
               <div>
                 <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Since</p>
@@ -194,9 +194,9 @@ export default function IntermediaryCollaborationPage() {
       <main className="flex-1 overflow-auto">
         <div className="max-w-4xl mx-auto px-8 py-8">
           <div className="flex items-center gap-3 mb-1">
-            <Handshake className="w-6 h-6 text-teal-700" strokeWidth={1.75} />
+            <Handshake className="w-6 h-6 text-primary-700" strokeWidth={1.75} />
             <h1 className="text-2xl font-bold text-gray-900">Collaboration</h1>
-            <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">Intermediary</span>
+            <span className="text-xs font-semibold bg-primary-50 text-primary-700 border border-primary-100 px-2 py-0.5 rounded-full">Intermediary</span>
           </div>
           <p className="text-sm text-gray-500 mb-8">Manage buyer invitations and your active intermediary relationships.</p>
 
@@ -204,7 +204,7 @@ export default function IntermediaryCollaborationPage() {
             <button
               onClick={() => setActiveTab('invitations')}
               className={`relative flex items-center gap-2 px-4 py-3 text-sm font-semibold transition-colors ${
-                activeTab === 'invitations' ? 'text-teal-700' : 'text-gray-400 hover:text-gray-600'
+                activeTab === 'invitations' ? 'text-primary-700' : 'text-gray-400 hover:text-gray-600'
               }`}
             >
               <Mail className="w-4 h-4" strokeWidth={1.75} />
@@ -214,12 +214,12 @@ export default function IntermediaryCollaborationPage() {
                   {inviteCount}
                 </span>
               )}
-              {activeTab === 'invitations' && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-teal-700 rounded-full" />}
+              {activeTab === 'invitations' && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-primary-700 rounded-full" />}
             </button>
             <button
               onClick={() => setActiveTab('active')}
               className={`relative flex items-center gap-2 px-4 py-3 text-sm font-semibold transition-colors ${
-                activeTab === 'active' ? 'text-teal-700' : 'text-gray-400 hover:text-gray-600'
+                activeTab === 'active' ? 'text-primary-700' : 'text-gray-400 hover:text-gray-600'
               }`}
             >
               <Users className="w-4 h-4" strokeWidth={1.75} />
@@ -229,7 +229,7 @@ export default function IntermediaryCollaborationPage() {
                   {relationships.length}
                 </span>
               )}
-              {activeTab === 'active' && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-teal-700 rounded-full" />}
+              {activeTab === 'active' && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-primary-700 rounded-full" />}
             </button>
           </div>
 
@@ -237,8 +237,8 @@ export default function IntermediaryCollaborationPage() {
             <div className="space-y-4">
               {invites.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-8 py-16 flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mb-4">
-                    <Mail className="w-7 h-7 text-teal-300" strokeWidth={1.5} />
+                  <div className="w-16 h-16 rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mb-4">
+                    <Mail className="w-7 h-7 text-primary-300" strokeWidth={1.5} />
                   </div>
                   <p className="text-gray-700 text-sm font-semibold mb-1">No pending invitations</p>
                   <p className="text-gray-400 text-xs max-w-xs leading-relaxed">
@@ -262,8 +262,8 @@ export default function IntermediaryCollaborationPage() {
             <div className="space-y-4">
               {relationships.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-8 py-16 flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mb-4">
-                    <Building2 className="w-7 h-7 text-teal-300" strokeWidth={1.5} />
+                  <div className="w-16 h-16 rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mb-4">
+                    <Building2 className="w-7 h-7 text-primary-300" strokeWidth={1.5} />
                   </div>
                   <p className="text-gray-700 text-sm font-semibold mb-1">No active relationships</p>
                   <p className="text-gray-400 text-xs max-w-xs leading-relaxed">

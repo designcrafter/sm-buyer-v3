@@ -62,11 +62,11 @@ export default function Sidebar() {
   const navItems = isSupplier ? NAV_SUPPLIER : isIntermediary ? NAV_INTERMEDIARY : NAV_BUYER;
   const declinedCount = producers.filter(p => p.status === 'declined').length;
 
-  const bgClass = isSupplier ? 'bg-emerald-800' : isIntermediary ? 'bg-teal-700' : 'bg-primary-500';
-  const borderClass = isSupplier ? 'border-emerald-700' : isIntermediary ? 'border-teal-600' : 'border-primary-400';
+  const bgClass = isSupplier ? 'bg-primary-500' : isIntermediary ? 'bg-primary-500' : 'bg-primary-500';
+  const borderClass = isSupplier ? 'border-primary-400' : isIntermediary ? 'border-primary-400' : 'border-primary-400';
   const activeBgClass = 'bg-white bg-opacity-20';
   const hoverBgClass = 'hover:bg-white hover:bg-opacity-10';
-  const userBgClass = isSupplier ? 'bg-emerald-950' : isIntermediary ? 'bg-teal-900' : 'bg-primary-700';
+  const userBgClass = isSupplier ? 'bg-primary-700' : isIntermediary ? 'bg-primary-700' : 'bg-primary-700';
 
   return (
     <aside className={`w-64 shrink-0 ${bgClass} flex flex-col h-screen sticky font-sans`} style={{ top: DEMO_BAR_HEIGHT }}>
@@ -102,7 +102,7 @@ export default function Sidebar() {
           </button>
 
           {accountMenuOpen && (
-            <div className="absolute left-3 right-3 mt-1 bg-teal-800 rounded-lg shadow-xl border border-teal-600 border-opacity-40 overflow-hidden z-50">
+            <div className="absolute left-3 right-3 mt-1 bg-primary-600 rounded-lg shadow-xl border border-primary-400 border-opacity-40 overflow-hidden z-50">
               <button className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-white hover:bg-opacity-10 transition">
                 <div className="w-7 h-7 rounded-lg bg-white bg-opacity-15 flex items-center justify-center shrink-0">
                   <span className="text-[9px] font-bold text-white">{INTERMEDIARY_SUPPLIER_ACCOUNT.initials}</span>
@@ -115,7 +115,7 @@ export default function Sidebar() {
               </button>
               <button
                 onClick={() => {}}
-                className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-white hover:bg-opacity-10 transition border-t border-teal-600 border-opacity-40"
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-white hover:bg-opacity-10 transition border-t border-primary-400 border-opacity-40"
               >
                 <div className="w-7 h-7 rounded-lg bg-white bg-opacity-15 flex items-center justify-center shrink-0">
                   <Factory className="w-3.5 h-3.5 text-white" strokeWidth={1.75} />

@@ -39,7 +39,7 @@ export default function IntermediaryFacilityDetailPage() {
             <p className="text-gray-500 text-sm">Facility not found.</p>
             <button
               onClick={() => navigate('/intermediary/supply-chain')}
-              className="text-teal-600 hover:text-teal-700 text-sm font-semibold"
+              className="text-primary-600 hover:text-primary-700 text-sm font-semibold"
             >
               Back to Supply Chain
             </button>
@@ -131,8 +131,8 @@ export default function IntermediaryFacilityDetailPage() {
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             <div className="flex items-start gap-5">
-              <div className="w-14 h-14 rounded-2xl bg-teal-50 flex items-center justify-center shrink-0">
-                <Building2 className="w-7 h-7 text-teal-600" strokeWidth={1.75} />
+              <div className="w-14 h-14 rounded-2xl bg-primary-50 flex items-center justify-center shrink-0">
+                <Building2 className="w-7 h-7 text-primary-600" strokeWidth={1.75} />
               </div>
               <div className="flex-1">
                 <h1 className="text-2xl font-bold text-gray-900">{facility.name}</h1>
@@ -164,7 +164,7 @@ export default function IntermediaryFacilityDetailPage() {
               <div className="relative">
                 <div className="absolute top-4 left-8 right-8 h-0.5 bg-gray-200">
                   <div
-                    className="h-full bg-teal-500 transition-all duration-500"
+                    className="h-full bg-primary-500 transition-all duration-500"
                     style={{ width: `${(currentStatusIndex / (STATUS_STEPS.length - 1)) * 100}%` }}
                   />
                 </div>
@@ -180,16 +180,16 @@ export default function IntermediaryFacilityDetailPage() {
                         <div
                           className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${
                             isCompleted
-                              ? 'bg-teal-500 border-teal-500'
+                              ? 'bg-primary-500 border-primary-500'
                               : isCurrent
-                              ? 'bg-white border-teal-500'
+                              ? 'bg-white border-primary-500'
                               : 'bg-white border-gray-200'
                           }`}
                         >
                           {isCompleted ? (
                             <CheckCircle2 className="w-5 h-5 text-white" strokeWidth={2.5} />
                           ) : isCurrent ? (
-                            <Circle className="w-4 h-4 text-teal-500 fill-teal-500" strokeWidth={0} />
+                            <Circle className="w-4 h-4 text-primary-500 fill-primary-500" strokeWidth={0} />
                           ) : (
                             <Circle className="w-4 h-4 text-gray-300" strokeWidth={2} />
                           )}
@@ -207,20 +207,20 @@ export default function IntermediaryFacilityDetailPage() {
                 </div>
               </div>
 
-              <div className="mt-8 bg-teal-50 border border-teal-100 rounded-xl px-5 py-4">
+              <div className="mt-8 bg-primary-50 border border-primary-100 rounded-xl px-5 py-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-teal-900">Overall Progress</p>
-                    <p className="text-xs text-teal-700 mt-0.5">Facility submission completion</p>
+                    <p className="text-sm font-semibold text-primary-900">Overall Progress</p>
+                    <p className="text-xs text-primary-700 mt-0.5">Facility submission completion</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-32 h-2.5 bg-white rounded-full overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-teal-500 transition-all duration-300"
+                        className="h-full rounded-full bg-primary-500 transition-all duration-300"
                         style={{ width: `${facility.progress}%` }}
                       />
                     </div>
-                    <span className="text-lg font-bold text-teal-900 min-w-[48px] text-right">{facility.progress}%</span>
+                    <span className="text-lg font-bold text-primary-900 min-w-[48px] text-right">{facility.progress}%</span>
                   </div>
                 </div>
               </div>

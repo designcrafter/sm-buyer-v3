@@ -2,9 +2,9 @@ import Sidebar from '../../components/Sidebar';
 import { Building2, Pencil, CheckCircle2, Eye, Info, MoreVertical } from 'lucide-react';
 
 const STAT_CARDS = [
-  { label: 'Facilities Created', value: 4, icon: Building2, iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600' },
+  { label: 'Facilities Created', value: 4, icon: Building2, iconBg: 'bg-primary-100', iconColor: 'text-primary-600' },
   { label: 'Calculations in Draft', value: 2, icon: Pencil, iconBg: 'bg-amber-100', iconColor: 'text-amber-600' },
-  { label: 'Completed Reports', value: 8, icon: CheckCircle2, iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600' },
+  { label: 'Completed Reports', value: 8, icon: CheckCircle2, iconBg: 'bg-primary-100', iconColor: 'text-primary-600' },
   { label: 'In Audit', value: 1, icon: Eye, iconBg: 'bg-sky-100', iconColor: 'text-sky-600' },
 ];
 
@@ -48,7 +48,7 @@ const WAGE_CALC_ROWS: WageCalcRow[] = [
 function StatusBadge({ status }: { status: CalcStatus }) {
   const config: Record<CalcStatus, { bg: string; text: string }> = {
     Draft: { bg: 'bg-amber-50 border-amber-200', text: 'text-amber-700' },
-    Submitted: { bg: 'bg-emerald-50 border-emerald-200', text: 'text-emerald-700' },
+    Submitted: { bg: 'bg-primary-50 border-primary-200', text: 'text-primary-700' },
     Archived: { bg: 'bg-gray-100 border-gray-200', text: 'text-gray-500' },
   };
   const { bg, text } = config[status];
@@ -64,7 +64,7 @@ function ProgressBar({ value }: { value: number | null }) {
   return (
     <div className="flex items-center gap-2.5">
       <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-        <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${value}%` }} />
+        <div className="h-full bg-primary-500 rounded-full transition-all" style={{ width: `${value}%` }} />
       </div>
       <span className="text-xs font-semibold text-gray-600">{value}</span>
     </div>
@@ -73,7 +73,7 @@ function ProgressBar({ value }: { value: number | null }) {
 
 function FacilityCardDecoration() {
   return (
-    <div className="h-20 bg-gradient-to-br from-emerald-600 to-emerald-700 relative overflow-hidden rounded-t-xl">
+    <div className="h-20 bg-gradient-to-br from-primary-600 to-primary-700 relative overflow-hidden rounded-t-xl">
       <svg className="absolute bottom-0 left-0 right-0" viewBox="0 0 300 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
         <path d="M0 40 Q30 10 60 30 Q90 50 120 25 Q150 0 180 20 Q210 40 240 15 Q270 -5 300 20 L300 60 L0 60 Z" fill="rgba(255,255,255,0.1)" />
         <path d="M0 50 Q40 30 80 45 Q120 60 160 35 Q200 10 240 30 Q270 45 300 35 L300 60 L0 60 Z" fill="rgba(255,255,255,0.07)" />
@@ -95,7 +95,7 @@ export default function SupplierDashboardPage() {
         <div className="max-w-6xl mx-auto px-8 py-8">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-            <button className="bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition shadow-sm">
+            <button className="bg-primary-700 hover:bg-primary-800 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition shadow-sm">
               Start Measuring Gaps
             </button>
           </div>
@@ -120,7 +120,7 @@ export default function SupplierDashboardPage() {
           <div className="mb-10">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-gray-900">Recent Edited Facilities</h2>
-              <button className="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">See All</button>
+              <button className="text-sm font-semibold text-primary-700 hover:text-primary-800 transition">See All</button>
             </div>
             <div className="grid grid-cols-3 gap-5">
               {FACILITIES.map(f => (
@@ -154,7 +154,7 @@ export default function SupplierDashboardPage() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-gray-900">Living Wage Calculations</h2>
-              <button className="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">See All</button>
+              <button className="text-sm font-semibold text-primary-700 hover:text-primary-800 transition">See All</button>
             </div>
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
@@ -200,7 +200,7 @@ export default function SupplierDashboardPage() {
                 </table>
               </div>
               <div className="px-6 py-3 border-t border-gray-100">
-                <p className="text-xs text-emerald-700 font-medium">Page 1 of 1</p>
+                <p className="text-xs text-primary-700 font-medium">Page 1 of 1</p>
               </div>
             </div>
           </div>

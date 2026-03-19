@@ -39,7 +39,7 @@ export default function IntermediarySettingsPage() {
           <div>
             <div className="flex items-center gap-2 mb-0.5">
               <h1 className="text-gray-900 text-xl font-bold">Settings</h1>
-              <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">Intermediary</span>
+              <span className="text-xs font-semibold bg-primary-50 text-primary-700 border border-primary-100 px-2 py-0.5 rounded-full">Intermediary</span>
             </div>
             <p className="text-gray-400 text-xs mt-0.5">
               Manage your intermediary account settings and preferences
@@ -56,7 +56,7 @@ export default function IntermediarySettingsPage() {
                 <input
                   type="text"
                   defaultValue="Global Sourcing Partners Ltd."
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
               <div>
@@ -64,7 +64,7 @@ export default function IntermediarySettingsPage() {
                 <input
                   type="email"
                   defaultValue="contact@globalsourcing.com"
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -73,7 +73,7 @@ export default function IntermediarySettingsPage() {
                   <input
                     type="text"
                     defaultValue="Alex Johnson"
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
                 <div>
@@ -81,13 +81,13 @@ export default function IntermediarySettingsPage() {
                   <input
                     type="tel"
                     defaultValue="+1 (555) 123-4567"
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end">
-              <button className="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold transition shadow-sm">
+              <button className="px-4 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold transition shadow-sm">
                 Save Changes
               </button>
             </div>
@@ -110,8 +110,8 @@ export default function IntermediarySettingsPage() {
               <div className="divide-y divide-gray-50">
                 {relationships.map(rel => (
                   <div key={rel.id} className="px-6 py-4 flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0">
-                      <span className="text-xs font-bold text-teal-700">{rel.buyerInitials}</span>
+                    <div className="w-10 h-10 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center shrink-0">
+                      <span className="text-xs font-bold text-primary-700">{rel.buyerInitials}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-gray-900">{rel.buyerName}</p>

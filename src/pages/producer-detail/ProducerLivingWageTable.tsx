@@ -15,7 +15,7 @@ function StatusBadge({ status }: { status: string }) {
     case 'Submitted':
       return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">{status}</span>;
     case 'Final Report':
-      return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-emerald-600 text-white">{status}</span>;
+      return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-primary-600 text-white">{status}</span>;
     case 'Not Started':
       return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-gray-200 text-gray-500">{status}</span>;
     default:
@@ -25,7 +25,7 @@ function StatusBadge({ status }: { status: string }) {
 
 function ConsentBadge({ type }: { type: DataConsentLevel }) {
   return type === 'full' ? (
-    <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700">
+    <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-50 text-primary-700">
       Full data
     </span>
   ) : (
@@ -210,7 +210,7 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                     >
                       <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-emerald-400"
+                          className="h-full rounded-full bg-primary-400"
                           style={{ width: `${Math.min(mainFacility.progress, 100)}%` }}
                         />
                       </div>
@@ -278,7 +278,7 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                       <td className="px-4 py-4">
                         <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
                           <div
-                            className="h-full rounded-full bg-emerald-400"
+                            className="h-full rounded-full bg-primary-400"
                             style={{ width: `${Math.min(facility.progress, 100)}%` }}
                           />
                         </div>

@@ -60,7 +60,7 @@ function InviteCard({
           <div className="flex items-center gap-3">
             <button
               onClick={onAccept}
-              className="flex items-center gap-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm"
+              className="flex items-center gap-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm"
             >
               <Check className="w-3.5 h-3.5" strokeWidth={2} />
               Accept Invitation
@@ -89,7 +89,7 @@ function RelationshipCard({
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow">
       <div className="flex items-start gap-4">
-        <div className="w-12 h-12 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-sm font-bold text-teal-700 shrink-0">
+        <div className="w-12 h-12 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center text-sm font-bold text-primary-700 shrink-0">
           {relationship.buyerInitials}
         </div>
         <div className="flex-1 min-w-0">
@@ -117,8 +117,8 @@ function RelationshipCard({
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-teal-50 flex items-center justify-center">
-                <Calendar className="w-3.5 h-3.5 text-teal-500" strokeWidth={1.75} />
+              <div className="w-7 h-7 rounded-lg bg-primary-50 flex items-center justify-center">
+                <Calendar className="w-3.5 h-3.5 text-primary-500" strokeWidth={1.75} />
               </div>
               <div>
                 <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Since</p>
@@ -200,7 +200,7 @@ export default function IntermediarySupplyChainPage() {
           <div>
             <div className="flex items-center gap-2 mb-0.5">
               <h1 className="text-gray-900 text-xl font-bold">Supply Chain</h1>
-              <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">Intermediary</span>
+              <span className="text-xs font-semibold bg-primary-50 text-primary-700 border border-primary-100 px-2 py-0.5 rounded-full">Intermediary</span>
             </div>
             <p className="text-gray-400 text-xs">
               Track facility submissions and manage buyer relationships across all buyers
@@ -212,7 +212,7 @@ export default function IntermediarySupplyChainPage() {
               onClick={() => setActiveTab('facilities')}
               className={`relative px-4 py-2.5 text-sm font-semibold transition-colors ${
                 activeTab === 'facilities'
-                  ? 'text-teal-700'
+                  ? 'text-primary-700'
                   : 'text-gray-400 hover:text-gray-600'
               }`}
             >
@@ -221,14 +221,14 @@ export default function IntermediarySupplyChainPage() {
                 Facilities
               </span>
               {activeTab === 'facilities' && (
-                <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-teal-700 rounded-full" />
+                <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-primary-700 rounded-full" />
               )}
             </button>
             <button
               onClick={() => setActiveTab('invites')}
               className={`relative px-4 py-2.5 text-sm font-semibold transition-colors ${
                 activeTab === 'invites'
-                  ? 'text-teal-700'
+                  ? 'text-primary-700'
                   : 'text-gray-400 hover:text-gray-600'
               }`}
             >
@@ -242,7 +242,7 @@ export default function IntermediarySupplyChainPage() {
                 )}
               </span>
               {activeTab === 'invites' && (
-                <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-teal-700 rounded-full" />
+                <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-primary-700 rounded-full" />
               )}
             </button>
           </div>
@@ -253,7 +253,7 @@ export default function IntermediarySupplyChainPage() {
             <div className="space-y-8">
               <div>
                 <div className="flex items-center gap-2.5 mb-4">
-                  <Mail className="w-5 h-5 text-teal-700" strokeWidth={1.75} />
+                  <Mail className="w-5 h-5 text-primary-700" strokeWidth={1.75} />
                   <h2 className="text-gray-900 text-base font-bold">Pending Invitations</h2>
                   {inviteCount > 0 && (
                     <span className="min-w-[20px] h-5 flex items-center justify-center rounded-full bg-amber-500 text-white text-[10px] font-bold px-1.5">
@@ -264,8 +264,8 @@ export default function IntermediarySupplyChainPage() {
                 <div className="space-y-4">
                   {invites.length === 0 ? (
                     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-8 py-16 flex flex-col items-center text-center">
-                      <div className="w-16 h-16 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mb-4">
-                        <Mail className="w-7 h-7 text-teal-300" strokeWidth={1.5} />
+                      <div className="w-16 h-16 rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mb-4">
+                        <Mail className="w-7 h-7 text-primary-300" strokeWidth={1.5} />
                       </div>
                       <p className="text-gray-700 text-sm font-semibold mb-1">No pending invitations</p>
                       <p className="text-gray-400 text-xs max-w-xs leading-relaxed">
@@ -287,7 +287,7 @@ export default function IntermediarySupplyChainPage() {
 
               <div>
                 <div className="flex items-center gap-2.5 mb-4">
-                  <Users className="w-5 h-5 text-teal-700" strokeWidth={1.75} />
+                  <Users className="w-5 h-5 text-primary-700" strokeWidth={1.75} />
                   <h2 className="text-gray-900 text-base font-bold">Active Buyer Relationships</h2>
                   {relationships.length > 0 && (
                     <span className="min-w-[20px] h-5 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 text-[10px] font-bold px-1.5">
@@ -298,8 +298,8 @@ export default function IntermediarySupplyChainPage() {
                 <div className="space-y-4">
                   {relationships.length === 0 ? (
                     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-8 py-16 flex flex-col items-center text-center">
-                      <div className="w-16 h-16 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mb-4">
-                        <Building2 className="w-7 h-7 text-teal-300" strokeWidth={1.5} />
+                      <div className="w-16 h-16 rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mb-4">
+                        <Building2 className="w-7 h-7 text-primary-300" strokeWidth={1.5} />
                       </div>
                       <p className="text-gray-700 text-sm font-semibold mb-1">No active relationships</p>
                       <p className="text-gray-400 text-xs max-w-xs leading-relaxed">

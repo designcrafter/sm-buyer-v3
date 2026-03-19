@@ -51,7 +51,7 @@ export default function IntermediaryRegisterPage() {
 
   const strength = passwordStrength(password);
   const strengthLabel = ['', 'Weak', 'Fair', 'Good', 'Strong'][strength];
-  const strengthColor = ['', 'bg-red-400', 'bg-amber-400', 'bg-teal-400', 'bg-green-500'][strength];
+  const strengthColor = ['', 'bg-red-400', 'bg-amber-400', 'bg-primary-400', 'bg-green-500'][strength];
 
   const passwordMatch = confirm.length > 0 && password === confirm;
   const canSubmit = true;
@@ -64,11 +64,11 @@ export default function IntermediaryRegisterPage() {
 
   return (
     <div className="min-h-screen flex font-sans" style={{ paddingTop: DEMO_BAR_HEIGHT }}>
-      <div className="hidden lg:flex lg:w-5/12 xl:w-[42%] bg-teal-600 flex-col justify-between p-12 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-5/12 xl:w-[42%] bg-primary-600 flex-col justify-between p-12 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-teal-500 opacity-30" />
-          <div className="absolute bottom-0 -left-16 w-72 h-72 rounded-full bg-teal-700 opacity-40" />
-          <div className="absolute top-1/2 right-8 w-48 h-48 rounded-full bg-teal-400 opacity-20" />
+          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-primary-500 opacity-30" />
+          <div className="absolute bottom-0 -left-16 w-72 h-72 rounded-full bg-primary-700 opacity-40" />
+          <div className="absolute top-1/2 right-8 w-48 h-48 rounded-full bg-primary-400 opacity-20" />
         </div>
 
         <div className="relative z-10">
@@ -115,11 +115,11 @@ export default function IntermediaryRegisterPage() {
       <div className="flex-1 flex flex-col justify-center items-center px-6 py-10 bg-gray-50 overflow-y-auto">
         <div className="w-full max-w-md">
           <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="bg-teal-600 rounded-lg p-2">
+            <div className="bg-primary-600 rounded-lg p-2">
               <BarChartBig className="w-5 h-5 text-white" strokeWidth={1.75} />
             </div>
             <div>
-              <span className="text-teal-600 font-bold text-lg">IDH</span>
+              <span className="text-primary-600 font-bold text-lg">IDH</span>
               <span className="text-gray-700 font-semibold text-lg ml-1">Salary Matrix</span>
             </div>
           </div>
@@ -135,11 +135,11 @@ export default function IntermediaryRegisterPage() {
           ) : (
             <>
             <div className="mb-5">
-              <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-100 rounded-full px-3 py-1.5 mb-3">
-                <div className="w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center">
-                  <span className="text-[9px] font-bold text-teal-700">{activeBuyer.initials}</span>
+              <div className="inline-flex items-center gap-2 bg-primary-50 border border-primary-100 rounded-full px-3 py-1.5 mb-3">
+                <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center">
+                  <span className="text-[9px] font-bold text-primary-700">{activeBuyer.initials}</span>
                 </div>
-                <span className="text-teal-700 text-xs font-semibold">Invited by {activeBuyer.name}</span>
+                <span className="text-primary-700 text-xs font-semibold">Invited by {activeBuyer.name}</span>
               </div>
               <h2 className="text-2xl font-bold text-gray-900">Create your intermediary account</h2>
               <p className="text-gray-500 mt-1 text-sm">Complete the form below to start matching suppliers</p>
@@ -167,7 +167,7 @@ export default function IntermediaryRegisterPage() {
                     value={firstName}
                     onChange={e => setFirstName(e.target.value)}
                     placeholder="David"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition"
                   />
                 </div>
                 <div>
@@ -179,7 +179,7 @@ export default function IntermediaryRegisterPage() {
                     value={lastName}
                     onChange={e => setLastName(e.target.value)}
                     placeholder="Osei"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition"
                   />
                 </div>
               </div>
@@ -194,7 +194,7 @@ export default function IntermediaryRegisterPage() {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     placeholder="Create a strong password"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition pr-11"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition pr-11"
                   />
                   <button
                     type="button"
@@ -214,7 +214,7 @@ export default function IntermediaryRegisterPage() {
                         />
                       ))}
                     </div>
-                    <p className={`text-xs font-medium ${['', 'text-red-500', 'text-amber-500', 'text-teal-600', 'text-green-600'][strength]}`}>
+                    <p className={`text-xs font-medium ${['', 'text-red-500', 'text-amber-500', 'text-primary-600', 'text-green-600'][strength]}`}>
                       {strengthLabel}
                     </p>
                   </div>
@@ -236,7 +236,7 @@ export default function IntermediaryRegisterPage() {
                         ? passwordMatch
                           ? 'border-green-300 focus:ring-green-300'
                           : 'border-red-300 focus:ring-red-300'
-                        : 'border-gray-200 focus:ring-teal-400'
+                        : 'border-gray-200 focus:ring-primary-400'
                     }`}
                   />
                   <button
@@ -260,7 +260,7 @@ export default function IntermediaryRegisterPage() {
                   <button
                     type="button"
                     onClick={() => setLangOpen(v => !v)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 text-sm text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition hover:border-gray-300"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 text-sm text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition hover:border-gray-300"
                   >
                     <span className="flex items-center gap-2">
                       <Globe className="w-4 h-4 text-gray-400" />
@@ -276,11 +276,11 @@ export default function IntermediaryRegisterPage() {
                           key={lang.code}
                           type="button"
                           onClick={() => { setLanguage(lang.code); setLangOpen(false); }}
-                          className={`w-full px-4 py-2.5 text-sm text-left hover:bg-gray-50 transition flex items-center justify-between ${language === lang.code ? 'text-teal-600 font-semibold bg-teal-50' : 'text-gray-700'}`}
+                          className={`w-full px-4 py-2.5 text-sm text-left hover:bg-gray-50 transition flex items-center justify-between ${language === lang.code ? 'text-primary-600 font-semibold bg-primary-50' : 'text-gray-700'}`}
                         >
                           {lang.label}
                           {language === lang.code && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary-500" />
                           )}
                         </button>
                       ))}
@@ -297,7 +297,7 @@ export default function IntermediaryRegisterPage() {
                   <button
                     type="button"
                     onClick={() => setTermsExpanded(true)}
-                    className="text-xs text-teal-600 hover:text-teal-700 font-medium hover:underline transition"
+                    className="text-xs text-primary-600 hover:text-primary-700 font-medium hover:underline transition"
                   >
                     Read full document
                   </button>
@@ -316,7 +316,7 @@ export default function IntermediaryRegisterPage() {
                           className="sr-only"
                         />
                         <div
-                          className={`w-4 h-4 rounded border-2 transition flex items-center justify-center ${termsAccepted ? 'bg-teal-500 border-teal-500' : 'border-gray-300 group-hover:border-teal-400'}`}
+                          className={`w-4 h-4 rounded border-2 transition flex items-center justify-center ${termsAccepted ? 'bg-primary-500 border-primary-500' : 'border-gray-300 group-hover:border-primary-400'}`}
                         >
                           {termsAccepted && (
                             <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 10 8" fill="none">
@@ -330,10 +330,10 @@ export default function IntermediaryRegisterPage() {
                         <button
                           type="button"
                           onClick={() => setTermsExpanded(true)}
-                          className="text-teal-600 font-medium hover:underline"
+                          className="text-primary-600 font-medium hover:underline"
                         >Terms &amp; Conditions</button>{' '}
                         and{' '}
-                        <span className="text-teal-600 font-medium cursor-pointer hover:underline">Privacy Policy</span>
+                        <span className="text-primary-600 font-medium cursor-pointer hover:underline">Privacy Policy</span>
                       </span>
                     </label>
                   </div>
@@ -367,7 +367,7 @@ export default function IntermediaryRegisterPage() {
                       <button
                         type="button"
                         onClick={() => { setTermsAccepted(true); setTermsExpanded(false); }}
-                        className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2.5 rounded-xl text-sm transition"
+                        className="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2.5 rounded-xl text-sm transition"
                       >
                         Accept &amp; close
                       </button>
@@ -388,7 +388,7 @@ export default function IntermediaryRegisterPage() {
                 disabled={!canSubmit}
                 className={`w-full font-semibold py-3.5 rounded-xl transition-all duration-150 text-sm shadow-sm mt-1 ${
                   canSubmit
-                    ? 'bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white hover:shadow-md cursor-pointer'
+                    ? 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white hover:shadow-md cursor-pointer'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
               >
@@ -402,7 +402,7 @@ export default function IntermediaryRegisterPage() {
             Already have a Salary Matrix account?{' '}
             <button
               onClick={() => navigate('/login')}
-              className="text-teal-600 hover:text-teal-700 font-medium hover:underline transition"
+              className="text-primary-600 hover:text-primary-700 font-medium hover:underline transition"
             >
               Sign in to link this invitation
             </button>

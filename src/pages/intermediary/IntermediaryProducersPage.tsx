@@ -68,8 +68,8 @@ function ProducerDetailView({ producer }: { producer: Producer }) {
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
         <div className="flex items-start gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-teal-50 flex items-center justify-center shrink-0">
-            <span className="text-xl font-bold text-teal-600">{producer.name.charAt(0).toUpperCase()}</span>
+          <div className="w-14 h-14 rounded-2xl bg-primary-50 flex items-center justify-center shrink-0">
+            <span className="text-xl font-bold text-primary-600">{producer.name.charAt(0).toUpperCase()}</span>
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -165,7 +165,7 @@ export default function IntermediaryProducersPage() {
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
                     <h1 className="text-gray-900 text-xl font-bold">All Producers</h1>
-                    <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">Intermediary</span>
+                    <span className="text-xs font-semibold bg-primary-50 text-primary-700 border border-primary-100 px-2 py-0.5 rounded-full">Intermediary</span>
                   </div>
                   <p className="text-gray-400 text-xs">
                     All producers you've matched across buyers
@@ -187,7 +187,7 @@ export default function IntermediaryProducersPage() {
               <p className="text-gray-500 text-sm">Producer not found.</p>
               <button
                 onClick={() => navigate('/intermediary/producers')}
-                className="text-teal-600 hover:text-teal-700 text-sm font-semibold"
+                className="text-primary-600 hover:text-primary-700 text-sm font-semibold"
               >
                 Back to producers
               </button>

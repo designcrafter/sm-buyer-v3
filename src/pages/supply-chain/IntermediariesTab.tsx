@@ -109,8 +109,8 @@ export default function IntermediariesTab() {
         ) : (
           <>
             <div className="flex items-start gap-4 mb-5">
-              <div className="w-12 h-12 rounded-2xl bg-teal-50 flex items-center justify-center shrink-0">
-                <UserPlus className="w-5 h-5 text-teal-600" strokeWidth={1.75} />
+              <div className="w-12 h-12 rounded-2xl bg-primary-50 flex items-center justify-center shrink-0">
+                <UserPlus className="w-5 h-5 text-primary-600" strokeWidth={1.75} />
               </div>
               <div>
                 <h3 className="text-gray-900 font-semibold text-sm">Invite an intermediary</h3>
@@ -166,7 +166,7 @@ export default function IntermediariesTab() {
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                      intermediary.status === 'invited' ? 'bg-gray-100 text-gray-400' : 'bg-teal-100 text-teal-700'
+                      intermediary.status === 'invited' ? 'bg-gray-100 text-gray-400' : 'bg-primary-100 text-primary-700'
                     }`}>
                       {intermediary.status === 'invited' ? (
                         <Clock className="w-3.5 h-3.5" strokeWidth={1.75} />

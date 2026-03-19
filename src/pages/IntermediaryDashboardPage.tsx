@@ -17,17 +17,17 @@ import {
 
 function OnboardingBanner({ onDismiss }: { onDismiss: () => void }) {
   return (
-    <div className="bg-teal-50 border border-teal-200 rounded-2xl p-5 flex items-start gap-4 relative">
-      <div className="bg-teal-600 rounded-xl p-2.5 shrink-0 mt-0.5">
+    <div className="bg-primary-50 border border-primary-200 rounded-2xl p-5 flex items-start gap-4 relative">
+      <div className="bg-primary-600 rounded-xl p-2.5 shrink-0 mt-0.5">
         <Link2 className="w-4 h-4 text-white" strokeWidth={1.75} />
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="text-teal-900 font-semibold text-sm">Welcome to your intermediary workspace</h3>
-        <p className="text-teal-700 text-xs mt-1 leading-relaxed max-w-xl">
+        <h3 className="text-primary-900 font-semibold text-sm">Welcome to your intermediary workspace</h3>
+        <p className="text-primary-700 text-xs mt-1 leading-relaxed max-w-xl">
           Below you'll see a breakdown of your work by buyer. When matching new producers, you'll select which buyer they're being matched for.
         </p>
       </div>
-      <button onClick={onDismiss} className="text-teal-400 hover:text-teal-600 transition shrink-0">
+      <button onClick={onDismiss} className="text-primary-400 hover:text-primary-600 transition shrink-0">
         <X className="w-4 h-4" />
       </button>
     </div>
@@ -102,7 +102,7 @@ function NotificationsCard() {
             <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={() => navigate('/intermediary/supply-chain')}
-                className="flex items-center gap-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition shadow-sm"
+                className="flex items-center gap-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition shadow-sm"
               >
                 <ArrowRight className="w-3.5 h-3.5" strokeWidth={2} />
                 View
@@ -148,7 +148,7 @@ export default function IntermediaryDashboardPage() {
           <div>
             <div className="flex items-center gap-2 mb-0.5">
               <h1 className="text-gray-900 text-xl font-bold">Overview</h1>
-              <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">Intermediary</span>
+              <span className="text-xs font-semibold bg-primary-50 text-primary-700 border border-primary-100 px-2 py-0.5 rounded-full">Intermediary</span>
             </div>
             <p className="text-gray-400 text-xs">
               Managing {producers.length} producers across {allBuyers.length} buyer{allBuyers.length !== 1 ? 's' : ''}
@@ -162,7 +162,7 @@ export default function IntermediaryDashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <button
               onClick={() => navigate('/intermediary/producers')}
-              className="bg-white rounded-2xl border border-gray-100 px-5 py-5 flex items-center justify-between shadow-sm hover:shadow-md hover:border-teal-200 transition-all cursor-pointer group"
+              className="bg-white rounded-2xl border border-gray-100 px-5 py-5 flex items-center justify-between shadow-sm hover:shadow-md hover:border-primary-200 transition-all cursor-pointer group"
             >
               <div>
                 <p className="text-gray-500 text-xs font-medium flex items-center gap-1">
@@ -175,13 +175,13 @@ export default function IntermediaryDashboardPage() {
                 <div className="w-11 h-11 rounded-full flex items-center justify-center bg-amber-50 text-amber-500 group-hover:bg-amber-100 transition-colors">
                   <Building2 className="w-5 h-5" strokeWidth={1.75} />
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-teal-600 transition-colors" strokeWidth={2} />
+                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-primary-600 transition-colors" strokeWidth={2} />
               </div>
             </button>
 
             <button
               onClick={() => navigate('/intermediary/supply-chain')}
-              className="bg-white rounded-2xl border border-gray-100 px-5 py-5 flex items-center justify-between shadow-sm hover:shadow-md hover:border-teal-200 transition-all cursor-pointer group"
+              className="bg-white rounded-2xl border border-gray-100 px-5 py-5 flex items-center justify-between shadow-sm hover:shadow-md hover:border-primary-200 transition-all cursor-pointer group"
             >
               <div>
                 <p className="text-gray-500 text-xs font-medium flex items-center gap-1">
@@ -194,7 +194,7 @@ export default function IntermediaryDashboardPage() {
                 <div className="w-11 h-11 rounded-full flex items-center justify-center bg-blue-50 text-blue-500 group-hover:bg-blue-100 transition-colors">
                   <Factory className="w-5 h-5" strokeWidth={1.75} />
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-teal-600 transition-colors" strokeWidth={2} />
+                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-primary-600 transition-colors" strokeWidth={2} />
               </div>
             </button>
           </div>
@@ -207,8 +207,8 @@ export default function IntermediaryDashboardPage() {
             <div className="divide-y divide-gray-50">
               {buyerStats.map(({ buyer, producersCount, facilitiesCount }) => (
                 <div key={buyer.id} className="px-6 py-4 flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center shrink-0">
-                    <span className="text-xs font-bold text-teal-700">{buyer.initials}</span>
+                  <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
+                    <span className="text-xs font-bold text-primary-700">{buyer.initials}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-gray-900">{buyer.name}</p>
@@ -218,7 +218,7 @@ export default function IntermediaryDashboardPage() {
                   </div>
                   <button
                     onClick={() => navigate('/add-producer')}
-                    className="flex items-center gap-1.5 border border-gray-200 hover:border-teal-300 bg-white hover:bg-teal-50 text-gray-600 hover:text-teal-700 text-xs font-semibold px-3 py-2 rounded-xl transition"
+                    className="flex items-center gap-1.5 border border-gray-200 hover:border-primary-300 bg-white hover:bg-primary-50 text-gray-600 hover:text-primary-700 text-xs font-semibold px-3 py-2 rounded-xl transition"
                   >
                     <Building2 className="w-3.5 h-3.5" strokeWidth={1.75} />
                     Match Producers

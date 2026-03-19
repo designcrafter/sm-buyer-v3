@@ -34,8 +34,8 @@ export default function ProducerDetailKpiCards({ facilities }: Props) {
       label: 'SM Submitted',
       value: submitted,
       icon: CheckCircle2,
-      iconBg: 'bg-emerald-50',
-      iconColor: 'text-emerald-500',
+      iconBg: 'bg-primary-50',
+      iconColor: 'text-primary-500',
     },
     {
       label: 'SM In Progress',

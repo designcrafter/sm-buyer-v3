@@ -29,7 +29,7 @@ function RequesterTypeBadge({ type }: { type: 'buyer' | 'intermediary' }) {
       Buyer
     </span>
   ) : (
-    <span className="inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-100">
+    <span className="inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary-50 text-primary-700 border border-primary-100">
       Intermediary
     </span>
   );
@@ -52,14 +52,14 @@ function PreferencesSummary({ prefs, label }: { prefs: DataAccessPreferences; la
         <div className="flex items-center gap-2">
           <ClipboardCheck className="w-3 h-3 text-gray-400" strokeWidth={1.75} />
           <span className="text-xs text-gray-500">Audit:</span>
-          <span className={`text-xs font-semibold ${prefs.requestAuditData ? 'text-emerald-600' : 'text-gray-400'}`}>
+          <span className={`text-xs font-semibold ${prefs.requestAuditData ? 'text-primary-600' : 'text-gray-400'}`}>
             {prefs.requestAuditData ? 'Yes' : 'No'}
           </span>
         </div>
         <div className="flex items-center gap-2 col-span-2">
           <Heart className="w-3 h-3 text-gray-400" strokeWidth={1.75} />
           <span className="text-xs text-gray-500">Voluntary:</span>
-          <span className={`text-xs font-semibold ${prefs.requestVoluntaryContribution ? 'text-emerald-600' : 'text-gray-400'}`}>
+          <span className={`text-xs font-semibold ${prefs.requestVoluntaryContribution ? 'text-primary-600' : 'text-gray-400'}`}>
             {prefs.requestVoluntaryContribution ? 'Yes' : 'No'}
           </span>
         </div>
@@ -81,7 +81,7 @@ function IncomingRequestCard({
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-sm font-bold text-emerald-700 shrink-0">
+          <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-sm font-bold text-primary-700 shrink-0">
             {request.requesterInitials}
           </div>
           <div>
@@ -133,7 +133,7 @@ function IncomingRequestCard({
       <div className="flex items-center gap-3 mt-4">
         <button
           onClick={onReview}
-          className="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow-sm"
+          className="flex-1 bg-primary-700 hover:bg-primary-800 text-white text-xs font-semibold py-2.5 rounded-xl transition shadow-sm"
         >
           Review & Respond
         </button>
@@ -159,7 +159,7 @@ function ActiveAccessCard({
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-sm font-bold text-emerald-700 shrink-0">
+          <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-sm font-bold text-primary-700 shrink-0">
             {request.requesterInitials}
           </div>
           <div>
@@ -277,7 +277,7 @@ export default function SupplierCollaborationPage() {
       <main className="flex-1 overflow-auto">
         <div className="max-w-4xl mx-auto px-8 py-8">
           <div className="flex items-center gap-3 mb-1">
-            <Handshake className="w-6 h-6 text-emerald-700" strokeWidth={1.75} />
+            <Handshake className="w-6 h-6 text-primary-700" strokeWidth={1.75} />
             <h1 className="text-2xl font-bold text-gray-900">Collaboration</h1>
           </div>
           <p className="text-sm text-gray-500 mb-8">Manage data access requests and permissions for your salary matrix data.</p>
@@ -286,7 +286,7 @@ export default function SupplierCollaborationPage() {
             <button
               onClick={() => setActiveTab('incoming')}
               className={`relative flex items-center gap-2 px-4 py-3 text-sm font-semibold transition-colors ${
-                activeTab === 'incoming' ? 'text-emerald-700' : 'text-gray-400 hover:text-gray-600'
+                activeTab === 'incoming' ? 'text-primary-700' : 'text-gray-400 hover:text-gray-600'
               }`}
             >
               <Inbox className="w-4 h-4" strokeWidth={1.75} />
@@ -296,12 +296,12 @@ export default function SupplierCollaborationPage() {
                   {pendingCount}
                 </span>
               )}
-              {activeTab === 'incoming' && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-emerald-700 rounded-full" />}
+              {activeTab === 'incoming' && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-primary-700 rounded-full" />}
             </button>
             <button
               onClick={() => setActiveTab('active')}
               className={`relative flex items-center gap-2 px-4 py-3 text-sm font-semibold transition-colors ${
-                activeTab === 'active' ? 'text-emerald-700' : 'text-gray-400 hover:text-gray-600'
+                activeTab === 'active' ? 'text-primary-700' : 'text-gray-400 hover:text-gray-600'
               }`}
             >
               <ShieldCheck className="w-4 h-4" strokeWidth={1.75} />
@@ -311,7 +311,7 @@ export default function SupplierCollaborationPage() {
                   {activeAccess.length}
                 </span>
               )}
-              {activeTab === 'active' && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-emerald-700 rounded-full" />}
+              {activeTab === 'active' && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-primary-700 rounded-full" />}
             </button>
           </div>
 
@@ -319,8 +319,8 @@ export default function SupplierCollaborationPage() {
             <div className="space-y-4">
               {pendingRequests.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-8 py-16 flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-4">
-                    <Inbox className="w-7 h-7 text-emerald-300" strokeWidth={1.5} />
+                  <div className="w-16 h-16 rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mb-4">
+                    <Inbox className="w-7 h-7 text-primary-300" strokeWidth={1.5} />
                   </div>
                   <p className="text-gray-700 text-sm font-semibold mb-1">No pending requests</p>
                   <p className="text-gray-400 text-xs max-w-xs leading-relaxed">
@@ -344,8 +344,8 @@ export default function SupplierCollaborationPage() {
             <div className="space-y-4">
               {activeAccess.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-8 py-16 flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-4">
-                    <ShieldCheck className="w-7 h-7 text-emerald-300" strokeWidth={1.5} />
+                  <div className="w-16 h-16 rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mb-4">
+                    <ShieldCheck className="w-7 h-7 text-primary-300" strokeWidth={1.5} />
                   </div>
                   <p className="text-gray-700 text-sm font-semibold mb-1">No active access grants</p>
                   <p className="text-gray-400 text-xs max-w-xs leading-relaxed">

@@ -237,7 +237,7 @@ export default function ProducerTable({ producers, onAddProducer, compact = fals
                       <div className="flex flex-wrap gap-1">
                         {p.buyerNames && p.buyerNames.length > 0 ? (
                           p.buyerNames.map((buyerName, idx) => (
-                            <span key={idx} className="text-xs font-medium bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">
+                            <span key={idx} className="text-xs font-medium bg-primary-50 text-primary-700 border border-primary-100 px-2 py-0.5 rounded-full">
                               {buyerName}
                             </span>
                           ))

@@ -275,10 +275,10 @@ export default function AddProducerPage() {
         <Sidebar />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center space-y-5 max-w-sm px-6">
-            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto ${isIntermediary ? 'bg-teal-50 border border-teal-100' : 'bg-emerald-50 border border-emerald-100'}`}>
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto ${isIntermediary ? 'bg-primary-50 border border-primary-100' : 'bg-primary-50 border border-primary-100'}`}>
               {isIntermediary
-                ? <Link2 className="w-8 h-8 text-teal-500" strokeWidth={1.5} />
-                : <CheckCircle2 className="w-8 h-8 text-emerald-500" strokeWidth={1.5} />
+                ? <Link2 className="w-8 h-8 text-primary-500" strokeWidth={1.5} />
+                : <CheckCircle2 className="w-8 h-8 text-primary-500" strokeWidth={1.5} />
               }
             </div>
             <div>
@@ -296,7 +296,7 @@ export default function AddProducerPage() {
             </div>
             <button
               onClick={() => navigate(dashboardPath)}
-              className={`flex items-center gap-2 text-white text-sm font-semibold px-6 py-3 rounded-xl transition mx-auto ${isIntermediary ? 'bg-teal-600 hover:bg-teal-700' : 'bg-primary-500 hover:bg-primary-600'}`}
+              className={`flex items-center gap-2 text-white text-sm font-semibold px-6 py-3 rounded-xl transition mx-auto ${isIntermediary ? 'bg-primary-600 hover:bg-primary-700' : 'bg-primary-500 hover:bg-primary-600'}`}
             >
               Back to dashboard
               <ChevronRight className="w-4 h-4" />
@@ -334,17 +334,17 @@ export default function AddProducerPage() {
           <StepIndicator step={step} isIntermediary={isIntermediary} />
 
           {isIntermediary && selectedBuyer && step !== 'buyer-select' && (
-            <div className="flex items-center gap-2.5 bg-teal-50 border border-teal-100 rounded-xl px-4 py-3">
-              <Link2 className="w-4 h-4 text-teal-500 shrink-0" strokeWidth={1.75} />
-              <p className="text-teal-700 text-xs font-medium">
+            <div className="flex items-center gap-2.5 bg-primary-50 border border-primary-100 rounded-xl px-4 py-3">
+              <Link2 className="w-4 h-4 text-primary-500 shrink-0" strokeWidth={1.75} />
+              <p className="text-primary-700 text-xs font-medium">
                 Matching producers for <span className="font-bold">{selectedBuyer.name}</span>
               </p>
             </div>
           )}
 
           <div className="flex items-start gap-4">
-            <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${isIntermediary ? 'bg-teal-50' : 'bg-primary-50'}`}>
-              <Factory className={`w-5 h-5 ${isIntermediary ? 'text-teal-600' : 'text-primary-600'}`} strokeWidth={1.75} />
+            <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${isIntermediary ? 'bg-primary-50' : 'bg-primary-50'}`}>
+              <Factory className={`w-5 h-5 ${isIntermediary ? 'text-primary-600' : 'text-primary-600'}`} strokeWidth={1.75} />
             </div>
             <div>
               <h1 className="text-gray-900 text-xl font-bold">
@@ -381,26 +381,26 @@ export default function AddProducerPage() {
                       onClick={() => setSelectedBuyerId(buyer.id)}
                       className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all ${
                         selectedBuyerId === buyer.id
-                          ? 'border-teal-500 bg-teal-50'
+                          ? 'border-primary-500 bg-primary-50'
                           : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                       }`}
                     >
                       <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-base font-bold shrink-0 ${
                         selectedBuyerId === buyer.id
-                          ? 'bg-teal-600 text-white'
+                          ? 'bg-primary-600 text-white'
                           : 'bg-gray-100 text-gray-600'
                       }`}>
                         {buyer.initials}
                       </div>
                       <div className="flex-1 text-left">
                         <p className={`text-sm font-semibold ${
-                          selectedBuyerId === buyer.id ? 'text-teal-900' : 'text-gray-900'
+                          selectedBuyerId === buyer.id ? 'text-primary-900' : 'text-gray-900'
                         }`}>
                           {buyer.name}
                         </p>
                       </div>
                       {selectedBuyerId === buyer.id && (
-                        <CheckCircle2 className="w-5 h-5 text-teal-600" strokeWidth={2} />
+                        <CheckCircle2 className="w-5 h-5 text-primary-600" strokeWidth={2} />
                       )}
                     </button>
                   ))}
@@ -417,7 +417,7 @@ export default function AddProducerPage() {
                 <button
                   onClick={() => setStep('entry')}
                   disabled={!selectedBuyerId}
-                  className="flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none"
+                  className="flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none"
                 >
                   Continue
                   <ArrowRight className="w-4 h-4" />
@@ -604,7 +604,7 @@ export default function AddProducerPage() {
                       ? !rows.some(r => r.facilityId.trim() && r.email.trim())
                       : bulkRows.length === 0
                   }
-                  className={`flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none ${isIntermediary ? 'bg-teal-600 hover:bg-teal-700 active:bg-teal-800' : 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700'}`}
+                  className={`flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none ${isIntermediary ? 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800' : 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700'}`}
                 >
                   <Database className="w-4 h-4" strokeWidth={1.75} />
                   Check Details
@@ -630,7 +630,7 @@ export default function AddProducerPage() {
                   <div className="flex items-center gap-3">
                     {allDoneChecking && (
                       <>
-                        <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600">
+                        <span className="flex items-center gap-1 text-xs font-semibold text-primary-600">
                           <CheckCircle2 className="w-3.5 h-3.5" strokeWidth={2} />
                           {matchedCount} matched
                         </span>
@@ -676,7 +676,7 @@ export default function AddProducerPage() {
                 <button
                   onClick={() => setStep('preferences')}
                   disabled={!allDoneChecking || matchedCount === 0}
-                  className={`flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none ${isIntermediary ? 'bg-teal-600 hover:bg-teal-700 active:bg-teal-800' : 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700'}`}
+                  className={`flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none ${isIntermediary ? 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800' : 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700'}`}
                 >
                   Continue
                   <ArrowRight className="w-4 h-4" />
@@ -713,7 +713,7 @@ export default function AddProducerPage() {
                   disabled={submitted || preferences.selectedPayrollYears.length === 0}
                   className={`flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-150 shadow-sm hover:shadow disabled:shadow-none ${
                     isIntermediary
-                      ? 'bg-teal-600 hover:bg-teal-700 active:bg-teal-800'
+                      ? 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800'
                       : 'bg-primary-500 hover:bg-primary-600 active:bg-primary-700'
                   }`}
                 >
@@ -756,7 +756,7 @@ function StepIndicator({ step, isIntermediary }: { step: FlowStep; isIntermediar
   const steps = isIntermediary ? intermediarySteps : buyerSteps;
   const order: FlowStep[] = isIntermediary ? ['buyer-select', 'entry', 'checking', 'preferences', 'done'] : ['entry', 'checking', 'preferences', 'done'];
   const current = order.indexOf(step);
-  const activeBg = isIntermediary ? 'bg-teal-600 text-white' : 'bg-primary-500 text-white';
+  const activeBg = isIntermediary ? 'bg-primary-600 text-white' : 'bg-primary-500 text-white';
 
   return (
     <div className="flex items-center gap-2">
@@ -770,7 +770,7 @@ function StepIndicator({ step, isIntermediary }: { step: FlowStep; isIntermediar
               isActive
                 ? activeBg
                 : isDone
-                ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                ? 'bg-primary-50 text-primary-600 border border-primary-100'
                 : 'bg-gray-100 text-gray-400'
             }`}>
               {isDone ? <CheckCircle2 className="w-3 h-3" strokeWidth={2} /> : <span>{i + 1}</span>}

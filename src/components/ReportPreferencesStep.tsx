@@ -104,23 +104,23 @@ export default function ReportPreferencesStep({
     DEMO_UNAVAILABLE_YEARS.has(y)
   );
 
-  const accentBorder = isIntermediary ? 'border-teal-300' : 'border-primary-300';
-  const accentBg = isIntermediary ? 'bg-teal-50' : 'bg-primary-50';
-  const accentRing = isIntermediary ? 'ring-teal-300' : 'ring-primary-300';
-  const accentIconBg = isIntermediary ? 'bg-teal-100' : 'bg-primary-100';
-  const accentIconText = isIntermediary ? 'text-teal-600' : 'text-primary-600';
-  const accentTextStrong = isIntermediary ? 'text-teal-900' : 'text-primary-900';
-  const accentTextMid = isIntermediary ? 'text-teal-700' : 'text-primary-700';
-  const accentToggle = isIntermediary ? 'bg-teal-600' : 'bg-primary-500';
+  const accentBorder = isIntermediary ? 'border-primary-300' : 'border-primary-300';
+  const accentBg = isIntermediary ? 'bg-primary-50' : 'bg-primary-50';
+  const accentRing = isIntermediary ? 'ring-primary-300' : 'ring-primary-300';
+  const accentIconBg = isIntermediary ? 'bg-primary-100' : 'bg-primary-100';
+  const accentIconText = isIntermediary ? 'text-primary-600' : 'text-primary-600';
+  const accentTextStrong = isIntermediary ? 'text-primary-900' : 'text-primary-900';
+  const accentTextMid = isIntermediary ? 'text-primary-700' : 'text-primary-700';
+  const accentToggle = isIntermediary ? 'bg-primary-600' : 'bg-primary-500';
 
   const dateYears = [CURRENT_YEAR, CURRENT_YEAR - 1, CURRENT_YEAR - 2, CURRENT_YEAR - 3, CURRENT_YEAR - 4];
 
   return (
     <div className="space-y-5">
       {isIntermediary && (
-        <div className="flex items-start gap-3 bg-teal-50 border border-teal-100 rounded-xl px-4 py-3">
-          <Info className="w-4 h-4 text-teal-500 shrink-0 mt-0.5" strokeWidth={1.75} />
-          <p className="text-teal-700 text-xs leading-relaxed">
+        <div className="flex items-start gap-3 bg-primary-50 border border-primary-100 rounded-xl px-4 py-3">
+          <Info className="w-4 h-4 text-primary-500 shrink-0 mt-0.5" strokeWidth={1.75} />
+          <p className="text-primary-700 text-xs leading-relaxed">
             These data preferences will be shared with <span className="font-bold">{buyerName}</span>.
             The buyer's requested level of data granularity determines what producers are asked to consent to.
           </p>
@@ -525,8 +525,8 @@ export function PreferencesSummary({
   if (preferences.requestAuditData) extras.push('Share with auditors');
   if (preferences.requestVoluntaryContribution) extras.push('Living Wage Contribution');
 
-  const iconBg = isIntermediary ? 'bg-teal-50' : 'bg-white';
-  const iconBorder = isIntermediary ? 'border-teal-100' : 'border-gray-100';
+  const iconBg = isIntermediary ? 'bg-primary-50' : 'bg-white';
+  const iconBorder = isIntermediary ? 'border-primary-100' : 'border-gray-100';
 
   const dateRange = `${MONTHS_SHORT[preferences.startMonth]} ${preferences.startYear} - ${MONTHS_SHORT[preferences.endMonth]} ${preferences.endYear}`;
 

@@ -21,7 +21,7 @@ const EMPTY_FILTERS: SupplyChainFilters = {
 const STATUS_BADGE_COLORS: Record<FacilityStatus, string> = {
   'Not Started': 'bg-gray-50 text-gray-700 border-gray-100',
   'Draft': 'bg-amber-50 text-amber-700 border-amber-100',
-  'Submitted': 'bg-teal-50 text-teal-700 border-teal-100',
+  'Submitted': 'bg-primary-50 text-primary-700 border-primary-100',
   'Final Report': 'bg-emerald-50 text-emerald-700 border-emerald-100',
 };
 
@@ -83,7 +83,7 @@ export default function IntermediaryFacilitiesTab() {
           </div>
           <button
             onClick={() => navigate('/add-producer')}
-            className="mt-1 flex items-center gap-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm"
+            className="mt-1 flex items-center gap-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm"
           >
             <Factory className="w-3.5 h-3.5" strokeWidth={1.75} />
             Match Producers
@@ -116,7 +116,7 @@ export default function IntermediaryFacilitiesTab() {
         <div className="px-6 py-4 border-b border-gray-50 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h2 className="text-gray-900 font-semibold text-sm">Facilities</h2>
-            <span className="text-xs bg-teal-50 text-teal-600 font-semibold px-2 py-0.5 rounded-full">
+            <span className="text-xs bg-primary-50 text-primary-600 font-semibold px-2 py-0.5 rounded-full">
               {filtered.length}
             </span>
           </div>
@@ -167,13 +167,13 @@ export default function IntermediaryFacilitiesTab() {
                           e.stopPropagation();
                           navigate(`/intermediary/producers/${f.producerId}`);
                         }}
-                        className="text-sm text-teal-600 hover:text-teal-700 font-medium hover:underline truncate block max-w-[140px]"
+                        className="text-sm text-primary-600 hover:text-primary-700 font-medium hover:underline truncate block max-w-[140px]"
                       >
                         {f.producerName}
                       </button>
                     </td>
                     <td className="px-4 py-4">
-                      <span className="text-xs font-medium bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 rounded-full">
+                      <span className="text-xs font-medium bg-primary-50 text-primary-700 border border-primary-100 px-2 py-0.5 rounded-full">
                         {f.buyerName}
                       </span>
                     </td>

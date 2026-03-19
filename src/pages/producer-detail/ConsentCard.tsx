@@ -39,7 +39,7 @@ function ConsentCell({
 
 function BooleanIndicator({ value }: { value: boolean }) {
   return value ? (
-    <span className="inline-flex items-center gap-1 text-emerald-600 text-xs font-semibold">
+    <span className="inline-flex items-center gap-1 text-primary-600 text-xs font-semibold">
       <Check className="w-3 h-3" strokeWidth={2.5} />
       Yes
     </span>
@@ -74,7 +74,7 @@ export default function ConsentCard({ consent, producerAccepted }: Props) {
         <h3 className="text-gray-900 font-bold text-sm">Shared Consent</h3>
         <span className={`inline-flex items-center text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${
           consent.dataGranularity === 'full'
-            ? 'bg-emerald-50 text-emerald-700'
+            ? 'bg-primary-50 text-primary-700'
             : 'bg-blue-50 text-blue-700'
         }`}>
           {consent.dataGranularity === 'full' ? 'Full Data' : 'Aggregated Only'}
