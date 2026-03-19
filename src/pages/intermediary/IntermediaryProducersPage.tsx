@@ -13,10 +13,10 @@ import {
   Mail,
   Calendar,
   ChevronRight,
-  Lock,
 } from 'lucide-react';
 import ProducerDetailKpiCards from '../producer-detail/KpiCards';
 import ConsentCard from '../producer-detail/ConsentCard';
+import ProducerLivingWageTable from '../producer-detail/ProducerLivingWageTable';
 
 function ProducerStatusIcon({ status }: { status: ProducerStatus }) {
   switch (status) {
@@ -46,24 +46,6 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-function RestrictedAccessCard() {
-  return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100">
-        <h3 className="text-gray-900 font-bold text-sm">Living Wage Gap Calculations</h3>
-      </div>
-      <div className="flex flex-col items-center justify-center py-16 px-6">
-        <div className="w-14 h-14 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-          <Lock className="w-6 h-6 text-gray-300" strokeWidth={1.5} />
-        </div>
-        <p className="text-gray-700 text-sm font-semibold">Restricted access</p>
-        <p className="text-gray-400 text-xs mt-1.5 text-center max-w-xs leading-relaxed">
-          Living Wage Gap Calculation data is only visible to buyers. As an intermediary, your role is to match producers with buyers.
-        </p>
-      </div>
-    </div>
-  );
-}
 
 function ProducerDetailView({ producer }: { producer: Producer }) {
   const navigate = useNavigate();
@@ -159,7 +141,7 @@ function ProducerDetailView({ producer }: { producer: Producer }) {
 
       <ConsentCard consent={producer.consent} producerAccepted={producer.status === 'accepted'} />
 
-      <RestrictedAccessCard />
+      <ProducerLivingWageTable facilities={producer.facilities} />
     </div>
   );
 }

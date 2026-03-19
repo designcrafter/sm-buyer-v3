@@ -1,23 +1,21 @@
 import { Globe, TrendingDown, Users } from 'lucide-react';
-import type { FacilityDetail, FacilityPhase } from '../../lib/producerStore';
+import type { FacilityDetail, FacilityStatus } from '../../lib/producerStore';
 
 interface Props {
   facilities: FacilityDetail[];
 }
 
-const PHASE_ORDER: FacilityPhase[] = [
-  'Training',
-  'Submission',
-  'Draft Report',
-  'Audit Verification',
+const STATUS_ORDER: FacilityStatus[] = [
+  'Not Started',
+  'Draft',
+  'Submitted',
   'Final Report',
 ];
 
-const PHASE_COLORS: Record<FacilityPhase, string> = {
-  'Training': 'bg-blue-50 text-blue-700',
-  'Submission': 'bg-amber-50 text-amber-700',
-  'Draft Report': 'bg-orange-50 text-orange-700',
-  'Audit Verification': 'bg-teal-50 text-teal-700',
+const STATUS_COLORS: Record<FacilityStatus, string> = {
+  'Not Started': 'bg-gray-50 text-gray-700',
+  'Draft': 'bg-amber-50 text-amber-700',
+  'Submitted': 'bg-blue-50 text-blue-700',
   'Final Report': 'bg-emerald-50 text-emerald-700',
 };
 
@@ -33,10 +31,10 @@ export default function SupplyChainKpiCards({ facilities }: Props) {
     ? (facilities.reduce((s, f) => s + f.gapMale, 0) / facilities.length).toFixed(1)
     : '0';
 
-  const completed = facilities.filter(f => f.phase === 'Final Report').length;
-  const phaseCounts = PHASE_ORDER.map(phase => ({
-    phase,
-    count: facilities.filter(f => f.phase === phase).length,
+  const completed = facilities.filter(f => f.reportStatus === 'Final Report').length;
+  const statusCounts = STATUS_ORDER.map(status => ({
+    status,
+    count: facilities.filter(f => f.reportStatus === status).length,
   }));
 
   const currentYear = new Date().getFullYear();
@@ -89,14 +87,14 @@ export default function SupplyChainKpiCards({ facilities }: Props) {
             ({completed}/{facilities.length} Facilities completed)
           </span>
         </div>
-        <div className="grid grid-cols-5 gap-3">
-          {phaseCounts.map(({ phase, count }) => (
+        <div className="grid grid-cols-4 gap-3">
+          {statusCounts.map(({ status, count }) => (
             <div
-              key={phase}
-              className={`rounded-xl px-4 py-3.5 ${PHASE_COLORS[phase]}`}
+              key={status}
+              className={`rounded-xl px-4 py-3.5 ${STATUS_COLORS[status]}`}
             >
               <p className="text-2xl font-bold">{count}</p>
-              <p className="text-xs font-medium mt-0.5 opacity-80">{phase}</p>
+              <p className="text-xs font-medium mt-0.5 opacity-80">{status}</p>
             </div>
           ))}
         </div>

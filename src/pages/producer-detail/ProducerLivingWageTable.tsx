@@ -10,16 +10,14 @@ import type { FacilityDetail, DataConsentLevel } from '../../lib/producerStore';
 
 function StatusBadge({ status }: { status: string }) {
   switch (status) {
-    case 'Draft Report':
+    case 'Draft':
       return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-amber-100 text-amber-700">{status}</span>;
-    case 'Submission':
-      return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-700">{status}</span>;
+    case 'Submitted':
+      return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">{status}</span>;
     case 'Final Report':
       return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-emerald-600 text-white">{status}</span>;
-    case 'Training':
-      return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">{status}</span>;
-    case 'Audit Verification':
-      return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-teal-100 text-teal-700">{status}</span>;
+    case 'Not Started':
+      return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-gray-200 text-gray-500">{status}</span>;
     default:
       return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-gray-200 text-gray-500">{status}</span>;
   }
@@ -221,7 +219,7 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                       className="px-4 py-4 cursor-pointer"
                       onClick={() => navigate(`/producers/facilities/${mainFacility.facilityId}`)}
                     >
-                      <StatusBadge status={mainFacility.phase} />
+                      <StatusBadge status={mainFacility.reportStatus} />
                     </td>
                     <td
                       className="px-4 py-4 cursor-pointer"
@@ -286,7 +284,7 @@ export default function ProducerLivingWageTable({ facilities }: Props) {
                         </div>
                       </td>
                       <td className="px-4 py-4">
-                        <StatusBadge status={facility.phase} />
+                        <StatusBadge status={facility.reportStatus} />
                       </td>
                       <td className="px-4 py-4">
                         <ConsentBadge type={facility.consentType} />

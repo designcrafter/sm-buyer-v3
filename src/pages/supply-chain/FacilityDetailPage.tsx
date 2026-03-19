@@ -82,14 +82,16 @@ export default function FacilityDetailPage() {
     };
   };
 
-  const getStatusBadge = (phase: string) => {
-    switch (phase) {
+  const getStatusBadge = (reportStatus: string) => {
+    switch (reportStatus) {
       case 'Final Report':
         return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-emerald-600 text-white">Final</span>;
-      case 'Draft Report':
+      case 'Submitted':
+        return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">Submitted</span>;
+      case 'Draft':
         return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-amber-100 text-amber-700">Draft</span>;
       default:
-        return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-gray-200 text-gray-500">{phase}</span>;
+        return <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-gray-200 text-gray-500">{reportStatus}</span>;
     }
   };
 
@@ -290,7 +292,7 @@ export default function FacilityDetailPage() {
                           </div>
                         </td>
                         <td className="px-4 py-4">
-                          {getStatusBadge(calc.phase)}
+                          {getStatusBadge(calc.reportStatus)}
                         </td>
                       </tr>
                     );
