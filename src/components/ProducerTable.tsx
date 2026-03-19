@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, ChevronRight, Clock, CheckCircle2, XCircle, Mail, Factory, MessageSquare, X } from 'lucide-react';
 import { Producer, ProducerStatus } from '../lib/producerStore';
+import { useDemoStore } from '../lib/demoStore';
 
 type TabKey = 'all' | 'invited' | 'accepted' | 'declined';
 
@@ -90,12 +91,20 @@ interface ProducerTableProps {
 
 export default function ProducerTable({ producers, onAddProducer, compact = false, showBuyerColumn = false }: ProducerTableProps) {
   const navigate = useNavigate();
+  const { activeRole } = useDemoStore();
   const [activeTab, setActiveTab] = useState<TabKey>('all');
   const [declineReasonProducer, setDeclineReasonProducer] = useState<Producer | null>(null);
 
   const filtered = activeTab === 'all'
     ? producers
     : producers.filter(p => p.status === activeTab);
+
+  const getProducerDetailRoute = (producerId: string) => {
+    if (activeRole === 'intermediary') {
+      return `/intermediary/producers/${producerId}`;
+    }
+    return `/producers/${producerId}`;
+  };
 
   if (producers.length === 0) {
     return (
@@ -207,7 +216,7 @@ export default function ProducerTable({ producers, onAddProducer, compact = fals
               {filtered.map(p => (
                 <tr
                   key={p.id}
-                  onClick={() => navigate(`/producers/${p.id}`)}
+                  onClick={() => navigate(getProducerDetailRoute(p.id))}
                   className="hover:bg-gray-50 cursor-pointer transition-colors group"
                 >
                   <td className="px-6 py-4">

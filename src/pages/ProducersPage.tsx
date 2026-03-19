@@ -13,7 +13,6 @@ import {
   Mail,
   Calendar,
   ChevronRight,
-  Lock,
   Pencil,
   Check,
   X,
@@ -118,30 +117,10 @@ function EditableName({
   );
 }
 
-function RestrictedAccessCard() {
-  return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100">
-        <h3 className="text-gray-900 font-bold text-sm">Living Wage Gap Calculations</h3>
-      </div>
-      <div className="flex flex-col items-center justify-center py-16 px-6">
-        <div className="w-14 h-14 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-          <Lock className="w-6 h-6 text-gray-300" strokeWidth={1.5} />
-        </div>
-        <p className="text-gray-700 text-sm font-semibold">Restricted access</p>
-        <p className="text-gray-400 text-xs mt-1.5 text-center max-w-xs leading-relaxed">
-          Living Wage Gap Calculation data is only visible to buyers. As an intermediary, your role is to match producers with buyers.
-        </p>
-      </div>
-    </div>
-  );
-}
-
 function ProducerDetailView({ producer }: { producer: Producer }) {
   const navigate = useNavigate();
   const { activeRole } = useDemoStore();
   const isBuyer = activeRole === 'buyer';
-  const isIntermediary = activeRole === 'intermediary';
 
   const facilityData = producer.facilities.map(f => ({
     facilityId: f.facilityId,
@@ -233,7 +212,7 @@ function ProducerDetailView({ producer }: { producer: Producer }) {
 
       {isBuyer && <ConsentCard consent={producer.consent} producerAccepted={producer.status === 'accepted'} />}
 
-      {isIntermediary ? <RestrictedAccessCard /> : <ProducerLivingWageTable facilities={producer.facilities} />}
+      <ProducerLivingWageTable facilities={producer.facilities} />
     </div>
   );
 }
