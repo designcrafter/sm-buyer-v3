@@ -25,7 +25,7 @@ function StatusBadge({ status }: { status: string }) {
 
 function ConsentBadge({ type }: { type: DataConsentLevel }) {
   return type === 'full' ? (
-    <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-50 text-primary-700">
+    <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-50 text-[#347774]">
       Full data
     </span>
   ) : (

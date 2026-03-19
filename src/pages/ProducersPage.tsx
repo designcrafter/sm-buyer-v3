@@ -253,7 +253,7 @@ export default function ProducersPage() {
               <p className="text-gray-500 text-sm">Producer not found.</p>
               <button
                 onClick={() => navigate('/producers')}
-                className="text-primary-600 hover:text-primary-700 text-sm font-semibold"
+                className="text-[#347774] hover:text-[#2a5f5d] text-sm font-semibold"
               >
                 Back to producers
               </button>
