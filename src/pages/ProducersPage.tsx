@@ -103,7 +103,7 @@ function EditableName({
             setEditing(false);
           }
         }}
-        className="w-7 h-7 rounded-lg flex items-center justify-center text-emerald-500 hover:bg-emerald-50 transition"
+        className="w-7 h-7 rounded-lg flex items-center justify-center text-primary-500 hover:bg-primary-50 transition"
       >
         <Check className="w-4 h-4" strokeWidth={2} />
       </button>
