@@ -1,25 +1,27 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, Building2, Factory } from 'lucide-react';
-import { useProducerStore, FacilityPhase } from '../../lib/producerStore';
+import { useProducerStore, FacilityStatus } from '../../lib/producerStore';
 import SupplyChainKpiCards from '../supply-chain/SupplyChainKpiCards';
 import SupplyChainFilterBar, { SupplyChainFilters } from '../supply-chain/SupplyChainFilterBar';
 import { useDemoStore } from '../../lib/demoStore';
+import { formatAbsoluteDate } from '../../lib/utils';
 
 const EMPTY_FILTERS: SupplyChainFilters = {
   years: [],
   sectors: [],
+  products: [],
   countries: [],
   regions: [],
-  phases: [],
+  statuses: [],
   producers: [],
+  intermediaries: [],
 };
 
-const PHASE_BADGE_COLORS: Record<FacilityPhase, string> = {
-  'Training': 'bg-blue-50 text-blue-700 border-blue-100',
-  'Submission': 'bg-amber-50 text-amber-700 border-amber-100',
-  'Draft Report': 'bg-orange-50 text-orange-700 border-orange-100',
-  'Audit Verification': 'bg-teal-50 text-teal-700 border-teal-100',
+const STATUS_BADGE_COLORS: Record<FacilityStatus, string> = {
+  'Not Started': 'bg-gray-50 text-gray-700 border-gray-100',
+  'Draft': 'bg-amber-50 text-amber-700 border-amber-100',
+  'Submitted': 'bg-teal-50 text-teal-700 border-teal-100',
   'Final Report': 'bg-emerald-50 text-emerald-700 border-emerald-100',
 };
 
@@ -31,10 +33,12 @@ export default function IntermediaryFacilitiesTab() {
 
   const allYears = useMemo(() => [...new Set(allFacilities.map(f => String(f.year)))].sort().reverse(), [allFacilities]);
   const allSectors = useMemo(() => [...new Set(allFacilities.map(f => f.sector))].sort(), [allFacilities]);
+  const allProducts = useMemo(() => [...new Set(allFacilities.map(f => f.product).filter(Boolean))].sort(), [allFacilities]);
   const allCountries = useMemo(() => [...new Set(allFacilities.map(f => f.country))].sort(), [allFacilities]);
   const allRegions = useMemo(() => [...new Set(allFacilities.map(f => f.region))].sort(), [allFacilities]);
-  const allPhases = useMemo(() => [...new Set(allFacilities.map(f => f.phase))].sort(), [allFacilities]);
+  const allStatuses = useMemo(() => [...new Set(allFacilities.map(f => f.reportStatus))].sort(), [allFacilities]);
   const allProducerNames = useMemo(() => [...new Set(allFacilities.map(f => f.producerName))].sort(), [allFacilities]);
+  const allIntermediaryNames = useMemo(() => [...new Set(allFacilities.map(f => f.intermediaryName).filter(Boolean))].sort(), [allFacilities]);
 
   const hasFilters = Object.values(filters).some(arr => arr.length > 0);
 
@@ -54,10 +58,12 @@ export default function IntermediaryFacilitiesTab() {
     return allFacilities.filter(f => {
       if (filters.years.length > 0 && !filters.years.includes(String(f.year))) return false;
       if (filters.sectors.length > 0 && !filters.sectors.includes(f.sector)) return false;
+      if (filters.products.length > 0 && f.product && !filters.products.includes(f.product)) return false;
       if (filters.countries.length > 0 && !filters.countries.includes(f.country)) return false;
       if (filters.regions.length > 0 && !filters.regions.includes(f.region)) return false;
-      if (filters.phases.length > 0 && !filters.phases.includes(f.phase)) return false;
+      if (filters.statuses.length > 0 && !filters.statuses.includes(f.reportStatus)) return false;
       if (filters.producers.length > 0 && !filters.producers.includes(f.producerName)) return false;
+      if (filters.intermediaries.length > 0 && f.intermediaryName && !filters.intermediaries.includes(f.intermediaryName)) return false;
       return true;
     });
   }, [allFacilities, filters]);
@@ -95,10 +101,12 @@ export default function IntermediaryFacilitiesTab() {
         filters={filters}
         allYears={allYears}
         allSectors={allSectors}
+        allProducts={allProducts}
         allCountries={allCountries}
         allRegions={allRegions}
-        allPhases={allPhases}
+        allStatuses={allStatuses}
         allProducers={allProducerNames}
+        allIntermediaries={allIntermediaryNames}
         onToggle={toggleFilter}
         onClear={clearFilters}
         hasFilters={hasFilters}
@@ -135,9 +143,9 @@ export default function IntermediaryFacilitiesTab() {
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Buyer</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">ID</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Location</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Year</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Payroll Year</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Progress</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Phase</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Status</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide">Updated</th>
                   <th className="px-4 py-3 w-8" />
                 </tr>
@@ -193,12 +201,12 @@ export default function IntermediaryFacilitiesTab() {
                       </div>
                     </td>
                     <td className="px-4 py-4">
-                      <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full border ${PHASE_BADGE_COLORS[f.phase]}`}>
-                        {f.phase}
+                      <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full border ${STATUS_BADGE_COLORS[f.reportStatus]}`}>
+                        {f.reportStatus}
                       </span>
                     </td>
                     <td className="px-4 py-4">
-                      <span className="text-xs text-gray-400">{f.lastUpdated}</span>
+                      <span className="text-xs text-gray-400">{formatAbsoluteDate(f.lastUpdated)}</span>
                     </td>
                     <td className="px-4 py-4">
                       <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition" />
