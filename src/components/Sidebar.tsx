@@ -20,12 +20,13 @@ import {
 import { useDemoStore, INTERMEDIARY_SUPPLIER_ACCOUNT } from '../lib/demoStore';
 import { useSupplierCollaboration } from '../lib/supplierCollaborationStore';
 import { useIntermediaryCollaboration } from '../lib/intermediaryCollaborationStore';
+import { useProducerStore } from '../lib/producerStore';
 import { DEMO_BAR_HEIGHT } from './DemoBar';
 
 const NAV_BUYER = [
   { to: '/dashboard', icon: BarChart3, label: "Buyer's Dashboard" },
   { to: '/supply-chain', icon: Link, label: 'Supply Chain' },
-  { to: '/producers', icon: Building2, label: 'Producers' },
+  { to: '/manage-invites', icon: Building2, label: 'Manage Invites', hasBadge: 'declined' as const },
   { to: '/settings', icon: Settings, label: 'Settings' },
 ];
 
@@ -54,10 +55,12 @@ export default function Sidebar() {
   const { activeRole, activeBuyer } = useDemoStore();
   const { pendingCount } = useSupplierCollaboration();
   const { inviteCount } = useIntermediaryCollaboration();
+  const { producers } = useProducerStore();
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const isIntermediary = activeRole === 'intermediary';
   const isSupplier = activeRole === 'supplier';
   const navItems = isSupplier ? NAV_SUPPLIER : isIntermediary ? NAV_INTERMEDIARY : NAV_BUYER;
+  const declinedCount = producers.filter(p => p.status === 'declined').length;
 
   const bgClass = isSupplier ? 'bg-emerald-800' : isIntermediary ? 'bg-teal-700' : 'bg-primary-500';
   const borderClass = isSupplier ? 'border-emerald-700' : isIntermediary ? 'border-teal-600' : 'border-primary-400';
@@ -129,7 +132,7 @@ export default function Sidebar() {
 
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
         {navItems.map(({ to, icon: Icon, label, hasBadge }) => {
-          const badgeCount = hasBadge === true ? pendingCount : hasBadge === 'intermediary' ? inviteCount : 0;
+          const badgeCount = hasBadge === true ? pendingCount : hasBadge === 'intermediary' ? inviteCount : hasBadge === 'declined' ? declinedCount : 0;
           return (
             <NavLink
               key={to}
@@ -145,7 +148,9 @@ export default function Sidebar() {
               <Icon className="w-4 h-4 shrink-0" strokeWidth={1.75} />
               {label}
               {hasBadge && badgeCount > 0 && (
-                <span className="ml-auto min-w-[20px] h-5 flex items-center justify-center rounded-full bg-amber-500 text-white text-[10px] font-bold px-1.5">
+                <span className={`ml-auto min-w-[20px] h-5 flex items-center justify-center rounded-full text-white text-[10px] font-bold px-1.5 ${
+                  hasBadge === 'declined' ? 'bg-red-500' : 'bg-amber-500'
+                }`}>
                   {badgeCount}
                 </span>
               )}

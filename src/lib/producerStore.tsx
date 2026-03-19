@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useCallback, ReactNode } from 'rea
 export type ProducerStatus = 'invited' | 'accepted' | 'declined' | 'pending';
 export type SalaryMatrixStatus = 'submitted' | 'in_progress' | 'missing';
 export type DataConsentLevel = 'full' | 'aggregate';
-export type FacilityPhase = 'Training' | 'Submission' | 'Draft Report' | 'Audit Verification' | 'Final Report';
+export type FacilityStatus = 'Not Started' | 'Draft' | 'Submitted' | 'Final Report';
 
 export interface FacilityDetail {
   id: string;
@@ -14,12 +14,15 @@ export interface FacilityDetail {
   producerName: string;
   buyerId: string;
   buyerName: string;
+  intermediaryId?: string;
+  intermediaryName?: string;
   country: string;
   flag: string;
   region: string;
   sector: string;
+  product?: string;
   year: number;
-  phase: FacilityPhase;
+  reportStatus: FacilityStatus;
   progress: number;
   gapOverall: number;
   gapFemale: number;
@@ -50,6 +53,7 @@ export interface Producer {
   status: ProducerStatus;
   invitedAt: string;
   invitedBy: string;
+  source: 'direct' | 'intermediary';
   respondedAt?: string;
   consent?: ConsentDetails;
   declineReason?: string;
@@ -98,20 +102,38 @@ const COUNTRIES: { name: string; flag: string; regions: string[] }[] = [
 
 const SECTORS = ['Tea', 'Coffee', 'Textiles', 'Garments', 'Cocoa', 'Horticulture'];
 
-const PHASES: FacilityPhase[] = ['Training', 'Submission', 'Draft Report', 'Audit Verification', 'Final Report'];
+const PRODUCTS = {
+  'Tea': ['Black Tea', 'Green Tea', 'White Tea', 'Oolong Tea'],
+  'Coffee': ['Arabica', 'Robusta', 'Specialty Blends'],
+  'Textiles': ['Cotton Fabric', 'Denim', 'Synthetic Blends', 'Wool'],
+  'Garments': ['T-Shirts', 'Jeans', 'Dresses', 'Uniforms', 'Sportswear'],
+  'Cocoa': ['Cocoa Beans', 'Cocoa Powder', 'Cocoa Butter'],
+  'Horticulture': ['Fresh Flowers', 'Vegetables', 'Herbs'],
+};
 
-const PHASE_PROGRESS: Record<FacilityPhase, number> = {
-  'Training': 10,
-  'Submission': 30,
-  'Draft Report': 55,
-  'Audit Verification': 75,
+const STATUSES: FacilityStatus[] = ['Not Started', 'Draft', 'Submitted', 'Final Report'];
+
+const STATUS_PROGRESS: Record<FacilityStatus, number> = {
+  'Not Started': 0,
+  'Draft': 35,
+  'Submitted': 70,
   'Final Report': 100,
 };
 
-const LAST_UPDATED_OPTIONS = [
-  '1 day ago', '2 days ago', '3 days ago', '5 days ago',
-  '1 week ago', '2 weeks ago', '1 month ago', '3 months ago',
+const INTERMEDIARIES = [
+  { id: 'int-1', name: 'David Osei' },
+  { id: 'int-2', name: 'Elena Rossi' },
+  { id: 'int-3', name: 'Samuel Kimani' },
 ];
+
+function generateAbsoluteTimestamp(daysAgo: number): string {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  date.setHours(9 + Math.floor(Math.random() * 9), Math.floor(Math.random() * 60));
+  return date.toISOString();
+}
+
+const LAST_UPDATED_DAYS = [1, 2, 3, 5, 7, 14, 30, 90];
 
 function seededRandom(seed: number) {
   let x = Math.sin(seed) * 10000;
@@ -147,9 +169,14 @@ function generateFacilities(
     const country = COUNTRIES[Math.floor(r(1) * COUNTRIES.length)];
     const region = country.regions[Math.floor(r(2) * country.regions.length)];
     const sector = SECTORS[Math.floor(r(3) * SECTORS.length)];
+    const products = PRODUCTS[sector as keyof typeof PRODUCTS] || [];
+    const product = products[Math.floor(r(4) * products.length)];
     const cityName = country.regions[Math.floor(r(9) * country.regions.length)].split(' ')[0];
     const facilityType = FACILITY_NAMES[Math.floor(r(10) * FACILITY_NAMES.length)];
     const facilityName = `${cityName} ${facilityType}`;
+
+    const hasIntermediary = r(16) > 0.6;
+    const intermediary = hasIntermediary ? INTERMEDIARIES[Math.floor(r(17) * INTERMEDIARIES.length)] : undefined;
 
     const shouldHaveHistoricalData = r(15) > 0.4;
     const years = shouldHaveHistoricalData ? [CURRENT_YEAR, CURRENT_YEAR - 1] : [CURRENT_YEAR];
@@ -157,7 +184,7 @@ function generateFacilities(
     years.forEach((year, yearIndex) => {
       const yearSeed = seed + yearIndex * 1000;
       const ry = (n: number) => seededRandom(yearSeed * 17 + n);
-      const phase = PHASES[Math.floor(ry(5) * PHASES.length)];
+      const reportStatus = STATUSES[Math.floor(ry(5) * STATUSES.length)];
       const gapBase = 5 + ry(6) * 25;
       const gapFemale = gapBase + (ry(7) - 0.5) * 6;
       const gapMale = gapBase + (ry(8) - 0.5) * 6;
@@ -171,20 +198,23 @@ function generateFacilities(
         producerName,
         buyerId,
         buyerName,
+        intermediaryId: intermediary?.id,
+        intermediaryName: intermediary?.name,
         country: country.name,
         flag: country.flag,
         region,
         sector,
+        product,
         year,
-        phase,
-        progress: PHASE_PROGRESS[phase] + Math.floor(ry(11) * 15),
+        reportStatus,
+        progress: STATUS_PROGRESS[reportStatus] + Math.floor(ry(11) * 15),
         gapOverall: Math.round(gapBase * 10) / 10,
         gapFemale: Math.round(gapFemale * 10) / 10,
         gapMale: Math.round(gapMale * 10) / 10,
-        salaryMatrixStatus: phase === 'Final Report' ? 'submitted' : phase === 'Training' ? 'missing' : 'in_progress',
+        salaryMatrixStatus: reportStatus === 'Final Report' ? 'submitted' : reportStatus === 'Not Started' ? 'missing' : 'in_progress',
         consentType: ry(12) > 0.5 ? 'full' : 'aggregate',
-        audited: phase === 'Final Report' || phase === 'Audit Verification',
-        lastUpdated: LAST_UPDATED_OPTIONS[Math.floor(ry(13) * LAST_UPDATED_OPTIONS.length)],
+        audited: reportStatus === 'Final Report',
+        lastUpdated: generateAbsoluteTimestamp(LAST_UPDATED_DAYS[Math.floor(ry(13) * LAST_UPDATED_DAYS.length)]),
         status: ry(14) > 0.15 ? 'active' : ry(14) > 0.05 ? 'under_review' : 'closed',
       });
     });
@@ -247,6 +277,7 @@ export function ProducerStoreProvider({ children }: { children: ReactNode }) {
             status,
             invitedAt: new Date().toISOString(),
             invitedBy: 'Morgan',
+            source: Math.random() > 0.7 ? 'intermediary' : 'direct',
             respondedAt: hasResponded ? new Date(Date.now() - Math.random() * 86400000 * 3).toISOString() : undefined,
             consent: generateDemoConsent(status),
             declineReason: status === 'declined' ? declineReasons[idx % declineReasons.length] : undefined,

@@ -30,17 +30,18 @@ export default function DeclineModal({ requesterName, onConfirm, onCancel }: Pro
             You are declining the data access request from <span className="font-semibold text-gray-900">{requesterName}</span>. They will be notified of your decision.
           </p>
           <label className="block mb-1.5">
-            <span className="text-xs font-semibold text-gray-700">Reason for declining</span>
+            <span className="text-xs font-semibold text-gray-700">Reason for declining <span className="text-red-500">*</span></span>
           </label>
           <textarea
             value={reason}
             onChange={e => setReason(e.target.value)}
             placeholder="e.g., Not ready to share 2021 data, need to discuss facilities FAC-003 and FAC-005 first"
             rows={4}
+            required
             className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-300 transition resize-none"
           />
           <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">
-            Help the requester understand your concerns so they can submit a more suitable request.
+            <span className="font-semibold">Required.</span> Help the requester understand your concerns so they can submit a more suitable request.
           </p>
         </div>
         <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
@@ -48,8 +49,9 @@ export default function DeclineModal({ requesterName, onConfirm, onCancel }: Pro
             Cancel
           </button>
           <button
-            onClick={() => onConfirm(reason.trim() || undefined)}
-            className="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition shadow-sm"
+            onClick={() => reason.trim() && onConfirm(reason.trim())}
+            disabled={!reason.trim()}
+            className="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-semibold transition shadow-sm"
           >
             Decline Request
           </button>

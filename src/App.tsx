@@ -10,6 +10,7 @@ import IntermediaryRegisterPage from './pages/IntermediaryRegisterPage';
 import IntermediaryDashboardPage from './pages/IntermediaryDashboardPage';
 import AddProducerPage from './pages/AddProducerPage';
 import ProducersPage from './pages/ProducersPage';
+import ManageInvitesPage from './pages/ManageInvitesPage';
 import SupplyChainPage from './pages/supply-chain/SupplyChainPage';
 import FacilityDetailPage from './pages/supply-chain/FacilityDetailPage';
 import SettingsPage from './pages/SettingsPage';
@@ -53,6 +54,7 @@ export default function App() {
               <Route path="/supply-chain" element={<AppLayout><SupplyChainPage /></AppLayout>} />
               <Route path="/supply-chain/facilities/:id" element={<AppLayout><FacilityDetailPage /></AppLayout>} />
               <Route path="/add-producer" element={<AppLayout><AddProducerPage /></AppLayout>} />
+              <Route path="/manage-invites" element={<AppLayout><ManageInvitesPage /></AppLayout>} />
               <Route path="/producers" element={<AppLayout><ProducersPage /></AppLayout>} />
               <Route path="/producers/:id" element={<AppLayout><ProducersPage /></AppLayout>} />
               <Route path="/producers/facilities/:facilityId" element={<AppLayout><ProducerFacilityDetailPage /></AppLayout>} />

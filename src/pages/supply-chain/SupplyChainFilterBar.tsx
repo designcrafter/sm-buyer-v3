@@ -71,20 +71,24 @@ function FilterDropdown({ label, options, selected, onToggle }: DropdownProps) {
 export interface SupplyChainFilters {
   years: string[];
   sectors: string[];
+  products: string[];
   countries: string[];
   regions: string[];
-  phases: string[];
+  statuses: string[];
   producers: string[];
+  intermediaries: string[];
 }
 
 interface Props {
   filters: SupplyChainFilters;
   allYears: string[];
   allSectors: string[];
+  allProducts: string[];
   allCountries: string[];
   allRegions: string[];
-  allPhases: string[];
+  allStatuses: string[];
   allProducers: string[];
+  allIntermediaries: string[];
   onToggle: (key: keyof SupplyChainFilters, value: string) => void;
   onClear: () => void;
   hasFilters: boolean;
@@ -94,29 +98,33 @@ export default function SupplyChainFilterBar({
   filters,
   allYears,
   allSectors,
+  allProducts,
   allCountries,
   allRegions,
-  allPhases,
+  allStatuses,
   allProducers,
+  allIntermediaries,
   onToggle,
   onClear,
   hasFilters,
 }: Props) {
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <FilterDropdown label="Year" options={allYears} selected={filters.years} onToggle={v => onToggle('years', v)} />
+      <FilterDropdown label="Payroll Year" options={allYears} selected={filters.years} onToggle={v => onToggle('years', v)} />
       <FilterDropdown label="Sector" options={allSectors} selected={filters.sectors} onToggle={v => onToggle('sectors', v)} />
+      <FilterDropdown label="Product" options={allProducts} selected={filters.products} onToggle={v => onToggle('products', v)} />
       <FilterDropdown label="Country" options={allCountries} selected={filters.countries} onToggle={v => onToggle('countries', v)} />
       <FilterDropdown label="Region" options={allRegions} selected={filters.regions} onToggle={v => onToggle('regions', v)} />
-      <FilterDropdown label="Phase" options={allPhases} selected={filters.phases} onToggle={v => onToggle('phases', v)} />
+      <FilterDropdown label="Status" options={allStatuses} selected={filters.statuses} onToggle={v => onToggle('statuses', v)} />
       <FilterDropdown label="Producer" options={allProducers} selected={filters.producers} onToggle={v => onToggle('producers', v)} />
+      <FilterDropdown label="Intermediary" options={allIntermediaries} selected={filters.intermediaries} onToggle={v => onToggle('intermediaries', v)} />
       {hasFilters && (
         <button
           onClick={onClear}
           className="text-xs text-gray-400 hover:text-gray-600 font-medium transition flex items-center gap-1 ml-1"
         >
           <X className="w-3 h-3" />
-          Reset filter
+          Reset filters
         </button>
       )}
     </div>
