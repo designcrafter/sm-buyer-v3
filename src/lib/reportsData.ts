@@ -227,6 +227,32 @@ export const DEMO_CALCULATIONS: WageCalculation[] = [
     regular_hours_men: 170, overtime_hours_men: 20,
     contributions_cash_usd: 23000, contributions_vouchers_usd: 7000,
   },
+  {
+    id: '16', facility_name: 'Mombasa Banana Plantation', facility_id: 'KE6D09MB',
+    country: 'Kenya', region: 'Coast', flag: '\u{1F1F0}\u{1F1EA}',
+    year: 2024, product: 'Bananas', avg_wage_gap_pct: 27.3, annual_facility_lwg_usd: 185000,
+    workers_below_lw_pct: 68.5, workers_below_lw_count: 548, total_workers: 800,
+    lw_estimate_usd: 340, status: 'Submitted', gender_gap_pct: 21.4,
+    workers_above_lw_women: 98, workers_below_lw_women: 272,
+    workers_above_lw_men: 154, workers_below_lw_men: 276,
+    base_wage_pct: 62, bonuses_pct: 13, in_kind_pct: 14, overtime_pay_pct: 11,
+    regular_hours_women: 178, overtime_hours_women: 18,
+    regular_hours_men: 178, overtime_hours_men: 26,
+    contributions_cash_usd: 38000, contributions_vouchers_usd: 15000,
+  },
+  {
+    id: '17', facility_name: 'Mombasa Banana Plantation', facility_id: 'KE6D09MB',
+    country: 'Kenya', region: 'Coast', flag: '\u{1F1F0}\u{1F1EA}',
+    year: 2023, product: 'Bananas', avg_wage_gap_pct: 31.8, annual_facility_lwg_usd: 218000,
+    workers_below_lw_pct: 73.2, workers_below_lw_count: 586, total_workers: 800,
+    lw_estimate_usd: 320, status: 'Completed', gender_gap_pct: 24.7,
+    workers_above_lw_women: 82, workers_below_lw_women: 288,
+    workers_above_lw_men: 132, workers_below_lw_men: 298,
+    base_wage_pct: 64, bonuses_pct: 11, in_kind_pct: 15, overtime_pay_pct: 10,
+    regular_hours_women: 178, overtime_hours_women: 20,
+    regular_hours_men: 178, overtime_hours_men: 28,
+    contributions_cash_usd: 32000, contributions_vouchers_usd: 12000,
+  },
 ];
 
 export const FLAG_MAP: Record<string, string> = {
