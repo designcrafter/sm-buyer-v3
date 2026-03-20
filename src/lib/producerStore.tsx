@@ -169,7 +169,12 @@ function generateFacilities(
     const r = (n: number) => seededRandom(seed * 13 + n);
     const country = COUNTRIES[Math.floor(r(1) * COUNTRIES.length)];
     const region = country.regions[Math.floor(r(2) * country.regions.length)];
-    const sector = SECTORS[Math.floor(r(3) * SECTORS.length)];
+
+    let sector = SECTORS[Math.floor(r(3) * SECTORS.length)];
+    if (i === 0 && facilityRows.length >= 1) {
+      sector = 'Bananas';
+    }
+
     const products = PRODUCTS[sector as keyof typeof PRODUCTS] || [];
     const product = products[Math.floor(r(4) * products.length)];
     const cityName = country.regions[Math.floor(r(9) * country.regions.length)].split(' ')[0];
