@@ -100,7 +100,7 @@ const COUNTRIES: { name: string; flag: string; regions: string[] }[] = [
   { name: 'Ethiopia', flag: '\u{1F1EA}\u{1F1F9}', regions: ['Addis Ababa', 'Oromia', 'Amhara'] },
 ];
 
-const SECTORS = ['Tea', 'Coffee', 'Textiles', 'Garments', 'Cocoa', 'Horticulture'];
+const SECTORS = ['Tea', 'Coffee', 'Textiles', 'Garments', 'Cocoa', 'Horticulture', 'Bananas'];
 
 const PRODUCTS = {
   'Tea': ['Black Tea', 'Green Tea', 'White Tea', 'Oolong Tea'],
@@ -109,6 +109,7 @@ const PRODUCTS = {
   'Garments': ['T-Shirts', 'Jeans', 'Dresses', 'Uniforms', 'Sportswear'],
   'Cocoa': ['Cocoa Beans', 'Cocoa Powder', 'Cocoa Butter'],
   'Horticulture': ['Fresh Flowers', 'Vegetables', 'Herbs'],
+  'Bananas': ['Cavendish', 'Plantains', 'Lady Finger', 'Organic Bananas'],
 };
 
 const STATUSES: FacilityStatus[] = ['Not Started', 'Draft', 'Submitted', 'Final Report'];

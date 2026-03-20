@@ -30,6 +30,7 @@ const AVAILABLE_PRODUCTS = [
   'Garments',
   'Cocoa',
   'Horticulture',
+  'Bananas',
 ];
 
 const MONTHS = [
