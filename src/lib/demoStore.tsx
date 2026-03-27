@@ -9,8 +9,8 @@ export interface DemoBuyer {
 }
 
 export const DEMO_BUYERS: DemoBuyer[] = [
-  { id: 'buyer-1', name: 'Lidl International', initials: 'LI' },
-  { id: 'buyer-2', name: 'Zalando SE', initials: 'ZA' },
+  { id: 'buyer-1', name: 'BuyerCo International', initials: 'BC' },
+  { id: 'buyer-2', name: 'RetailHub Partners', initials: 'RH' },
 ];
 
 export const INTERMEDIARY_SUPPLIER_ACCOUNT = {
@@ -27,7 +27,7 @@ export interface BuyerInvitation {
 export const DEMO_PENDING_INVITATIONS: BuyerInvitation[] = [
   {
     id: 'inv-1',
-    buyer: { id: 'buyer-3', name: 'H&M Group', initials: 'HM' },
+    buyer: { id: 'buyer-3', name: 'FashionWorks Group', initials: 'FW' },
     invitedAt: '2 hours ago',
   },
 ];

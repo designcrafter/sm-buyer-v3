@@ -83,8 +83,8 @@ export default function LoginPage() {
               </label>
               <input
                 type="text"
-                defaultValue="sourcing@lidl.com"
-                placeholder="sourcing@lidl.com"
+                defaultValue="sourcing@buyerco.com"
+                placeholder="sourcing@buyerco.com"
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition"
               />
             </div>

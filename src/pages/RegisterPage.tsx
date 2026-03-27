@@ -19,8 +19,8 @@ This platform is intended for authorised users only. Sharing credentials or prov
 
 By creating an account you confirm that you are an authorised representative of your organisation and that your use of this platform will comply with all applicable laws and regulations governing wage data, labour standards, and personal data protection in your jurisdiction.`;
 
-const INVITED_EMAIL = 'sourcing@lidl.com';
-const INVITED_ORG = 'Lidl International';
+const INVITED_EMAIL = 'sourcing@buyerco.com';
+const INVITED_ORG = 'BuyerCo International';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
